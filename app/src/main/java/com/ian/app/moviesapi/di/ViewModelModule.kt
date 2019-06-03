@@ -1,5 +1,6 @@
 package com.ian.app.moviesapi.di
 
+import com.ian.app.moviesapi.data.paging.popular_movie.GetPopularMoviePagingViewModel
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 import org.koin.dsl.module.module
 
@@ -11,5 +12,6 @@ Github = https://github.com/iandamping
 object ViewModelModule {
     val allVmModule = module {
         factory { GetHomeMovieViewModel(get()) }
+        factory { GetPopularMoviePagingViewModel(get()) }
     }
 }

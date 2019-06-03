@@ -2,13 +2,11 @@ package com.ian.app.moviesapi.ui.activity.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ian.app.helper.util.fullScreenAnimation
-import com.ian.app.helper.util.gone
-import com.ian.app.helper.util.loadResizeWithGlide
-import com.ian.app.helper.util.logE
+import com.ian.app.helper.util.*
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
+import com.ian.app.moviesapi.ui.activity.discover.DiscoverActivity
 import com.ian.app.moviesapi.util.MovieConstant.imageFormatter
 import com.ian.recyclerviewhelper.helper.setUpHorizontal
 import kotlinx.android.synthetic.main.activity_home.*
@@ -79,6 +77,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     override fun initView() {
+        tvSeeAllPopularMovie.setOnClickListener {
+            startActivity<DiscoverActivity>()
+        }
     }
 
     override fun onPause() {

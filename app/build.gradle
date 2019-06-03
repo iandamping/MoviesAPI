@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -35,13 +38,15 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //recyclerview helper
-    implementation 'com.github.iandamping:RecyclerViewHelper:0.0.3'
+    implementation 'com.github.iandamping:RecyclerViewHelper:0.0.4'
     //common helper
     implementation 'com.github.iandamping:CommonHelper:0.0.3'
     //livedata
     implementation "androidx.lifecycle:lifecycle-runtime:$livedata_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$livedata_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$livedata_version"
+    //paging
+    implementation 'android.arch.paging:runtime:1.0.1'
     //koin
     implementation 'org.koin:koin-android-viewmodel:1.0.2'
     //internet
