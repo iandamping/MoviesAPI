@@ -12,6 +12,5 @@ sealed class BaseState
 data class OnGetData<T>(val data: T?) : BaseState()
 data class OnGetHomeMoviesData(val data: Pair<Pair<List<MovieData>, List<MovieData>>, Pair<List<MovieData>, List<MovieData>>>) :
     BaseState()
-
 data class OnSuccessGetData(val show: Boolean) : BaseState()
 data class OnFailedGetData(val msg: String?) : BaseState()

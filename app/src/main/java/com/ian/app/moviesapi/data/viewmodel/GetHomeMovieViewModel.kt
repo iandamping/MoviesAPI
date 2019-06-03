@@ -1,6 +1,7 @@
 package com.ian.app.moviesapi.data.viewmodel
 
 import com.ian.app.helper.util.combinePairWithPairDeferred
+import com.ian.app.helper.util.doSomethingWithDeferred
 import com.ian.app.moviesapi.api.ApiInterface
 import com.ian.app.moviesapi.base.BaseViewModel
 import com.ian.app.moviesapi.base.OnFailedGetData

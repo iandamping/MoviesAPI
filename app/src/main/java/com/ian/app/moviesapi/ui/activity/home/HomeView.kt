@@ -13,5 +13,6 @@ interface HomeView : BaseView {
     fun onSuccessGetNowPlayingMovie(data: List<MovieData>?)
     fun onSuccessGetTopRatedMovie(data: List<MovieData>?)
     fun onSuccessGetUpComingMovie(data: List<MovieData>?)
+//    fun onSuccessGetLatestMovie(data: List<MovieData>?)
     fun onFailGetData(msg: String?)
 }

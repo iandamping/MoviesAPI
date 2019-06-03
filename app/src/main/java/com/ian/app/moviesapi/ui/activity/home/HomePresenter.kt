@@ -1,10 +1,7 @@
 package com.ian.app.moviesapi.ui.activity.home
 
 import androidx.lifecycle.Observer
-import com.ian.app.moviesapi.base.BasePresenter
-import com.ian.app.moviesapi.base.BaseState
-import com.ian.app.moviesapi.base.OnFailedGetData
-import com.ian.app.moviesapi.base.OnGetHomeMoviesData
+import com.ian.app.moviesapi.base.*
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 
@@ -39,16 +36,6 @@ class HomePresenter(private val vm: GetHomeMovieViewModel) : BasePresenter<HomeV
         }
     }
 
-    private fun popularMovieMapper(data: List<MovieData>?) {
-        val newData: MutableList<MovieData> = mutableListOf()
-        for (i in ranges) {
-            if (data != null) {
-                newData.add(data[i])
-            }
-        }
-        view()?.onSuccessGetPopularMovie(newData)
-    }
-
     private fun nowPlayingMovieMapper(data: List<MovieData>?) {
         val newData: MutableList<MovieData> = mutableListOf()
         for (i in ranges) {
@@ -57,6 +44,16 @@ class HomePresenter(private val vm: GetHomeMovieViewModel) : BasePresenter<HomeV
             }
         }
         view()?.onSuccessGetNowPlayingMovie(newData)
+    }
+
+    private fun popularMovieMapper(data: List<MovieData>?) {
+        val newData: MutableList<MovieData> = mutableListOf()
+        for (i in ranges) {
+            if (data != null) {
+                newData.add(data[i])
+            }
+        }
+        view()?.onSuccessGetPopularMovie(newData)
     }
 
     private fun topRatedMovieMapper(data: List<MovieData>?) {
