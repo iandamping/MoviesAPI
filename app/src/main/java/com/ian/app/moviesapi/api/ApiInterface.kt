@@ -30,4 +30,11 @@ interface ApiInterface {
 
     @GET(NetworkModule.popularMovie)
     fun pagingGetPopularMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+
+    @GET(NetworkModule.topRatedMovie)
+    fun pagingGetTopRatedMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+
+    @GET(NetworkModule.upComingMovie)
+    fun pagingGetUpComingMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+
 }

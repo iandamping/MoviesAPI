@@ -8,9 +8,10 @@ import com.ian.app.helper.util.gone
 import com.ian.app.helper.util.loadResizeWithGlide
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.MovieData
-import com.ian.app.moviesapi.data.paging.popular_movie.GetPopularMoviePagingViewModel
+import com.ian.app.moviesapi.data.paging.GetPagingDataViewModel
 import com.ian.app.moviesapi.util.MovieConstant
 import com.ian.app.moviesapi.util.MovieConstant.diffCallbacks
+import com.ian.app.moviesapi.util.MovieConstant.intentToDiscoverActivity
 import com.ian.recyclerviewhelper.helper.setUpPagingWithGrid
 import kotlinx.android.synthetic.main.activity_discover.*
 import kotlinx.android.synthetic.main.item_discover_movie.view.*
@@ -22,7 +23,7 @@ Created by Ian Damping on 31/05/2019.
 Github = https://github.com/iandamping
  */
 class DiscoverActivity : AppCompatActivity(), DiscoverView {
-    private val vm: GetPopularMoviePagingViewModel by viewModel()
+    private val vm: GetPagingDataViewModel by viewModel()
     private lateinit var presenter: DiscoverPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class DiscoverActivity : AppCompatActivity(), DiscoverView {
         presenter = DiscoverPresenter(vm).apply {
             attachView(this@DiscoverActivity, this@DiscoverActivity)
             onCreate()
+            getDiscoverData(intent.getStringExtra(intentToDiscoverActivity))
         }
 
     }

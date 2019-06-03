@@ -11,6 +11,10 @@ Github = https://github.com/iandamping
 object MovieConstant {
     const val delayMillis = 3000L
     const val imageFormatter = "https://image.tmdb.org/t/p/w500"
+    const val popularPagingState = "popular paging"
+    const val topRatedPagingState = "top rated paging"
+    const val upcomingPagingState = "upcoming paging"
+    const val intentToDiscoverActivity = "discover activity"
 
     val diffCallbacks = object : DiffUtil.ItemCallback<MovieData>() {
         override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =

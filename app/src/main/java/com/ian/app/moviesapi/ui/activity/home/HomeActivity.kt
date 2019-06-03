@@ -8,6 +8,10 @@ import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 import com.ian.app.moviesapi.ui.activity.discover.DiscoverActivity
 import com.ian.app.moviesapi.util.MovieConstant.imageFormatter
+import com.ian.app.moviesapi.util.MovieConstant.intentToDiscoverActivity
+import com.ian.app.moviesapi.util.MovieConstant.popularPagingState
+import com.ian.app.moviesapi.util.MovieConstant.topRatedPagingState
+import com.ian.app.moviesapi.util.MovieConstant.upcomingPagingState
 import com.ian.recyclerviewhelper.helper.setUpHorizontal
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.item_home.view.*
@@ -78,7 +82,19 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun initView() {
         tvSeeAllPopularMovie.setOnClickListener {
-            startActivity<DiscoverActivity>()
+            startActivity<DiscoverActivity>{
+                putExtra(intentToDiscoverActivity, popularPagingState)
+            }
+        }
+        tvSeeAllTopRatedMovie.setOnClickListener {
+            startActivity<DiscoverActivity>{
+                putExtra(intentToDiscoverActivity, topRatedPagingState)
+            }
+        }
+        tvSeeAllUpComingMovie.setOnClickListener {
+            startActivity<DiscoverActivity>{
+                putExtra(intentToDiscoverActivity, upcomingPagingState)
+            }
         }
     }
 
