@@ -16,8 +16,8 @@ class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
 
     fun getMovies() {
         uiScope.combinePairWithPairDeferred(Pair(
-                Pair(api.getPopularMovie(api_key), api.getNowPlayingMovie(api_key)),
-                Pair(api.getTopRatedMovie(api_key), api.getUpComingMovie(api_key))
+                Pair(api.getPopularMovieAsync(api_key), api.getNowPlayingMovieAsync(api_key)),
+                Pair(api.getTopRatedMovieAsync(api_key), api.getUpComingMovieAsync(api_key))
         ), {
             liveDataState.value = OnGetHomeMoviesData(
                     Pair(

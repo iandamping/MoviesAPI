@@ -15,10 +15,9 @@ class GetDetalMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
 
     fun getData(movieId: Int) {
         liveDataState.value = OnSuccessGetData(false)
-        uiScope.deferredPair(Pair(api.getDetailMovie(movieId, api_key), api.getSimilarMovie(movieId, api_key)), { first, second ->
+        uiScope.deferredPair(Pair(api.getDetailMovieAsync(movieId, api_key), api.getSimilarMovieAsync(movieId, api_key)), { first, second ->
             liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnGetSimilarMovieData(second.results)
-            liveDataState.value = OnGetDetailMovieData(first)
+            liveDataState.value = OnGetData(Pair(first,second.results))
         }, {
             liveDataState.value = OnSuccessGetData(true)
             liveDataState.value = OnFailedGetData(it)

@@ -18,7 +18,7 @@ class GetPopularPageKeyDataSource(private val api: ApiInterface, private val sco
     private val page = 1
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, MovieData>) {
-        scope.doSomethingWithDeferred(api.pagingGetPopularMovie(NetworkModule.api_key, page), {
+        scope.doSomethingWithDeferred(api.pagingGetPopularMovieAsync(NetworkModule.api_key, page), {
             callback.onResult(it.results, null, page + 1)
         }, {
             logE(it)
@@ -26,7 +26,7 @@ class GetPopularPageKeyDataSource(private val api: ApiInterface, private val sco
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, MovieData>) {
-        scope.doSomethingWithDeferred(api.pagingGetPopularMovie(NetworkModule.api_key, params.key), {
+        scope.doSomethingWithDeferred(api.pagingGetPopularMovieAsync(NetworkModule.api_key, params.key), {
             callback.onResult(it.results, params.key + 1)
         }, {
             logE(it)
@@ -35,7 +35,7 @@ class GetPopularPageKeyDataSource(private val api: ApiInterface, private val sco
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MovieData>) {
         val adjacentKey = if (params.key > 1) params.key - 1 else null
-        scope.doSomethingWithDeferred(api.pagingGetPopularMovie(NetworkModule.api_key, params.key), {
+        scope.doSomethingWithDeferred(api.pagingGetPopularMovieAsync(NetworkModule.api_key, params.key), {
             callback.onResult(it.results, adjacentKey)
         }, {
             logE(it)

@@ -16,31 +16,31 @@ Github = https://github.com/iandamping
  */
 interface ApiInterface {
     @GET(NetworkModule.popularMovie)
-    fun getPopularMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    fun getPopularMovieAsync(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.nowPlayingMovie)
-    fun getNowPlayingMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    fun getNowPlayingMovieAsync(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.topRatedMovie)
-    fun getTopRatedMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    fun getTopRatedMovieAsync(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.upComingMovie)
-    fun getUpComingMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    fun getUpComingMovieAsync(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.detailMovie + "{movie}")
-    fun getDetailMovie(@Path("movie") movieId: Int, @Query("api_key") apiKey: String): Deferred<DetailMovieData>
+    fun getDetailMovieAsync(@Path("movie") movieId: Int, @Query("api_key") apiKey: String): Deferred<DetailMovieData>
 
     @GET(NetworkModule.similarMovie + "{movie_id}/similar")
-    fun getSimilarMovie(@Path("movie_id") movieId: Int, @Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    fun getSimilarMovieAsync(@Path("movie_id") movieId: Int, @Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.popularMovie)
-    fun pagingGetPopularMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+    fun pagingGetPopularMovieAsync(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.topRatedMovie)
-    fun pagingGetTopRatedMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+    fun pagingGetTopRatedMovieAsync(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.upComingMovie)
-    fun pagingGetUpComingMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+    fun pagingGetUpComingMovieAsync(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
 
 
 }

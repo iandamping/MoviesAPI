@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.AppBarLayout
-import com.ian.app.helper.util.fullScreenAnimation
-import com.ian.app.helper.util.loadResizeWithGlide
-import com.ian.app.helper.util.loadWithGlide
-import com.ian.app.helper.util.startActivity
+import com.ian.app.helper.util.*
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.DetailMovieData
 import com.ian.app.moviesapi.data.model.MovieData
@@ -26,6 +23,7 @@ Github = https://github.com/iandamping
  */
 class DetailActivity : AppCompatActivity(), DetailView {
 
+
     private val vm: GetDetalMovieViewModel by viewModel()
     private lateinit var presenter: DetailPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,21 +36,23 @@ class DetailActivity : AppCompatActivity(), DetailView {
             getData(intent.getIntExtra(intentToDetail, 0))
         }
     }
-
-    override fun onSuccessGetDetailData(data: DetailMovieData?) {
-        tvDetailTittles.text = data?.original_title
-        tvDetailTaglines.text = data?.tagline
-        tvDetailReleaseDate.text = data?.release_date
-        tvDetailOverview.text = data?.overview
-        tvDetailBudget.text = data?.budget.toString()
-        tvDetailRevenue.text = data?.revenue
-        tvDetailMovieVote.text = data?.vote_average.toString()
-        tvDetailMovieRuntime.text = data?.runtime.toString() + " Minutes"
-        ivDetailMovieImages.loadWithGlide(imageFormatter + data?.backdrop_path, this)
-        data?.genres?.forEach {
+    override fun onSuccessGetData(data: Pair<DetailMovieData?, List<MovieData>>) {
+        tvDetailTittles.text = data.first?.original_title
+        tvDetailTaglines.text = data.first?.tagline
+        tvDetailReleaseDate.text = data.first?.release_date
+        tvDetailOverview.text = data.first?.overview
+        tvDetailBudget.text = data.first?.budget.toString()
+        tvDetailRevenue.text = data.first?.revenue
+        tvDetailMovieVote.text = data.first?.vote_average.toString()
+        tvDetailMovieRuntime.text = data.first?.runtime.toString() + " Minutes"
+        ivDetailMovieImages.loadWithGlide(imageFormatter + data.first?.poster_path, this)
+        ivDetailMovieImages.setOnClickListener {
+            fullScreen(imageFormatter + data.first?.poster_path)
+        }
+        data.first?.genres?.forEach {
             tvDetailGenres.append(it.name + ", ")
         }
-        data?.production_companies?.forEach {
+        data.first?.production_companies?.forEach {
             tvDetailProductionCompanies.append(it.name + ", ")
         }
 
@@ -64,7 +64,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 scrollRange = appBarLayout.totalScrollRange;
             }
             if (scrollRange + i == 0) {
-                collapsingToolbar.title = data?.original_title
+                collapsingToolbar.title = data.first?.original_title
                 tvDetailTittles.visibility = View.GONE
                 isShow = true;
             } else if (isShow) {
@@ -73,10 +73,8 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 isShow = false;
             }
         })
-    }
 
-    override fun onSuccessGetSimilarData(data: List<MovieData>?) {
-        rvSimilarMovie.setUpVertical(data, R.layout.item_similar_movie, {
+        rvSimilarMovie.setUpVertical(data.second, R.layout.item_similar_movie, {
             ivSimilarMovie.loadResizeWithGlide(imageFormatter + it.poster_path, this@DetailActivity)
             tvSimilarMovieTittle.text = it.title
             tvSimilarMovieReleaseDate.text = it.release_date
@@ -86,6 +84,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
             }
         })
     }
+
 
     override fun onFailedGetData(msg: String?) {
     }

@@ -10,7 +10,6 @@ Created by Ian Damping on 04/06/2019.
 Github = https://github.com/iandamping
  */
 interface DetailView : BaseView {
-    fun onSuccessGetDetailData(data: DetailMovieData?)
-    fun onSuccessGetSimilarData(data: List<MovieData>?)
+    fun onSuccessGetData(data:Pair<DetailMovieData?,List<MovieData>>)
     fun onFailedGetData(msg: String?)
 }
