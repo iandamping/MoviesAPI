@@ -23,26 +23,26 @@ class GetPagingDataViewModel(private val api: ApiInterface) : BaseViewModel() {
     private val isPlaceHolder = true
     private lateinit var movieList: LiveData<PagedList<MovieData>>
 
-    fun getAllMovies(states:String): LiveData<PagedList<MovieData>> {
+    fun getAllMovies(states: String): LiveData<PagedList<MovieData>> {
         val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(isPlaceHolder)
-            .setInitialLoadSizeHint(pageSize)
-            .setPageSize(15)
-            .build()
-        movieList = initPagedListBuilder(config,states).build()
+                .setEnablePlaceholders(isPlaceHolder)
+                .setInitialLoadSizeHint(pageSize)
+                .setPageSize(15)
+                .build()
+        movieList = initPagedListBuilder(config, states).build()
         return movieList
     }
 
-    private fun initPagedListBuilder(config: PagedList.Config,states:String): LivePagedListBuilder<Int, MovieData> {
+    private fun initPagedListBuilder(config: PagedList.Config, states: String): LivePagedListBuilder<Int, MovieData> {
         val dataSourceFactory = object : DataSource.Factory<Int, MovieData>() {
             override fun create(): DataSource<Int, MovieData> {
-                return when(states){
+                return when (states) {
                     popularPagingState -> GetPopularPageKeyDataSource(
-                        api,
-                        uiScope
+                            api,
+                            uiScope
                     )
-                    topRatedPagingState -> GetTopRatedPageKeyDataSource(api,uiScope)
-                    else -> GetUpComingPageKeyDataSource(api,uiScope)
+                    topRatedPagingState -> GetTopRatedPageKeyDataSource(api, uiScope)
+                    else -> GetUpComingPageKeyDataSource(api, uiScope)
                 }
 
             }

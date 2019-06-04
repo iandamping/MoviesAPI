@@ -1,10 +1,12 @@
 package com.ian.app.moviesapi.api
 
+import com.ian.app.moviesapi.data.model.DetailMovieData
 import com.ian.app.moviesapi.data.model.GenericMovieModel
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.di.NetworkModule
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -25,8 +27,11 @@ interface ApiInterface {
     @GET(NetworkModule.upComingMovie)
     fun getUpComingMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
-    @GET(NetworkModule.latestMovie)
-    fun getLatestMovie(@Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
+    @GET(NetworkModule.detailMovie + "{movie}")
+    fun getDetailMovie(@Path("movie") movieId: Int, @Query("api_key") apiKey: String): Deferred<DetailMovieData>
+
+    @GET(NetworkModule.similarMovie + "{movie_id}/similar")
+    fun getSimilarMovie(@Path("movie_id") movieId: Int, @Query("api_key") apiKey: String): Deferred<GenericMovieModel<MovieData>>
 
     @GET(NetworkModule.popularMovie)
     fun pagingGetPopularMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
@@ -36,5 +41,6 @@ interface ApiInterface {
 
     @GET(NetworkModule.upComingMovie)
     fun pagingGetUpComingMovie(@Query("api_key") apiKey: String, @Query("page") page: Int): Deferred<GenericMovieModel<MovieData>>
+
 
 }

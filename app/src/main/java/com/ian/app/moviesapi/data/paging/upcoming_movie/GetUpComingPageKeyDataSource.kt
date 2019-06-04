@@ -14,7 +14,7 @@ Created by Ian Damping on 03/06/2019.
 Github = https://github.com/iandamping
  */
 class GetUpComingPageKeyDataSource(private val api: ApiInterface, private val scope: CoroutineScope) :
-    PageKeyedDataSource<Int, MovieData>() {
+        PageKeyedDataSource<Int, MovieData>() {
     private val page = 1
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, MovieData>) {
         scope.doSomethingWithDeferred(api.pagingGetUpComingMovie(NetworkModule.api_key, page), {

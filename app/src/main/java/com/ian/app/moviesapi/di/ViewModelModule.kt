@@ -1,6 +1,7 @@
 package com.ian.app.moviesapi.di
 
 import com.ian.app.moviesapi.data.paging.GetPagingDataViewModel
+import com.ian.app.moviesapi.data.viewmodel.GetDetalMovieViewModel
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 import org.koin.dsl.module.module
 
@@ -13,5 +14,6 @@ object ViewModelModule {
     val allVmModule = module {
         factory { GetHomeMovieViewModel(get()) }
         factory { GetPagingDataViewModel(get()) }
+        factory { GetDetalMovieViewModel(get()) }
     }
 }

@@ -7,10 +7,12 @@ import com.ian.app.helper.util.*
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
+import com.ian.app.moviesapi.ui.activity.detail.DetailActivity
 import com.ian.app.moviesapi.ui.activity.discover.DiscoverActivity
 import com.ian.app.moviesapi.ui.activity.home.slideradapter.SliderItemAdapter
 import com.ian.app.moviesapi.util.MovieConstant.delayMillis
 import com.ian.app.moviesapi.util.MovieConstant.imageFormatter
+import com.ian.app.moviesapi.util.MovieConstant.intentToDetail
 import com.ian.app.moviesapi.util.MovieConstant.intentToDiscoverActivity
 import com.ian.app.moviesapi.util.MovieConstant.popularPagingState
 import com.ian.app.moviesapi.util.MovieConstant.topRatedPagingState
@@ -38,6 +40,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
         }
         mHandler = Handler()
     }
+
     private var slideRunnable: Runnable = object : Runnable {
         override fun run() {
             if (currentPage == pageSize) {
@@ -56,6 +59,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
             with(this) {
                 tvHomeMovieName.text = it.title
                 ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, this@HomeActivity)
+            }
+        }, {
+            startActivity<DetailActivity> {
+                putExtra(intentToDetail, id)
             }
         })
     }
@@ -78,6 +85,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
                 tvHomeMovieName.text = it.title
                 ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, this@HomeActivity)
             }
+        }, {
+            startActivity<DetailActivity> {
+                putExtra(intentToDetail, id)
+            }
         })
     }
 
@@ -88,6 +99,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
             with(this) {
                 tvHomeMovieName.text = it.title
                 ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, this@HomeActivity)
+            }
+        }, {
+            startActivity<DetailActivity> {
+                putExtra(intentToDetail, id)
             }
         })
     }
@@ -100,17 +115,17 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun initView() {
         tvSeeAllPopularMovie.setOnClickListener {
-            startActivity<DiscoverActivity>{
+            startActivity<DiscoverActivity> {
                 putExtra(intentToDiscoverActivity, popularPagingState)
             }
         }
         tvSeeAllTopRatedMovie.setOnClickListener {
-            startActivity<DiscoverActivity>{
+            startActivity<DiscoverActivity> {
                 putExtra(intentToDiscoverActivity, topRatedPagingState)
             }
         }
         tvSeeAllUpComingMovie.setOnClickListener {
-            startActivity<DiscoverActivity>{
+            startActivity<DiscoverActivity> {
                 putExtra(intentToDiscoverActivity, upcomingPagingState)
             }
         }

@@ -23,7 +23,7 @@ class SliderItemAdapter(private val data: List<MovieData>, private val ctx: Cont
         views.ivSliderImage.loadWithGlide(MovieConstant.imageFormatter + data[position].poster_path, ctx)
         views.ivSliderImage?.setOnClickListener {
 
-//            ctx.startActivity<DetailDrinkActivity> {
+            //            ctx.startActivity<DetailDrinkActivity> {
 //                putExtra(intentKeyToDetail, this@SliderItemAdapter.data[position].idDrink)
 //
 //            }

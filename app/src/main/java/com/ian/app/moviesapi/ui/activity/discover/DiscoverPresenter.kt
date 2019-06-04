@@ -15,7 +15,7 @@ class DiscoverPresenter(private val vm: GetPagingDataViewModel) : BasePresenter<
     }
 
     fun getDiscoverData(states: String?) {
-        if (states!=null) {
+        if (states != null) {
             vm.getAllMovies(states).observe(getLifeCycleOwner(), Observer {
                 view()?.onSuccessGetData(it)
             })

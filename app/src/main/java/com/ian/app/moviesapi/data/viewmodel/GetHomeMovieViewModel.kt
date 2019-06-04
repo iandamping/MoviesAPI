@@ -1,7 +1,6 @@
 package com.ian.app.moviesapi.data.viewmodel
 
 import com.ian.app.helper.util.combinePairWithPairDeferred
-import com.ian.app.helper.util.doSomethingWithDeferred
 import com.ian.app.moviesapi.api.ApiInterface
 import com.ian.app.moviesapi.base.BaseViewModel
 import com.ian.app.moviesapi.base.OnFailedGetData
@@ -17,14 +16,14 @@ class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
 
     fun getMovies() {
         uiScope.combinePairWithPairDeferred(Pair(
-            Pair(api.getPopularMovie(api_key), api.getNowPlayingMovie(api_key)),
-            Pair(api.getTopRatedMovie(api_key), api.getUpComingMovie(api_key))
+                Pair(api.getPopularMovie(api_key), api.getNowPlayingMovie(api_key)),
+                Pair(api.getTopRatedMovie(api_key), api.getUpComingMovie(api_key))
         ), {
             liveDataState.value = OnGetHomeMoviesData(
-                Pair(
-                    Pair(it.first.first.results, it.first.second.results),
-                    Pair(it.second.first.results, it.second.second.results)
-                )
+                    Pair(
+                            Pair(it.first.first.results, it.first.second.results),
+                            Pair(it.second.first.results, it.second.second.results)
+                    )
             )
         }, {
             liveDataState.value = OnFailedGetData(it)

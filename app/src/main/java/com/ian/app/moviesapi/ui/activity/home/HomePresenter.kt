@@ -1,7 +1,10 @@
 package com.ian.app.moviesapi.ui.activity.home
 
 import androidx.lifecycle.Observer
-import com.ian.app.moviesapi.base.*
+import com.ian.app.moviesapi.base.BasePresenter
+import com.ian.app.moviesapi.base.BaseState
+import com.ian.app.moviesapi.base.OnFailedGetData
+import com.ian.app.moviesapi.base.OnGetHomeMoviesData
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 

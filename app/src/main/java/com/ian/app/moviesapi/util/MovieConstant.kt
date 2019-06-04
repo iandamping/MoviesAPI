@@ -15,12 +15,13 @@ object MovieConstant {
     const val topRatedPagingState = "top rated paging"
     const val upcomingPagingState = "upcoming paging"
     const val intentToDiscoverActivity = "discover activity"
+    const val intentToDetail = "intent detal"
 
     val diffCallbacks = object : DiffUtil.ItemCallback<MovieData>() {
         override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =
-            oldItem.poster_path == newItem.poster_path
+                oldItem.poster_path == newItem.poster_path
 
         override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =
-            oldItem.poster_path == newItem.poster_path
+                oldItem.poster_path == newItem.poster_path
     }
 }
