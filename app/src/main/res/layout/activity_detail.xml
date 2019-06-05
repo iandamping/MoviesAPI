@@ -11,8 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbarDetailLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gradient_bg"
+        android:layout_height="300dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -23,17 +22,36 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="12dp"
+            app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
-            <ImageView
-                android:id="@+id/ivDetailMovieImages"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:layout_margin="@dimen/spacing_medium"
-                app:layout_collapseMode="parallax" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivDetailMovieImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="bottom"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/tileable_edge" />
+            </FrameLayout>
+
+
+            <!--<ImageView-->
+                <!--android:id="@+id/ivDetailMovieImages"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:layout_margin="@dimen/spacing_medium"-->
+                <!--app:layout_collapseMode="parallax" />-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbars"

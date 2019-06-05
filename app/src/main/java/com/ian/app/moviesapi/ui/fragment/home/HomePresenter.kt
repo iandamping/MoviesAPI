@@ -1,7 +1,9 @@
-package com.ian.app.moviesapi.ui.activity.home
+package com.ian.app.moviesapi.ui.fragment.home
 
+import android.content.Context
+import android.view.View
 import androidx.lifecycle.Observer
-import com.ian.app.moviesapi.base.BasePresenter
+import com.ian.app.moviesapi.base.BaseFragmentPresenter
 import com.ian.app.moviesapi.base.BaseState
 import com.ian.app.moviesapi.base.OnFailedGetData
 import com.ian.app.moviesapi.base.OnGetHomeMoviesData
@@ -13,14 +15,19 @@ import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 Created by Ian Damping on 02/06/2019.
 Github = https://github.com/iandamping
  */
-class HomePresenter(private val vm: GetHomeMovieViewModel) : BasePresenter<HomeView>() {
+class HomePresenter(private val vm: GetHomeMovieViewModel) : BaseFragmentPresenter<HomeView>() {
+    private var ctx: Context? = null
     private val ranges = 1..10
-    override fun onCreate() {
-        view()?.initView()
-        getData()
+
+    override fun onAttach() {
+        this.ctx = getLifeCycleOwner().context
     }
 
-    private fun getData() {
+    override fun onCreateView(view: View) {
+        view()?.initView(view)
+    }
+
+    fun getData() {
         vm.getMovies().apply {
             vm.liveDataState.observe(getLifeCycleOwner(), Observer { extractData(it) })
         }

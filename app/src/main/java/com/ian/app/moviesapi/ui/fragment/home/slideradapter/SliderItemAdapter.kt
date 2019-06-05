@@ -1,4 +1,4 @@
-package com.ian.app.moviesapi.ui.activity.home.slideradapter
+package com.ian.app.moviesapi.ui.fragment.home.slideradapter
 
 import android.content.Context
 import android.view.View
@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.ian.app.helper.util.inflates
 import com.ian.app.helper.util.loadWithGlide
+import com.ian.app.helper.util.startActivity
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.MovieData
+import com.ian.app.moviesapi.ui.activity.detail.DetailActivity
 import com.ian.app.moviesapi.util.MovieConstant
+import com.ian.app.moviesapi.util.MovieConstant.intentToDetail
 import kotlinx.android.synthetic.main.item_slider.view.*
 
 /**
@@ -16,17 +19,18 @@ import kotlinx.android.synthetic.main.item_slider.view.*
 Created by Ian Damping on 16/04/2019.
 Github = https://github.com/iandamping
  */
-class SliderItemAdapter(private val data: List<MovieData>, private val ctx: Context) : PagerAdapter() {
+class SliderItemAdapter(private val data: List<MovieData>, private val ctx: Context?) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val views = container.inflates(R.layout.item_slider)
-        views.ivSliderImage.loadWithGlide(MovieConstant.imageFormatter + data[position].poster_path, ctx)
+        if (ctx != null) {
+            views.ivSliderImage.loadWithGlide(MovieConstant.imageFormatter + data[position].poster_path, ctx)
+        }
         views.ivSliderImage?.setOnClickListener {
 
-            //            ctx.startActivity<DetailDrinkActivity> {
-//                putExtra(intentKeyToDetail, this@SliderItemAdapter.data[position].idDrink)
-//
-//            }
+            ctx?.startActivity<DetailActivity> {
+                putExtra(intentToDetail, this@SliderItemAdapter.data[position].id)
+            }
         }
         container.addView(views)
         return views

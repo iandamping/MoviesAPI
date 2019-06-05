@@ -2,6 +2,7 @@ package com.ian.app.moviesapi
 
 import android.app.Application
 import com.google.gson.Gson
+import com.ian.app.moviesapi.di.DatabaseModule.databaseModule
 import com.ian.app.moviesapi.di.NetworkModule.networkMod
 import com.ian.app.moviesapi.di.ViewModelModule.allVmModule
 import org.koin.android.ext.android.startKoin
@@ -18,6 +19,6 @@ class MoviesApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        startKoin(this, listOf(networkMod, allVmModule))
+        startKoin(this, listOf(networkMod, allVmModule, databaseModule))
     }
 }

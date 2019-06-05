@@ -6,11 +6,14 @@ import androidx.paging.PagedList
 import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.gone
 import com.ian.app.helper.util.loadResizeWithGlide
+import com.ian.app.helper.util.startActivity
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.paging.GetPagingDataViewModel
+import com.ian.app.moviesapi.ui.activity.detail.DetailActivity
 import com.ian.app.moviesapi.util.MovieConstant
 import com.ian.app.moviesapi.util.MovieConstant.diffCallbacks
+import com.ian.app.moviesapi.util.MovieConstant.intentToDetail
 import com.ian.app.moviesapi.util.MovieConstant.intentToDiscoverActivity
 import com.ian.recyclerviewhelper.helper.setUpPagingWithGrid
 import kotlinx.android.synthetic.main.activity_discover.*
@@ -43,7 +46,11 @@ class DiscoverActivity : AppCompatActivity(), DiscoverView {
         shimmerGridListContainer?.gone()
         rvDiscoverMovie.setUpPagingWithGrid(data, R.layout.item_discover_movie, 2, {
             ivDiscoverMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path, this@DiscoverActivity)
-        }, diffCallbacks)
+        }, diffCallbacks,{
+            startActivity<DetailActivity> {
+                putExtra(intentToDetail, id)
+            }
+        })
     }
 
     override fun onFailGetData(msg: String?) {

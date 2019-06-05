@@ -1,14 +1,20 @@
 package com.ian.app.moviesapi.ui.activity.detail
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.ian.app.helper.util.*
 import com.ian.app.moviesapi.R
+import com.ian.app.moviesapi.data.local_data.LocalMovieData
 import com.ian.app.moviesapi.data.model.DetailMovieData
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetDetalMovieViewModel
+import com.ian.app.moviesapi.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.moviesapi.ui.activity.MainActivity
 import com.ian.app.moviesapi.util.MovieConstant.imageFormatter
 import com.ian.app.moviesapi.util.MovieConstant.intentToDetail
 import com.ian.recyclerviewhelper.helper.setUpVertical
@@ -22,21 +28,42 @@ Created by Ian Damping on 04/06/2019.
 Github = https://github.com/iandamping
  */
 class DetailActivity : AppCompatActivity(), DetailView {
-
-
+    private lateinit var movieDataToSave: LocalMovieData
+    private var idForDeleteItem: Int? = null
+    private var isFavorite: Boolean = false
+    private var movieLocalData: MutableList<LocalMovieData> = mutableListOf()
+    private var menuItem: Menu? = null
     private val vm: GetDetalMovieViewModel by viewModel()
+    private val vmLocal: GetLocalDataViewModel by viewModel()
     private lateinit var presenter: DetailPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fullScreenAnimation()
         setContentView(R.layout.activity_detail)
-        presenter = DetailPresenter(vm).apply {
+        presenter = DetailPresenter(vm, vmLocal).apply {
             attachView(this@DetailActivity, this@DetailActivity)
             onCreate()
             getData(intent.getIntExtra(intentToDetail, 0))
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_saving_data_menu, menu)
+        menuItem = menu
+
+        return true
+    }
+
     override fun onSuccessGetData(data: Pair<DetailMovieData?, List<MovieData>>) {
+        this.movieLocalData.forEach {
+            if (it.id == data.first?.id) {
+                idForDeleteItem = it.localID
+                isFavorite = true
+                setFavoriteState()
+            }
+        }
+        this.movieDataToSave = LocalMovieData(null, data.first?.id, data.first?.title, data.first?.poster_path)
         tvDetailTittles.text = data.first?.original_title
         tvDetailTaglines.text = data.first?.tagline
         tvDetailReleaseDate.text = data.first?.release_date
@@ -61,16 +88,16 @@ class DetailActivity : AppCompatActivity(), DetailView {
             var scrollRange: Int = -1
 
             if (scrollRange == -1) {
-                scrollRange = appBarLayout.totalScrollRange;
+                scrollRange = appBarLayout.totalScrollRange
             }
             if (scrollRange + i == 0) {
                 collapsingToolbar.title = data.first?.original_title
                 tvDetailTittles.visibility = View.GONE
-                isShow = true;
+                isShow = true
             } else if (isShow) {
                 collapsingToolbar.title = " "
                 tvDetailTittles.visibility = View.VISIBLE
-                isShow = false;
+                isShow = false
             }
         })
 
@@ -85,10 +112,52 @@ class DetailActivity : AppCompatActivity(), DetailView {
         })
     }
 
+    override fun onSuccessGetLocalData(data: List<LocalMovieData>) {
+        this.movieLocalData = data.toMutableList()
+    }
+
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbars)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                startActivity<MainActivity> {
+                }
+                true
+            }
+            R.id.add_to_favorite -> {
+                if (isFavorite) {
+                    presenter.deleteLocalID(idForDeleteItem)
+                    isFavorite = false
+                    setFavoriteState()
+                } else {
+                    presenter.saveLocalData(movieDataToSave)
+                    isFavorite = true
+                    setFavoriteState()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setFavoriteState() {
+        if (isFavorite) {
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmarked)
+        } else {
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_unbookmark)
+        }
+    }
+
 
     override fun onFailedGetData(msg: String?) {
     }
 
     override fun initView() {
+        initToolbar()
     }
 }

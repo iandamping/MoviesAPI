@@ -2,6 +2,6 @@
     <string name="app_name">MoviesAPI</string>
     <string name="popular_movie">Popular Movie</string>
     <string name="see_all">See All</string>
-
-    <string name="explore_the_natural_wonders_drink_of_the_world">Explore the natural wonders Drinks of the world</string>
+    <string name="favorite">Favorite</string>
+    <string name="explore_the_natural_wonders_drink_of_the_world">Explore all kind Movie you like</string>
 </resources>

@@ -2,7 +2,10 @@ package com.ian.app.moviesapi.data.viewmodel
 
 import com.ian.app.helper.util.deferredPair
 import com.ian.app.moviesapi.api.ApiInterface
-import com.ian.app.moviesapi.base.*
+import com.ian.app.moviesapi.base.BaseViewModel
+import com.ian.app.moviesapi.base.OnFailedGetData
+import com.ian.app.moviesapi.base.OnGetData
+import com.ian.app.moviesapi.base.OnSuccessGetData
 import com.ian.app.moviesapi.di.NetworkModule.api_key
 import kotlinx.coroutines.cancelChildren
 
@@ -17,7 +20,7 @@ class GetDetalMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
         liveDataState.value = OnSuccessGetData(false)
         uiScope.deferredPair(Pair(api.getDetailMovieAsync(movieId, api_key), api.getSimilarMovieAsync(movieId, api_key)), { first, second ->
             liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnGetData(Pair(first,second.results))
+            liveDataState.value = OnGetData(Pair(first, second.results))
         }, {
             liveDataState.value = OnSuccessGetData(true)
             liveDataState.value = OnFailedGetData(it)
