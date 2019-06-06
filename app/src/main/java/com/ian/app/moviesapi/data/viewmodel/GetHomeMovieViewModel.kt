@@ -5,6 +5,7 @@ import com.ian.app.moviesapi.api.ApiInterface
 import com.ian.app.moviesapi.base.BaseViewModel
 import com.ian.app.moviesapi.base.OnFailedGetData
 import com.ian.app.moviesapi.base.OnGetHomeMoviesData
+import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.di.NetworkModule.api_key
 
 /**
@@ -13,6 +14,7 @@ Created by Ian Damping on 02/06/2019.
 Github = https://github.com/iandamping
  */
 class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
+    private val ranges = 1..10
 
     fun getMovies() {
         uiScope.combinePairWithPairDeferred(Pair(
@@ -21,13 +23,56 @@ class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
         ), {
             liveDataState.value = OnGetHomeMoviesData(
                     Pair(
-                            Pair(it.first.first.results, it.first.second.results),
-                            Pair(it.second.first.results, it.second.second.results)
+                            Pair(popularMovieMapper(it.first.first.results), nowPlayingMovieMapper(it.first.second.results)),
+                            Pair(topRatedMovieMapper(it.second.first.results), upComingMovieMapper(it.second.second.results))
                     )
             )
         }, {
             liveDataState.value = OnFailedGetData(it)
         })
+    }
+
+    private fun nowPlayingMovieMapper(data: List<MovieData>?): List<MovieData> {
+        val newData: MutableList<MovieData> = mutableListOf()
+        for (i in ranges) {
+            if (data != null) {
+                newData.add(data[i])
+            }
+        }
+        return newData
+    }
+
+
+    private fun popularMovieMapper(data: List<MovieData>?): List<MovieData> {
+        val newData: MutableList<MovieData> = mutableListOf()
+        for (i in ranges) {
+            if (data != null) {
+                newData.add(data[i])
+            }
+        }
+        return newData
+    }
+
+
+    private fun topRatedMovieMapper(data: List<MovieData>?): List<MovieData> {
+        val newData: MutableList<MovieData> = mutableListOf()
+        for (i in ranges) {
+            if (data != null) {
+                newData.add(data[i])
+            }
+        }
+        return newData
+    }
+
+
+    private fun upComingMovieMapper(data: List<MovieData>?): List<MovieData> {
+        val newData: MutableList<MovieData> = mutableListOf()
+        for (i in ranges) {
+            if (data != null) {
+                newData.add(data[i])
+            }
+        }
+        return newData
     }
 
     override fun onCleared() {

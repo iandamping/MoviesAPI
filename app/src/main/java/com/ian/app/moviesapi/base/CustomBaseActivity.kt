@@ -2,11 +2,12 @@ package com.ian.app.moviesapi.base
 
 /**
  *
-Created by Ian Damping on 06/05/2019.
+Created by Ian Damping on 06/06/2019.
 Github = https://github.com/iandamping
  */
-
-interface BaseView {
+interface CustomBaseActivity {
     fun initView()
+    fun initFetchNetworkData()
+    fun initLocalData()
     fun onFailedGetData(msg: String?)
 }

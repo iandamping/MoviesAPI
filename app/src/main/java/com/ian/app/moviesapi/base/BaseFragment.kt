@@ -3,38 +3,37 @@ package com.ian.app.moviesapi.base
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Observer
+import com.ian.app.helper.util.checkConnectivityStatus
 import com.ian.app.helper.util.layoutInflater
+import com.ian.app.helper.util.myToast
 import com.ian.app.moviesapi.R
 
 /**
  *
-Created by Ian Damping on 07/05/2019.
+Created by Ian Damping on 06/06/2019.
 Github = https://github.com/iandamping
  */
-abstract class BaseFragmentPresenter<View> : LifecycleObserver, BaseFragmentPresenterHelper {
-    private var view: View? = null
-    private lateinit var lifecycleOwner: Fragment
-    private var viewLifecycle: Lifecycle? = null
+abstract class BaseFragment : Fragment(), CustomBasePresenter {
     private lateinit var dialog: AlertDialog
 
-    fun attachView(view: View, lifeCycleOwner: Fragment) {
-        this.view = view
-        this.lifecycleOwner = lifeCycleOwner
-        setBaseDialog(lifecycleOwner.context)
-        lifeCycleOwner.lifecycle.addObserver(this)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        checkConnectivityStatus {
+            when (it) {
+                true -> initFetchNetworkData()
+                false -> context?.myToast("Periksa Koneksi Internet Anda")
+            }
+        }
+        initLocalData()
     }
 
-    protected fun view(): View? {
-        return view
-    }
-
-    protected fun getLifeCycleOwner(): Fragment {
-        return lifecycleOwner
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        setBaseDialog(context)
     }
 
     private fun setBaseDialog(ctx: Context?) {
@@ -49,12 +48,6 @@ abstract class BaseFragmentPresenter<View> : LifecycleObserver, BaseFragmentPres
             dialog.setCancelable(false)
             dialog.setCanceledOnTouchOutside(false)
         }
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private fun onViewDestroyed() {
-        view = null
-        viewLifecycle = null
     }
 
     protected fun setDialogShow(status: Boolean) {

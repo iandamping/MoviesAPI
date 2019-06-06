@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato"
                     android:gravity="center"
-                    android:text="300000 " />
+                    tools:text="300000 " />
 
             </LinearLayout>
 

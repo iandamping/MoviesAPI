@@ -44,7 +44,7 @@ dependencies {
     //recyclerview helper
     implementation 'com.github.iandamping:RecyclerViewHelper:0.0.4'
     //common helper
-    implementation 'com.github.iandamping:CommonHelper:0.0.6'
+    implementation 'com.github.iandamping:CommonHelper:0.0.7'
     //livedata
     implementation "androidx.lifecycle:lifecycle-runtime:$livedata_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$livedata_version"

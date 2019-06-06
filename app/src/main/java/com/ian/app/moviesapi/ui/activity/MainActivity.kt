@@ -8,6 +8,7 @@ import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.switchFragment
 import com.ian.app.moviesapi.R
 import com.ian.app.moviesapi.ui.fragment.home.HomeFragment
+import com.ian.app.moviesapi.ui.fragment.saved_movie.SavedMovieFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -16,6 +17,7 @@ Created by Ian Damping on 05/06/2019.
 Github = https://github.com/iandamping
  */
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return when (item.itemId) {
             R.id.navigation_home -> {
                 supportFragmentManager.switchFragment(null, R.id.main_container, HomeFragment())
+                true
+            }
+            R.id.navigation_saved -> {
+                supportFragmentManager.switchFragment(null, R.id.main_container, SavedMovieFragment())
                 true
             }
 

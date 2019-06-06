@@ -2,12 +2,14 @@ package com.ian.app.moviesapi.ui.activity.discover
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.gone
 import com.ian.app.helper.util.loadResizeWithGlide
 import com.ian.app.helper.util.startActivity
 import com.ian.app.moviesapi.R
+import com.ian.app.moviesapi.base.BaseActivity
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.paging.GetPagingDataViewModel
 import com.ian.app.moviesapi.ui.activity.detail.DetailActivity
@@ -25,23 +27,15 @@ import org.koin.android.viewmodel.ext.android.viewModel
 Created by Ian Damping on 31/05/2019.
 Github = https://github.com/iandamping
  */
-class DiscoverActivity : AppCompatActivity(), DiscoverView {
+class DiscoverActivity : BaseActivity() {
     private val vm: GetPagingDataViewModel by viewModel()
-    private lateinit var presenter: DiscoverPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fullScreenAnimation()
         setContentView(R.layout.activity_discover)
-        presenter = DiscoverPresenter(vm).apply {
-            attachView(this@DiscoverActivity, this@DiscoverActivity)
-            onCreate()
-            getDiscoverData(intent.getStringExtra(intentToDiscoverActivity))
-        }
-
     }
 
-    override fun onSuccessGetData(data: PagedList<MovieData>?) {
+    private fun onSuccessGetData(data: PagedList<MovieData>?) {
         shimmerGridListContainer?.stopShimmer()
         shimmerGridListContainer?.gone()
         rvDiscoverMovie.setUpPagingWithGrid(data, R.layout.item_discover_movie, 2, {
@@ -53,8 +47,20 @@ class DiscoverActivity : AppCompatActivity(), DiscoverView {
         })
     }
 
-    override fun onFailGetData(msg: String?) {
+    override fun onFailedGetData(msg: String?) {
     }
+
+    override fun initLocalData() {
+    }
+    override fun initFetchNetworkData() {
+        val states = intent.getStringExtra(intentToDiscoverActivity)
+        if (states!=null) {
+            vm.getAllMovies(states).observe(this, Observer {
+                onSuccessGetData(it)
+            })
+        }
+    }
+
 
     override fun initView() {
     }

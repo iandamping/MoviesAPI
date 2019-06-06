@@ -1,61 +1,45 @@
 package com.ian.app.moviesapi.ui.fragment.home
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.ian.app.helper.util.*
+import androidx.lifecycle.Observer
+import com.ian.app.helper.util.gone
+import com.ian.app.helper.util.inflates
+import com.ian.app.helper.util.loadResizeWithGlide
+import com.ian.app.helper.util.startActivity
 import com.ian.app.moviesapi.R
+import com.ian.app.moviesapi.base.BaseFragment
+import com.ian.app.moviesapi.base.BaseState
+import com.ian.app.moviesapi.base.OnFailedGetData
+import com.ian.app.moviesapi.base.OnGetHomeMoviesData
 import com.ian.app.moviesapi.data.model.MovieData
 import com.ian.app.moviesapi.data.viewmodel.GetHomeMovieViewModel
 import com.ian.app.moviesapi.ui.activity.detail.DetailActivity
 import com.ian.app.moviesapi.ui.activity.discover.DiscoverActivity
 import com.ian.app.moviesapi.ui.fragment.home.slideradapter.SliderItemAdapter
-import com.ian.app.moviesapi.util.MovieConstant.delayMillis
-import com.ian.app.moviesapi.util.MovieConstant.imageFormatter
-import com.ian.app.moviesapi.util.MovieConstant.intentToDetail
-import com.ian.app.moviesapi.util.MovieConstant.intentToDiscoverActivity
-import com.ian.app.moviesapi.util.MovieConstant.popularPagingState
-import com.ian.app.moviesapi.util.MovieConstant.topRatedPagingState
-import com.ian.app.moviesapi.util.MovieConstant.upcomingPagingState
+import com.ian.app.moviesapi.util.MovieConstant
 import com.ian.recyclerviewhelper.helper.setUpHorizontal
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.item_home.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(), HomeView {
-    private var actualView: View? = null
+/**
+ *
+Created by Ian Damping on 06/06/2019.
+Github = https://github.com/iandamping
+ */
+class HomeFragment : BaseFragment() {
 
 
     private val vm: GetHomeMovieViewModel by viewModel()
-    private lateinit var presenter: HomePresenter
+    private var actualView: View? = null
     private var mHandler: Handler? = null
     private var pageSize: Int? = 0
     private var currentPage = 0
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        presenter = HomePresenter(vm).apply {
-            attachView(this@HomeFragment, this@HomeFragment)
-            onAttach()
-        }
-        mHandler = Handler()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.getData()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val views = container?.inflates(R.layout.fragment_home)
-        views?.let { presenter.onCreateView(it) }
-        return views
-    }
 
     private var slideRunnable: Runnable = object : Runnable {
         override fun run() {
@@ -63,94 +47,116 @@ class HomeFragment : Fragment(), HomeView {
                 currentPage = 0
             }
             vpNowPlaying?.setCurrentItem(currentPage++, true)
-            mHandler?.postDelayed(this, delayMillis)
+            mHandler?.postDelayed(this, MovieConstant.delayMillis)
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        mHandler = Handler()
+        val views = container?.inflates(R.layout.fragment_home)
+        views?.let { initView(it) }
+        return views
     }
 
     override fun initView(view: View) {
         this.actualView = view
         view.tvSeeAllPopularMovie.setOnClickListener {
             context?.startActivity<DiscoverActivity> {
-                putExtra(intentToDiscoverActivity, popularPagingState)
+                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.popularPagingState)
             }
         }
         view.tvSeeAllTopRatedMovie.setOnClickListener {
             context?.startActivity<DiscoverActivity> {
-                putExtra(intentToDiscoverActivity, topRatedPagingState)
+                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.topRatedPagingState)
             }
         }
         view.tvSeeAllUpComingMovie.setOnClickListener {
             context?.startActivity<DiscoverActivity> {
-                putExtra(intentToDiscoverActivity, upcomingPagingState)
+                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.upcomingPagingState)
             }
         }
     }
 
-    override fun onSuccessGetPopularMovie(data: List<MovieData>?) {
-        actualView?.shimmerHome?.stopShimmer()
-        actualView?.shimmerHome?.gone()
-        actualView?.rvPopularMovie?.setUpHorizontal(data, R.layout.item_home, {
-            with(this) {
-                tvHomeMovieName.text = it.title
-                ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, context)
-            }
-        }, {
-            context?.startActivity<DetailActivity> {
-                putExtra(intentToDetail, id)
-            }
-        })
+    override fun initLocalData() {
+
+    }
+    override fun initFetchNetworkData() {
+        vm.getMovies().apply {
+            vm.liveDataState.observe(this@HomeFragment.viewLifecycleOwner, Observer { extractData(it) })
+        }
     }
 
-    override fun onSuccessGetNowPlayingMovie(data: List<MovieData>?) {
-        pageSize = data?.size
-        actualView?.vpNowPlaying?.adapter = data?.let { SliderItemAdapter(it, context) }
+    override fun onFailedGetData(msg: String?) {
+
+    }
+
+    private fun onSuccessGetNowPlayingMovie(newData: MutableList<MovieData>) {
+        pageSize = newData.size
+        actualView?.vpNowPlaying?.adapter = SliderItemAdapter(newData, context)
         actualView?.indicator?.setViewPager(vpNowPlaying)
         if (mHandler != null) {
             mHandler?.removeCallbacks(slideRunnable)
         }
-        mHandler?.postDelayed(slideRunnable, delayMillis)
+        mHandler?.postDelayed(slideRunnable, MovieConstant.delayMillis)
     }
 
-    override fun onSuccessGetTopRatedMovie(data: List<MovieData>?) {
+    private fun onSuccessGetPopularMovie(newData: MutableList<MovieData>) {
         actualView?.shimmerHome?.stopShimmer()
         actualView?.shimmerHome?.gone()
-        actualView?.rvTopRatedMovie?.setUpHorizontal(data, R.layout.item_home, {
+        actualView?.rvPopularMovie?.setUpHorizontal(newData, R.layout.item_home, {
             with(this) {
                 tvHomeMovieName.text = it.title
-                ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, context)
+                ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path, context)
             }
         }, {
             context?.startActivity<DetailActivity> {
-                putExtra(intentToDetail, id)
+                putExtra(MovieConstant.intentToDetail, id)
             }
         })
     }
 
-    override fun onSuccessGetUpComingMovie(data: List<MovieData>?) {
-        actualView?.shimmerHome?.stopShimmer()
-        actualView?.shimmerHome?.gone()
-        actualView?.rvUpComingMovie?.setUpHorizontal(data, R.layout.item_home, {
+    private fun onSuccessGetTopRatedMovie(newData: MutableList<MovieData>) {
+        actualView?.rvTopRatedMovie?.setUpHorizontal(newData, R.layout.item_home, {
             with(this) {
                 tvHomeMovieName.text = it.title
-                ivHomeMovie.loadResizeWithGlide(imageFormatter + it.poster_path, context)
+                ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path, context)
             }
         }, {
             context?.startActivity<DetailActivity> {
-                putExtra(intentToDetail, id)
+                putExtra(MovieConstant.intentToDetail, id)
             }
         })
     }
 
-    override fun onFailGetData(msg: String?) {
-        logE(msg)
-        actualView?.shimmerHome?.stopShimmer()
-        actualView?.shimmerHome?.gone()
+    private fun onSuccessGetUpComingMovie(newData: MutableList<MovieData>) {
+        actualView?.rvUpComingMovie?.setUpHorizontal(newData, R.layout.item_home, {
+            with(this) {
+                tvHomeMovieName.text = it.title
+                ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path, context)
+            }
+        }, {
+            context?.startActivity<DetailActivity> {
+                putExtra(MovieConstant.intentToDetail, id)
+            }
+        })
     }
 
+
+    private fun extractData(data: BaseState) {
+        when (data) {
+            is OnFailedGetData -> onFailedGetData(data.msg)
+            is OnGetHomeMoviesData -> {
+                onSuccessGetPopularMovie(data.data.first.first.toMutableList())
+                onSuccessGetNowPlayingMovie(data.data.first.second.toMutableList())
+                onSuccessGetTopRatedMovie(data.data.second.first.toMutableList())
+                onSuccessGetUpComingMovie(data.data.second.second.toMutableList())
+            }
+        }
+    }
 
     override fun onStart() {
         super.onStart()
-        mHandler?.postDelayed(slideRunnable, delayMillis)
+        mHandler?.postDelayed(slideRunnable, MovieConstant.delayMillis)
     }
 
     override fun onStop() {
@@ -167,4 +173,5 @@ class HomeFragment : Fragment(), HomeView {
         super.onResume()
         actualView?.shimmerHome?.startShimmer()
     }
+
 }
