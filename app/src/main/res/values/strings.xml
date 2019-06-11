@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoviesAPI</string>
+    <string name="app_name">MuviePedia</string>
     <string name="popular_movie">Popular Movie</string>
     <string name="see_all">See All</string>
     <string name="favorite">Favorite</string>

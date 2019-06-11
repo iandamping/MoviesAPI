@@ -6,10 +6,12 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+//apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.ian.app.moviesapi"
+        applicationId "com.ian.app.muviepedia"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -41,10 +43,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //firebase
+//    implementation 'com.google.firebase:firebase-core:16.0.9'
+//    implementation "com.google.firebase:firebase-auth:17.0.0"
+//    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
+//    implementation 'com.facebook.android:facebook-android-sdk:4.39.0'
+//    implementation 'com.facebook.android:facebook-login:4.39.0'
     //recyclerview helper
     implementation 'com.github.iandamping:RecyclerViewHelper:0.0.4'
     //common helper
-    implementation 'com.github.iandamping:CommonHelper:0.0.7'
+    implementation 'com.github.iandamping:CommonHelper:0.0.9b'
     //livedata
     implementation "androidx.lifecycle:lifecycle-runtime:$livedata_version"
     implementation "androidx.lifecycle:lifecycle-extensions:$livedata_version"
