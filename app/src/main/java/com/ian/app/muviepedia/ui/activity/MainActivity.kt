@@ -8,7 +8,9 @@ import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.switchFragment
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.ui.fragment.home.HomeFragment
+import com.ian.app.muviepedia.ui.fragment.profile.ProfileFragment
 import com.ian.app.muviepedia.ui.fragment.saved_movie.SavedMovieFragment
+import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -24,22 +26,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         fullScreenAnimation()
         setContentView(R.layout.activity_main)
         initBottomNav()
-//        moveToSpesificFragment(intent?.getStringExtra(Constant.switchBackToMain))
+        moveToSpesificFragment(intent?.getStringExtra(switchBackToMain))
     }
 
-//    private fun moveToSpesificFragment(dataCallback: String?) {
-//        when {
-//            dataCallback != null && dataCallback.contentEquals("1") -> {
-//                supportFragmentManager.switchFragment(null, HomeFragment())
-//                bottom_navigation.selectedItemId = R.id.navigation_home
-//            }
-//
-//            dataCallback != null && dataCallback.contentEquals("4") -> {
-//                supportFragmentManager.switchFragment(null, ProfileFragment())
-//                bottom_navigation.selectedItemId = R.id.navigation_profile
-//            }
-//        }
-//    }
+    private fun moveToSpesificFragment(dataCallback: String?) {
+        when {
+            dataCallback != null && dataCallback.contentEquals("3") -> {
+                supportFragmentManager.switchFragment(null, R.id.main_container, ProfileFragment())
+                bottom_navigation.selectedItemId = R.id.navigation_profile
+            }
+        }
+    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -49,6 +46,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_saved -> {
                 supportFragmentManager.switchFragment(null, R.id.main_container, SavedMovieFragment())
+                true
+            }
+            R.id.navigation_profile -> {
+                supportFragmentManager.switchFragment(null, R.id.main_container, ProfileFragment())
                 true
             }
 

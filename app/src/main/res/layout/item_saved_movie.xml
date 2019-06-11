@@ -39,11 +39,13 @@
 
     </LinearLayout>
 
-    <!--<View-->
-        <!--android:layout_below="@+id/ivSavedMovieMovie"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="@color/placeholder_bg"/>-->
+    <ImageView
+        android:id="@+id/ivDeleteMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_close_black" />
 
 
 

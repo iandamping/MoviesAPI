@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.ian.app.helper.util.gone
-import com.ian.app.helper.util.inflates
-import com.ian.app.helper.util.loadWithGlide
-import com.ian.app.helper.util.startActivity
+import com.ian.app.helper.util.*
+import com.ian.app.muviepedia.MoviesApp.Companion.prefHelper
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.base.BaseFragment
 import com.ian.app.muviepedia.base.OnGetLocalData
@@ -16,6 +14,8 @@ import com.ian.app.muviepedia.data.local_data.LocalMovieData
 import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
 import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
 import com.ian.app.muviepedia.util.MovieConstant
+import com.ian.app.muviepedia.util.MovieConstant.saveUserProfile
+import com.ian.app.muviepedia.util.alertHelperDelete
 import com.ian.recyclerviewhelper.helper.setUpVertical
 import kotlinx.android.synthetic.main.fragment_saved_movie.view.*
 import kotlinx.android.synthetic.main.item_saved_movie.view.*
@@ -32,14 +32,20 @@ class SavedMovieFragment : BaseFragment() {
     private var actualView: View? = null
 
     override fun initLocalData() {
-        vm.getLocalData().apply {
-            vm.liveDataState.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer {
-                when (it) {
-                    is OnGetLocalData -> it.data.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer { localData ->
-                        onSuccessGetLocalData(localData)
-                    })
-                }
-            })
+        if (!prefHelper.getStringInSharedPreference(saveUserProfile).isNullOrBlank()) {
+            vm.getLocalData().apply {
+                vm.liveDataState.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer {
+                    when (it) {
+                        is OnGetLocalData -> it.data.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer { localData ->
+                            onSuccessGetLocalData(localData)
+                        })
+                    }
+                })
+            }
+        } else {
+            actualView?.shimmerSavedMovie?.stopShimmer()
+            actualView?.shimmerSavedMovie?.gone()
+            actualView?.tvSavedMovieEmpty?.visible()
         }
     }
 
@@ -60,6 +66,11 @@ class SavedMovieFragment : BaseFragment() {
             with(this) {
                 ivSavedMovieMovie.loadWithGlide(MovieConstant.imageFormatter + it.poster_path)
                 tvSavedMovieMovieTittle.text = it.title
+                ivDeleteMovie.setOnClickListener { v ->
+                    context?.alertHelperDelete(MovieConstant.imageFormatter + it.poster_path) {
+                        if (it.localID != null) vm.deleteSelectedLocalData(it.localID!!)
+                    }
+                }
             }
         }, {
             context?.startActivity<DetailActivity> {

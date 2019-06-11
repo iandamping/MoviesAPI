@@ -18,6 +18,7 @@ import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
 import com.ian.app.muviepedia.ui.activity.MainActivity
 import com.ian.app.muviepedia.util.MovieConstant.imageFormatter
 import com.ian.app.muviepedia.util.MovieConstant.intentToDetail
+import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
 import com.ian.recyclerviewhelper.helper.setUpVertical
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.item_similar_movie.view.*
@@ -29,6 +30,7 @@ Created by Ian Damping on 04/06/2019.
 Github = https://github.com/iandamping
  */
 class DetailActivity : AppCompatActivity(), DetailView {
+    private var isLoggedIn: Boolean = false
     private var movieDataToSave: DetailMovieData? = null
     private var idForDeleteItem: Int? = null
     private var isFavorite: Boolean = false
@@ -47,6 +49,10 @@ class DetailActivity : AppCompatActivity(), DetailView {
             onCreate()
             getData(intent.getIntExtra(intentToDetail, 0))
         }
+    }
+
+    override fun isAlreadyLoggedin(data: Boolean) {
+        this.isLoggedIn = data
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -131,14 +137,20 @@ class DetailActivity : AppCompatActivity(), DetailView {
                 true
             }
             R.id.add_to_favorite -> {
-                if (isFavorite) {
-                    presenter.deleteLocalID(idForDeleteItem)
-                    isFavorite = false
-                    setFavoriteState()
+                if (isLoggedIn) {
+                    if (isFavorite) {
+                        presenter.deleteLocalID(idForDeleteItem)
+                        isFavorite = false
+                        setFavoriteState()
+                    } else {
+                        presenter.saveLocalData(movieDataToSave?.toDatabaseModel())
+                        isFavorite = true
+                        setFavoriteState()
+                    }
                 } else {
-                    presenter.saveLocalData(movieDataToSave?.toDatabaseModel())
-                    isFavorite = true
-                    setFavoriteState()
+                    alertHelperFailed<MainActivity>("Please Login First") {
+                        putExtra(switchBackToMain, "3")
+                    }
                 }
                 true
             }

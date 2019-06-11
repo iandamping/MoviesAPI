@@ -1,12 +1,14 @@
 package com.ian.app.muviepedia.ui.activity.detail
 
 import androidx.lifecycle.Observer
+import com.ian.app.muviepedia.MoviesApp.Companion.prefHelper
 import com.ian.app.muviepedia.base.*
 import com.ian.app.muviepedia.data.local_data.LocalMovieData
 import com.ian.app.muviepedia.data.model.DetailMovieData
 import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.data.viewmodel.GetDetalMovieViewModel
 import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.muviepedia.util.MovieConstant.saveUserProfile
 
 /**
  *
@@ -16,7 +18,16 @@ Github = https://github.com/iandamping
 class DetailPresenter(private val vm: GetDetalMovieViewModel, private val vmLocal: GetLocalDataViewModel) : BasePresenter<DetailView>() {
 
     override fun onCreate() {
+        getLoggedinStatus()
         view()?.initView()
+    }
+
+    private fun getLoggedinStatus() {
+        if (!prefHelper.getStringInSharedPreference(saveUserProfile).isNullOrBlank()) {
+            view()?.isAlreadyLoggedin(true)
+        } else {
+            view()?.isAlreadyLoggedin(false)
+        }
     }
 
     fun getData(movieID: Int?) {

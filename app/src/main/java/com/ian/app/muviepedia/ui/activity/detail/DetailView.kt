@@ -13,4 +13,5 @@ Github = https://github.com/iandamping
 interface DetailView : BaseView {
     fun onSuccessGetData(data: Pair<DetailMovieData?, List<MovieData>>)
     fun onSuccessGetLocalData(data: List<LocalMovieData>)
+    fun isAlreadyLoggedin(data: Boolean)
 }

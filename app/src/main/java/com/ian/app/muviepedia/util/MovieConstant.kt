@@ -16,7 +16,10 @@ object MovieConstant {
     const val upcomingPagingState = "upcoming paging"
     const val intentToDiscoverActivity = "discover activity"
     const val intentToDetail = "intent detal"
+    const val saveUserProfile = " save user profile"
     const val prefHelperInit = " init preference helper"
+    const val RequestSignIn = 2341
+    const val switchBackToMain = " switching back"
 
     val diffCallbacks = object : DiffUtil.ItemCallback<MovieData>() {
         override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =

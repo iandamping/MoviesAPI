@@ -33,8 +33,6 @@ Created by Ian Damping on 06/06/2019.
 Github = https://github.com/iandamping
  */
 class HomeFragment : BaseFragment() {
-
-
     private val vm: GetHomeMovieViewModel by viewModel()
     private var actualView: View? = null
     private var mHandler: Handler? = null
