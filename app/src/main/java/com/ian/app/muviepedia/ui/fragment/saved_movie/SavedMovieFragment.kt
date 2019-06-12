@@ -37,7 +37,13 @@ class SavedMovieFragment : BaseFragment() {
                 vm.liveDataState.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer {
                     when (it) {
                         is OnGetLocalData -> it.data.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer { localData ->
-                            onSuccessGetLocalData(localData)
+                            if (localData.isNotEmpty()){
+                                onSuccessGetLocalData(localData)
+                            }else {
+                                actualView?.shimmerSavedMovie?.stopShimmer()
+                                actualView?.shimmerSavedMovie?.gone()
+                                actualView?.tvSavedMovieEmpty?.visible()
+                            }
                         })
                     }
                 })
