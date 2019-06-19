@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.profile_fragment
+package com.ian.app.muviepedia.ui.fragment.profile
 
 import com.ian.app.muviepedia.base.BaseFragmentView
 import com.ian.app.muviepedia.data.model.UserProfileData

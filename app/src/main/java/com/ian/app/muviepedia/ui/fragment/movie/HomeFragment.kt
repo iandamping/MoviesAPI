@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.movie_fragment
+package com.ian.app.muviepedia.ui.fragment.movie
 
 import android.os.Bundle
 import android.os.Handler
@@ -15,8 +15,8 @@ import com.ian.app.muviepedia.base.OnGetHomeMoviesData
 import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.data.viewmodel.movie.GetHomeMovieViewModel
 import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
-import com.ian.app.muviepedia.ui.activity.discover.DiscoverActivity
-import com.ian.app.muviepedia.ui.fragment.movie_fragment.slidermovieadapter.SliderMovieItemAdapter
+import com.ian.app.muviepedia.ui.activity.discover_movie.DiscoverMovieActivity
+import com.ian.app.muviepedia.ui.fragment.movie.slidermovieadapter.SliderMovieItemAdapter
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.recyclerviewhelper.helper.setUpHorizontal
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -56,17 +56,17 @@ class HomeFragment : BaseFragment() {
     override fun initView(view: View) {
         this.actualView = view
         view.tvSeeAllPopularMovie.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
+            context?.startActivity<DiscoverMovieActivity> {
                 putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.popularPagingState)
             }
         }
         view.tvSeeAllTopRatedMovie.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
+            context?.startActivity<DiscoverMovieActivity> {
                 putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.topRatedPagingState)
             }
         }
         view.tvSeeAllUpComingMovie.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
+            context?.startActivity<DiscoverMovieActivity> {
                 putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.upcomingPagingState)
             }
         }

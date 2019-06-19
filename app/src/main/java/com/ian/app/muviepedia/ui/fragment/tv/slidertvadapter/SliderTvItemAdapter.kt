@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.tv_fragment.slidertvadapter
+package com.ian.app.muviepedia.ui.fragment.tv.slidertvadapter
 
 import android.content.Context
 import android.view.View

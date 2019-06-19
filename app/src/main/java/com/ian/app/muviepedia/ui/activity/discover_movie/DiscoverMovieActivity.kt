@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.activity.discover
+package com.ian.app.muviepedia.ui.activity.discover_movie
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -25,7 +25,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 Created by Ian Damping on 31/05/2019.
 Github = https://github.com/iandamping
  */
-class DiscoverActivity : BaseActivity() {
+class DiscoverMovieActivity : BaseActivity() {
     private val vm: GetMoviePagingDataViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

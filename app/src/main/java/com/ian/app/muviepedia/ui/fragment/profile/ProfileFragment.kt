@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.profile_fragment
+package com.ian.app.muviepedia.ui.fragment.profile
 
 import android.content.Context
 import android.os.Bundle

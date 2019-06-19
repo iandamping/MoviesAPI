@@ -2,6 +2,7 @@ package com.ian.app.muviepedia.util
 
 import androidx.recyclerview.widget.DiffUtil
 import com.ian.app.muviepedia.data.model.MovieData
+import com.ian.app.muviepedia.data.model.TvData
 
 /**
  *
@@ -23,7 +24,9 @@ object MovieConstant {
     const val onAirPagingState = "on air tv paging"
 
     const val intentToDiscoverActivity = "discover activity"
+    const val intentToDiscoverTvActivity = "discover tv activity"
     const val intentToDetail = "intent detal"
+    const val intentToTvDetail = "intent TV detal"
     const val saveUserProfile = " save user profile"
     const val prefHelperInit = " init preference helper"
     const val RequestSignIn = 2341
@@ -34,6 +37,14 @@ object MovieConstant {
                 oldItem.poster_path == newItem.poster_path
 
         override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =
+                oldItem.poster_path == newItem.poster_path
+    }
+
+    val movieDiffCallbacks = object : DiffUtil.ItemCallback<TvData>() {
+        override fun areItemsTheSame(oldItem: TvData, newItem: TvData): Boolean =
+                oldItem.poster_path == newItem.poster_path
+
+        override fun areContentsTheSame(oldItem: TvData, newItem: TvData): Boolean =
                 oldItem.poster_path == newItem.poster_path
     }
 }

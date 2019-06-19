@@ -20,10 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.ian.app.muviepedia.ui.activity.discover.DiscoverActivity"
+        <activity android:name="com.ian.app.muviepedia.ui.activity.discover_movie.DiscoverMovieActivity"
                   android:theme="@style/FullScreen"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.discover_tv.DiscoverTvActivity"
+            android:theme="@style/FullScreen"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.ian.app.muviepedia.ui.activity.detail.DetailActivity"
+            android:theme="@style/FullScreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.detail_tv.DetailTvActivity"
             android:theme="@style/FullScreen"
             android:screenOrientation="portrait"/>
         <meta-data

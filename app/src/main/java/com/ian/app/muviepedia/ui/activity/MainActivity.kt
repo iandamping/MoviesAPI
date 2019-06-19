@@ -7,10 +7,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.switchFragment
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.ui.fragment.movie_fragment.HomeFragment
-import com.ian.app.muviepedia.ui.fragment.profile_fragment.ProfileFragment
-import com.ian.app.muviepedia.ui.fragment.saved_movie_fragment.SavedMovieFragment
-import com.ian.app.muviepedia.ui.fragment.tv_fragment.TvFragment
+import com.ian.app.muviepedia.ui.fragment.movie.HomeFragment
+import com.ian.app.muviepedia.ui.fragment.profile.ProfileFragment
+import com.ian.app.muviepedia.ui.fragment.saved.SavedMovieFragment
+import com.ian.app.muviepedia.ui.fragment.tv.TvFragment
 import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
 import kotlinx.android.synthetic.main.activity_main.*
 

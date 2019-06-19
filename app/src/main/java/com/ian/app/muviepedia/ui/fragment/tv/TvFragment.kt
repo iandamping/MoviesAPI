@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.tv_fragment
+package com.ian.app.muviepedia.ui.fragment.tv
 
 import android.os.Bundle
 import android.os.Handler
@@ -15,9 +15,10 @@ import com.ian.app.muviepedia.base.OnFailedGetData
 import com.ian.app.muviepedia.base.OnGetHomeTvData
 import com.ian.app.muviepedia.data.model.TvData
 import com.ian.app.muviepedia.data.viewmodel.tv.GetHomeTvViewModel
-import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
-import com.ian.app.muviepedia.ui.activity.discover.DiscoverActivity
-import com.ian.app.muviepedia.ui.fragment.tv_fragment.slidertvadapter.SliderTvItemAdapter
+import com.ian.app.muviepedia.ui.activity.detail_tv.DetailTvActivity
+import com.ian.app.muviepedia.ui.activity.discover_movie.DiscoverMovieActivity
+import com.ian.app.muviepedia.ui.activity.discover_tv.DiscoverTvActivity
+import com.ian.app.muviepedia.ui.fragment.tv.slidertvadapter.SliderTvItemAdapter
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.recyclerviewhelper.helper.setUpHorizontal
 import kotlinx.android.synthetic.main.fragment_tv.*
@@ -57,18 +58,18 @@ class TvFragment : BaseFragment() {
     override fun initView(view: View) {
         this.actualView = view
         view.tvSeeAllTopRatedTv.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
-                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.popularPagingState)
+            context?.startActivity<DiscoverTvActivity> {
+                putExtra(MovieConstant.intentToDiscoverTvActivity, MovieConstant.topRatedTvPagingState)
             }
         }
         view.tvSeeAllAiringTodayTv.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
-                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.topRatedPagingState)
+            context?.startActivity<DiscoverTvActivity> {
+                putExtra(MovieConstant.intentToDiscoverTvActivity, MovieConstant.airingTodayPagingState)
             }
         }
         view.tvSeeAllOnAirTv.setOnClickListener {
-            context?.startActivity<DiscoverActivity> {
-                putExtra(MovieConstant.intentToDiscoverActivity, MovieConstant.upcomingPagingState)
+            context?.startActivity<DiscoverTvActivity> {
+                putExtra(MovieConstant.intentToDiscoverTvActivity, MovieConstant.onAirPagingState)
             }
         }
     }
@@ -110,8 +111,8 @@ class TvFragment : BaseFragment() {
                 ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path)
             }
         }, {
-            context?.startActivity<DetailActivity> {
-                putExtra(MovieConstant.intentToDetail, id)
+            context?.startActivity<DetailTvActivity> {
+                putExtra(MovieConstant.intentToTvDetail, id)
             }
         })
     }
@@ -123,8 +124,8 @@ class TvFragment : BaseFragment() {
                 ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path)
             }
         }, {
-            context?.startActivity<DetailActivity> {
-                putExtra(MovieConstant.intentToDetail, id)
+            context?.startActivity<DetailTvActivity> {
+                putExtra(MovieConstant.intentToTvDetail, id)
             }
         })
     }
@@ -136,8 +137,8 @@ class TvFragment : BaseFragment() {
                 ivHomeMovie.loadResizeWithGlide(MovieConstant.imageFormatter + it.poster_path)
             }
         }, {
-            context?.startActivity<DetailActivity> {
-                putExtra(MovieConstant.intentToDetail, id)
+            context?.startActivity<DetailTvActivity> {
+                putExtra(MovieConstant.intentToTvDetail, id)
             }
         })
     }

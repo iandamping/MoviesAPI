@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.saved_movie_fragment
+package com.ian.app.muviepedia.ui.fragment.saved
 
 import android.os.Bundle
 import android.view.LayoutInflater

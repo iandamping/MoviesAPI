@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.movie_fragment.slidermovieadapter
+package com.ian.app.muviepedia.ui.fragment.movie.slidermovieadapter
 
 import android.content.Context
 import android.view.View
