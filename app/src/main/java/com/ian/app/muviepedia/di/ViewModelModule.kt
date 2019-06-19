@@ -1,9 +1,12 @@
 package com.ian.app.muviepedia.di
 
-import com.ian.app.muviepedia.data.paging.GetPagingDataViewModel
-import com.ian.app.muviepedia.data.viewmodel.GetDetalMovieViewModel
-import com.ian.app.muviepedia.data.viewmodel.GetHomeMovieViewModel
-import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.muviepedia.data.paging.movie.GetMoviePagingDataViewModel
+import com.ian.app.muviepedia.data.paging.tv.GetTvPagingDataViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetDetailMovieViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetHomeMovieViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetLocalDataViewModel
+import com.ian.app.muviepedia.data.viewmodel.tv.GetDetailTvViewModel
+import com.ian.app.muviepedia.data.viewmodel.tv.GetHomeTvViewModel
 import org.koin.dsl.module.module
 
 /**
@@ -14,8 +17,11 @@ Github = https://github.com/iandamping
 object ViewModelModule {
     val allVmModule = module {
         factory { GetHomeMovieViewModel(get()) }
-        factory { GetPagingDataViewModel(get()) }
-        factory { GetDetalMovieViewModel(get()) }
+        factory { GetMoviePagingDataViewModel(get()) }
+        factory { GetDetailMovieViewModel(get()) }
         factory { GetLocalDataViewModel(get()) }
+        factory { GetHomeTvViewModel(get()) }
+        factory { GetDetailTvViewModel(get()) }
+        factory { GetTvPagingDataViewModel(get()) }
     }
 }

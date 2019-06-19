@@ -6,8 +6,8 @@ import com.ian.app.muviepedia.base.*
 import com.ian.app.muviepedia.data.local_data.LocalMovieData
 import com.ian.app.muviepedia.data.model.DetailMovieData
 import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.data.viewmodel.GetDetalMovieViewModel
-import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetDetailMovieViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetLocalDataViewModel
 import com.ian.app.muviepedia.util.MovieConstant.saveUserProfile
 
 /**
@@ -15,7 +15,7 @@ import com.ian.app.muviepedia.util.MovieConstant.saveUserProfile
 Created by Ian Damping on 04/06/2019.
 Github = https://github.com/iandamping
  */
-class DetailPresenter(private val vm: GetDetalMovieViewModel, private val vmLocal: GetLocalDataViewModel) : BasePresenter<DetailView>() {
+class DetailPresenter(private val vm: GetDetailMovieViewModel, private val vmLocal: GetLocalDataViewModel) : BasePresenter<DetailView>() {
 
     override fun onCreate() {
         getLoggedinStatus()

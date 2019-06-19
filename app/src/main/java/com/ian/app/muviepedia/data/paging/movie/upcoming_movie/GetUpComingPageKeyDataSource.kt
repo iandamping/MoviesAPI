@@ -1,8 +1,9 @@
-package com.ian.app.muviepedia.data.paging.upcoming_movie
+package com.ian.app.muviepedia.data.paging.movie.upcoming_movie
 
 import androidx.paging.PageKeyedDataSource
 import com.ian.app.helper.util.doSomethingWithDeferred
 import com.ian.app.helper.util.logE
+import com.ian.app.muviepedia.BuildConfig
 import com.ian.app.muviepedia.api.ApiInterface
 import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.di.NetworkModule
@@ -20,7 +21,7 @@ class GetUpComingPageKeyDataSource(private val api: ApiInterface, private val sc
         scope.doSomethingWithDeferred(api.pagingGetUpComingMovieAsync(NetworkModule.api_key, page), {
             callback.onResult(it.results, null, page + 1)
         }, {
-            logE(it)
+            if (BuildConfig.DEBUG) logE(it)
         })
     }
 
@@ -28,7 +29,7 @@ class GetUpComingPageKeyDataSource(private val api: ApiInterface, private val sc
         scope.doSomethingWithDeferred(api.pagingGetUpComingMovieAsync(NetworkModule.api_key, params.key), {
             callback.onResult(it.results, params.key + 1)
         }, {
-            logE(it)
+            if (BuildConfig.DEBUG) logE(it)
         })
     }
 
@@ -37,7 +38,7 @@ class GetUpComingPageKeyDataSource(private val api: ApiInterface, private val sc
         scope.doSomethingWithDeferred(api.pagingGetUpComingMovieAsync(NetworkModule.api_key, params.key), {
             callback.onResult(it.results, adjacentKey)
         }, {
-            logE(it)
+            if (BuildConfig.DEBUG) logE(it)
         })
     }
 }

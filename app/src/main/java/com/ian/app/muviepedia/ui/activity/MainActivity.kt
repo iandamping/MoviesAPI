@@ -7,9 +7,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ian.app.helper.util.fullScreenAnimation
 import com.ian.app.helper.util.switchFragment
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.ui.fragment.home.HomeFragment
-import com.ian.app.muviepedia.ui.fragment.profile.ProfileFragment
-import com.ian.app.muviepedia.ui.fragment.saved_movie.SavedMovieFragment
+import com.ian.app.muviepedia.ui.fragment.movie_fragment.HomeFragment
+import com.ian.app.muviepedia.ui.fragment.profile_fragment.ProfileFragment
+import com.ian.app.muviepedia.ui.fragment.saved_movie_fragment.SavedMovieFragment
+import com.ian.app.muviepedia.ui.fragment.tv_fragment.TvFragment
 import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -44,6 +45,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 supportFragmentManager.switchFragment(null, R.id.main_container, HomeFragment())
                 true
             }
+            R.id.navigation_home_tv -> {
+                supportFragmentManager.switchFragment(null, R.id.main_container, TvFragment())
+                true
+            }
+
             R.id.navigation_saved -> {
                 supportFragmentManager.switchFragment(null, R.id.main_container, SavedMovieFragment())
                 true

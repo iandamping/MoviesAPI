@@ -13,8 +13,8 @@ import com.ian.app.muviepedia.data.local_data.LocalMovieData
 import com.ian.app.muviepedia.data.model.DetailMovieData
 import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.data.model.toDatabaseModel
-import com.ian.app.muviepedia.data.viewmodel.GetDetalMovieViewModel
-import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetDetailMovieViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetLocalDataViewModel
 import com.ian.app.muviepedia.ui.activity.MainActivity
 import com.ian.app.muviepedia.util.MovieConstant.imageFormatter
 import com.ian.app.muviepedia.util.MovieConstant.intentToDetail
@@ -36,7 +36,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
     private var isFavorite: Boolean = false
     private var movieLocalData: MutableList<LocalMovieData> = mutableListOf()
     private var menuItem: Menu? = null
-    private val vm: GetDetalMovieViewModel by viewModel()
+    private val vm: GetDetailMovieViewModel by viewModel()
     private val vmLocal: GetLocalDataViewModel by viewModel()
     private lateinit var presenter: DetailPresenter
 

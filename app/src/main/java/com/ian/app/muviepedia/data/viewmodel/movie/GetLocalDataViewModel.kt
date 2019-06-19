@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.data.viewmodel
+package com.ian.app.muviepedia.data.viewmodel.movie
 
 import com.ian.app.helper.util.doSomethingWithIOScope
 import com.ian.app.muviepedia.base.BaseViewModel

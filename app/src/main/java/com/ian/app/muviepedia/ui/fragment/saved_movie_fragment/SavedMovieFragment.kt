@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.saved_movie
+package com.ian.app.muviepedia.ui.fragment.saved_movie_fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.base.BaseFragment
 import com.ian.app.muviepedia.base.OnGetLocalData
 import com.ian.app.muviepedia.data.local_data.LocalMovieData
-import com.ian.app.muviepedia.data.viewmodel.GetLocalDataViewModel
+import com.ian.app.muviepedia.data.viewmodel.movie.GetLocalDataViewModel
 import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.app.muviepedia.util.MovieConstant.saveUserProfile
@@ -37,9 +37,9 @@ class SavedMovieFragment : BaseFragment() {
                 vm.liveDataState.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer {
                     when (it) {
                         is OnGetLocalData -> it.data.observe(this@SavedMovieFragment.viewLifecycleOwner, Observer { localData ->
-                            if (localData.isNotEmpty()){
+                            if (localData.isNotEmpty()) {
                                 onSuccessGetLocalData(localData)
-                            }else {
+                            } else {
                                 actualView?.shimmerSavedMovie?.stopShimmer()
                                 actualView?.shimmerSavedMovie?.gone()
                                 actualView?.tvSavedMovieEmpty?.visible()

@@ -30,6 +30,13 @@ object NetworkModule {
     const val detailMovie = "movie/"
     const val similarMovie = "movie/"
 
+    const val detailTv = "tv/"
+    const val similarTv = "tv/"
+    const val popularTv = "tv/popular"
+    const val topRatedTv = "tv/top_rated"
+    const val airingTodayTv = "tv/airing_today"
+    const val onAirTv = "tv/on_the_air"
+
     private fun createOkHttpClient(): OkHttpClient {
 
         val timeOut = 60L

@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.ui.fragment.home.slideradapter
+package com.ian.app.muviepedia.ui.fragment.movie_fragment.slidermovieadapter
 
 import android.content.Context
 import android.view.View
@@ -12,24 +12,24 @@ import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.app.muviepedia.util.MovieConstant.intentToDetail
-import kotlinx.android.synthetic.main.item_slider.view.*
+import kotlinx.android.synthetic.main.item_movie_slider.view.*
 
 /**
  *
 Created by Ian Damping on 16/04/2019.
 Github = https://github.com/iandamping
  */
-class SliderItemAdapter(private val data: List<MovieData>, private val ctx: Context?) : PagerAdapter() {
+class SliderMovieItemAdapter(private val data: List<MovieData>, private val ctx: Context?) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val views = container.inflates(R.layout.item_slider)
+        val views = container.inflates(R.layout.item_movie_slider)
         if (ctx != null) {
             views.ivSliderImage.loadWithGlide(MovieConstant.imageFormatter + data[position].poster_path)
         }
         views.ivSliderImage?.setOnClickListener {
 
             ctx?.startActivity<DetailActivity> {
-                putExtra(intentToDetail, this@SliderItemAdapter.data[position].id)
+                putExtra(intentToDetail, this@SliderMovieItemAdapter.data[position].id)
             }
         }
         container.addView(views)

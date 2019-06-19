@@ -9,11 +9,11 @@ data class DetailMovieData(var adult: Boolean, var backdrop_path: String, var be
                            var spoken_languages: List<SpokenLanguage>, var status: String, var tagline: String, var title: String, var video: Boolean,
                            var vote_average: Double, var vote_count: Int) {
 
-    class BelongsToCollection(var id: Int, var name: String, var posterPath: String, var backdropPath: String)
-    class Genre(var id: Int, var name: String)
-    class ProductionCompany(var id: Int, var logoPath: String, var name: String, var originCountry: String)
-    class ProductionCountry(var iso31661: String, var name: String)
-    class SpokenLanguage(var iso31661: String, var name: String)
+    data class BelongsToCollection(var id: Int, var name: String, var posterPath: String, var backdropPath: String)
+    data class Genre(var id: Int, var name: String)
+    data class ProductionCompany(var id: Int, var logoPath: String, var name: String, var originCountry: String)
+    data class ProductionCountry(var iso31661: String, var name: String)
+    data class SpokenLanguage(var iso31661: String, var name: String)
 
 }
 

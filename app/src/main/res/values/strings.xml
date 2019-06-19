@@ -10,4 +10,7 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb578689132655195</string>
     <string name="are_you_sure_want_to_delete_this">Are you sure want to delete this ?</string>
     <string name="login_first_so_you_can_save_your_favourite_movie">Login first so you can save your Fave Movie!</string>
+    <string name="top_rated_tv_series">Top Rated TV Series</string>
+    <string name="tv_series_airing_today">TV Series Airing Today</string>
+    <string name="on_air_tv_series">On Air Tv Series</string>
 </resources>

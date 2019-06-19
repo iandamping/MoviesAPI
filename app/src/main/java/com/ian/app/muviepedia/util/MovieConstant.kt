@@ -11,9 +11,17 @@ Github = https://github.com/iandamping
 object MovieConstant {
     const val delayMillis = 3000L
     const val imageFormatter = "https://image.tmdb.org/t/p/w500"
+    /*Paging movie constant*/
     const val popularPagingState = "popular paging"
     const val topRatedPagingState = "top rated paging"
     const val upcomingPagingState = "upcoming paging"
+    const val nowPlayingPagingState = "now playing paging"
+    /*Paging tv constant*/
+    const val popularTvPagingState = "popular tv paging"
+    const val topRatedTvPagingState = "top rated tv paging"
+    const val airingTodayPagingState = "airing today tv paging"
+    const val onAirPagingState = "on air tv paging"
+
     const val intentToDiscoverActivity = "discover activity"
     const val intentToDetail = "intent detal"
     const val saveUserProfile = " save user profile"

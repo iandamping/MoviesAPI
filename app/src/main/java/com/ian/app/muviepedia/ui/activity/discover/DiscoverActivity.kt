@@ -9,7 +9,7 @@ import com.ian.app.helper.util.startActivity
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.base.BaseActivity
 import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.data.paging.GetPagingDataViewModel
+import com.ian.app.muviepedia.data.paging.movie.GetMoviePagingDataViewModel
 import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.app.muviepedia.util.MovieConstant.diffCallbacks
@@ -26,7 +26,7 @@ Created by Ian Damping on 31/05/2019.
 Github = https://github.com/iandamping
  */
 class DiscoverActivity : BaseActivity() {
-    private val vm: GetPagingDataViewModel by viewModel()
+    private val vm: GetMoviePagingDataViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
