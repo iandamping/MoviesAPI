@@ -32,6 +32,22 @@ object MovieConstant {
     const val RequestSignIn = 2341
     const val switchBackToMain = " switching back"
 
+    const val baseUrl = "https://api.themoviedb.org/3/"
+    const val api_key = "9986464dc7ff8e83569e65a98dc7b3b6"
+    const val popularMovie = "movie/popular"
+    const val nowPlayingMovie = "movie/now_playing"
+    const val topRatedMovie = "movie/top_rated"
+    const val upComingMovie = "movie/upcoming"
+    const val detailMovie = "movie/"
+    const val similarMovie = "movie/"
+
+    const val detailTv = "tv/"
+    const val similarTv = "tv/"
+    const val popularTv = "tv/popular"
+    const val topRatedTv = "tv/top_rated"
+    const val airingTodayTv = "tv/airing_today"
+    const val onAirTv = "tv/on_the_air"
+
     val diffCallbacks = object : DiffUtil.ItemCallback<MovieData>() {
         override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean =
                 oldItem.poster_path == newItem.poster_path

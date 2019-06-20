@@ -16,7 +16,6 @@ import com.ian.app.muviepedia.base.OnGetHomeTvData
 import com.ian.app.muviepedia.data.model.TvData
 import com.ian.app.muviepedia.data.viewmodel.tv.GetHomeTvViewModel
 import com.ian.app.muviepedia.ui.activity.detail_tv.DetailTvActivity
-import com.ian.app.muviepedia.ui.activity.discover_movie.DiscoverMovieActivity
 import com.ian.app.muviepedia.ui.activity.discover_tv.DiscoverTvActivity
 import com.ian.app.muviepedia.ui.fragment.tv.slidertvadapter.SliderTvItemAdapter
 import com.ian.app.muviepedia.util.MovieConstant

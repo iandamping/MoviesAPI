@@ -6,7 +6,7 @@ import com.ian.app.muviepedia.base.BaseViewModel
 import com.ian.app.muviepedia.base.OnFailedGetData
 import com.ian.app.muviepedia.base.OnGetHomeMoviesData
 import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.di.NetworkModule.api_key
+import com.ian.app.muviepedia.util.MovieConstant.api_key
 
 /**
  *

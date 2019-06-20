@@ -6,9 +6,7 @@ import com.ian.app.muviepedia.base.BasePresenter
 import com.ian.app.muviepedia.base.OnFailedGetData
 import com.ian.app.muviepedia.base.OnGetData
 import com.ian.app.muviepedia.base.OnSuccessGetData
-import com.ian.app.muviepedia.data.model.DetailMovieData
 import com.ian.app.muviepedia.data.model.DetailTvData
-import com.ian.app.muviepedia.data.model.MovieData
 import com.ian.app.muviepedia.data.model.TvData
 import com.ian.app.muviepedia.data.viewmodel.tv.GetDetailTvViewModel
 import com.ian.app.muviepedia.util.MovieConstant
@@ -18,7 +16,7 @@ import com.ian.app.muviepedia.util.MovieConstant
 Created by Ian Damping on 19/06/2019.
 Github = https://github.com/iandamping
  */
-class DetailTvPresenter(private val vm:GetDetailTvViewModel): BasePresenter<DetailTvView>() {
+class DetailTvPresenter(private val vm: GetDetailTvViewModel) : BasePresenter<DetailTvView>() {
 
     override fun onCreate() {
         view()?.initView()

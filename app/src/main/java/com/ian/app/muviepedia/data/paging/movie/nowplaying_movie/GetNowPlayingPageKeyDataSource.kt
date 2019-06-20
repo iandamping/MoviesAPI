@@ -6,7 +6,7 @@ import com.ian.app.helper.util.logE
 import com.ian.app.muviepedia.BuildConfig
 import com.ian.app.muviepedia.api.ApiInterface
 import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.di.NetworkModule
+import com.ian.app.muviepedia.util.MovieConstant.api_key
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -17,7 +17,7 @@ Github = https://github.com/iandamping
 class GetNowPlayingPageKeyDataSource(private val api: ApiInterface, private val scope: CoroutineScope) : PageKeyedDataSource<Int, MovieData>() {
     private val page = 1
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, MovieData>) {
-        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(NetworkModule.api_key, page), {
+        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(api_key, page), {
             callback.onResult(it.results, null, page + 1)
         }, {
             if (BuildConfig.DEBUG) logE(it)
@@ -25,7 +25,7 @@ class GetNowPlayingPageKeyDataSource(private val api: ApiInterface, private val 
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, MovieData>) {
-        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(NetworkModule.api_key, params.key), {
+        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(api_key, params.key), {
             callback.onResult(it.results, params.key + 1)
         }, {
             if (BuildConfig.DEBUG) logE(it)
@@ -34,7 +34,7 @@ class GetNowPlayingPageKeyDataSource(private val api: ApiInterface, private val 
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MovieData>) {
         val adjacentKey = if (params.key > 1) params.key - 1 else null
-        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(NetworkModule.api_key, params.key), {
+        scope.doSomethingWithDeferred(api.pagingGetNowPlayingMovieMovieAsync(api_key, params.key), {
             callback.onResult(it.results, adjacentKey)
         }, {
             if (BuildConfig.DEBUG) logE(it)

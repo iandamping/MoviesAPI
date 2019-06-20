@@ -8,35 +8,29 @@ import com.ian.app.helper.util.*
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.data.model.DetailTvData
 import com.ian.app.muviepedia.data.model.TvData
-import com.ian.app.muviepedia.data.viewmodel.tv.GetDetailTvViewModel
-import com.ian.app.muviepedia.ui.activity.detail.DetailActivity
 import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.app.muviepedia.util.MovieConstant.intentToTvDetail
 import com.ian.recyclerviewhelper.helper.setUpVertical
-import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.activity_detail.tvDetailReleaseDate
 import kotlinx.android.synthetic.main.activity_tv_detail.*
 import kotlinx.android.synthetic.main.item_similar_movie.view.*
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
 
 /**
  *
 Created by Ian Damping on 19/06/2019.
 Github = https://github.com/iandamping
  */
-class DetailTvActivity: AppCompatActivity(),DetailTvView {
-    private val vm:GetDetailTvViewModel by viewModel()
-    private lateinit var presenter: DetailTvPresenter
+class DetailTvActivity : AppCompatActivity(), DetailTvView {
+    //    private val vm: GetDetailTvViewModel by viewModel()
+    private val presenter: DetailTvPresenter by currentScope.inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fullScreenAnimation()
         setContentView(R.layout.activity_tv_detail)
-        presenter = DetailTvPresenter(vm).apply {
-            attachView(this@DetailTvActivity,this@DetailTvActivity)
-            onCreate()
-            getData(intent?.getIntExtra(intentToTvDetail,0))
-        }
+        presenter.attachView(this@DetailTvActivity, this@DetailTvActivity)
+        presenter.onCreate()
+        presenter.getData(intent?.getIntExtra(intentToTvDetail, 0))
     }
 
     override fun onSuccessGetData(data: Pair<DetailTvData?, List<TvData>>) {

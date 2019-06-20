@@ -22,6 +22,7 @@ import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
 import com.ian.recyclerviewhelper.helper.setUpVertical
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.item_similar_movie.view.*
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -36,19 +37,17 @@ class DetailActivity : AppCompatActivity(), DetailView {
     private var isFavorite: Boolean = false
     private var movieLocalData: MutableList<LocalMovieData> = mutableListOf()
     private var menuItem: Menu? = null
-    private val vm: GetDetailMovieViewModel by viewModel()
-    private val vmLocal: GetLocalDataViewModel by viewModel()
-    private lateinit var presenter: DetailPresenter
+//    private val vm: GetDetailMovieViewModel by viewModel()
+//    private val vmLocal: GetLocalDataViewModel by viewModel()
+    private val presenter: DetailPresenter by currentScope.inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fullScreenAnimation()
         setContentView(R.layout.activity_detail)
-        presenter = DetailPresenter(vm, vmLocal).apply {
-            attachView(this@DetailActivity, this@DetailActivity)
-            onCreate()
-            getData(intent.getIntExtra(intentToDetail, 0))
-        }
+        presenter.attachView(this@DetailActivity, this@DetailActivity)
+        presenter.onCreate()
+        presenter.getData(intent.getIntExtra(intentToDetail, 0))
     }
 
     override fun isAlreadyLoggedin(data: Boolean) {
