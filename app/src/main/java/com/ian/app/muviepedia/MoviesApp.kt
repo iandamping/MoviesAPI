@@ -26,7 +26,7 @@ class MoviesApp : Application() {
         prefHelper = PreferenceHelper(this)
         startKoin {
             androidContext(this@MoviesApp)
-            modules(listOf(networkMod, databaseModule, allVmModule,detailTvPresenter,detailMoviePresenter))
+            modules(listOf(networkMod, databaseModule, allVmModule,detailTvPresenter,detailMoviePresenter, repositoryModule))
         }
     }
 }

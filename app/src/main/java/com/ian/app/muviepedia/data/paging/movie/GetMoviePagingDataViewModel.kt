@@ -11,6 +11,7 @@ import com.ian.app.muviepedia.data.paging.movie.nowplaying_movie.GetNowPlayingPa
 import com.ian.app.muviepedia.data.paging.movie.popular_movie.GetPopularPageKeyDataSource
 import com.ian.app.muviepedia.data.paging.movie.toprated_movie.GetTopRatedPageKeyDataSource
 import com.ian.app.muviepedia.data.paging.movie.upcoming_movie.GetUpComingPageKeyDataSource
+import com.ian.app.muviepedia.data.repo.movie.MovieRepository
 import com.ian.app.muviepedia.util.MovieConstant.nowPlayingPagingState
 import com.ian.app.muviepedia.util.MovieConstant.popularPagingState
 import com.ian.app.muviepedia.util.MovieConstant.topRatedPagingState
@@ -20,7 +21,7 @@ import com.ian.app.muviepedia.util.MovieConstant.topRatedPagingState
 Created by Ian Damping on 03/06/2019.
 Github = https://github.com/iandamping
  */
-class GetMoviePagingDataViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetMoviePagingDataViewModel(private val repo: MovieRepository) : BaseViewModel() {
     private val pageSize = 10
     private val isPlaceHolder = true
     private lateinit var movieList: LiveData<PagedList<MovieData>>
@@ -39,10 +40,10 @@ class GetMoviePagingDataViewModel(private val api: ApiInterface) : BaseViewModel
         val dataSourceFactory = object : DataSource.Factory<Int, MovieData>() {
             override fun create(): DataSource<Int, MovieData> {
                 return when (states) {
-                    popularPagingState -> GetPopularPageKeyDataSource(api, uiScope)
-                    topRatedPagingState -> GetTopRatedPageKeyDataSource(api, uiScope)
-                    nowPlayingPagingState -> GetNowPlayingPageKeyDataSource(api, uiScope)
-                    else -> GetUpComingPageKeyDataSource(api, uiScope)
+                    popularPagingState -> GetPopularPageKeyDataSource(repo, uiScope)
+                    topRatedPagingState -> GetTopRatedPageKeyDataSource(repo, uiScope)
+                    nowPlayingPagingState -> GetNowPlayingPageKeyDataSource(repo, uiScope)
+                    else -> GetUpComingPageKeyDataSource(repo, uiScope)
                 }
 
             }

@@ -1,34 +1,41 @@
 package com.ian.app.muviepedia.data.viewmodel.tv
 
-import com.ian.app.helper.util.deferredPair
-import com.ian.app.muviepedia.api.ApiInterface
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ian.app.helper.util.computeDoubleResult
+import com.ian.app.helper.util.retryIO
 import com.ian.app.muviepedia.base.BaseViewModel
-import com.ian.app.muviepedia.base.OnFailedGetData
-import com.ian.app.muviepedia.base.OnGetData
-import com.ian.app.muviepedia.base.OnSuccessGetData
-import com.ian.app.muviepedia.util.MovieConstant.api_key
-import kotlinx.coroutines.cancelChildren
+import com.ian.app.muviepedia.data.model.DetailTvData
+import com.ian.app.muviepedia.data.model.TvData
+import com.ian.app.muviepedia.data.repo.tv.TvRepository
+import kotlinx.coroutines.launch
 
 /**
  *
 Created by Ian Damping on 19/06/2019.
 Github = https://github.com/iandamping
  */
-class GetDetailTvViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetDetailTvViewModel(private val repo: TvRepository) : BaseViewModel() {
+
+    private val _detailTv: MutableLiveData<Pair<DetailTvData, List<TvData>>> = MutableLiveData()
+
+    val detailTv: LiveData<Pair<DetailTvData, List<TvData>>>
+        get() = _detailTv
 
     fun getData(tvID: Int) {
-        liveDataState.value = OnSuccessGetData(false)
-        uiScope.deferredPair(Pair(api.getDetailTvAsync(tvID, api_key), api.getSimilarTvAsync(tvID, api_key)), { first, second ->
-            liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnGetData(Pair(first, second.results))
-        }, {
-            liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnFailedGetData(it)
-        })
+        viewModelScope.launch {
+            retryIO { extractAllData(tvID) }
+
+        }
+
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        fetchingJob.cancelChildren()
+    private suspend fun extractAllData(tvId: Int) {
+        val work1 = repo.getDetailTvAsync(tvId)
+        val work2 = repo.getSimilarTvAsync(tvId)
+        _detailTv.value = computeDoubleResult(work1.await(), work2.await().results)
     }
+
+
 }

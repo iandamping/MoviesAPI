@@ -6,7 +6,7 @@ Created by Ian Damping on 02/06/2019.
 Github = https://github.com/iandamping
  */
 data class MovieData(
-        var vote_count: Int?,
+        var vote_count: Int,
         var id: Int?,
         var video: Boolean?,
         var vote_average: Double?,

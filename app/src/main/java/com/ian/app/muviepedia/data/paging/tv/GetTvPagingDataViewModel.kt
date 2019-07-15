@@ -10,6 +10,8 @@ import com.ian.app.muviepedia.data.model.TvData
 import com.ian.app.muviepedia.data.paging.tv.airingtoday_tv.GetAiringTodayPageKeyDataSource
 import com.ian.app.muviepedia.data.paging.tv.onair_tv.GetOnAirTvPageKeyDataSource
 import com.ian.app.muviepedia.data.paging.tv.popular_tv.GetPopularTvPageKeyDataSource
+import com.ian.app.muviepedia.data.paging.tv.toprated_tv.GetTopRatedTvPageKeyDataSource
+import com.ian.app.muviepedia.data.repo.tv.TvRepository
 import com.ian.app.muviepedia.util.MovieConstant.airingTodayPagingState
 import com.ian.app.muviepedia.util.MovieConstant.onAirPagingState
 import com.ian.app.muviepedia.util.MovieConstant.popularPagingState
@@ -19,7 +21,7 @@ import com.ian.app.muviepedia.util.MovieConstant.popularPagingState
 Created by Ian Damping on 19/06/2019.
 Github = https://github.com/iandamping
  */
-class GetTvPagingDataViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetTvPagingDataViewModel(private val repo: TvRepository) : BaseViewModel() {
     private val pageSize = 10
     private val isPlaceHolder = true
     private lateinit var tvList: LiveData<PagedList<TvData>>
@@ -38,10 +40,10 @@ class GetTvPagingDataViewModel(private val api: ApiInterface) : BaseViewModel() 
         val dataSourceFactory = object : DataSource.Factory<Int, TvData>() {
             override fun create(): DataSource<Int, TvData> {
                 return when (states) {
-                    airingTodayPagingState -> GetAiringTodayPageKeyDataSource(api, uiScope)
-                    onAirPagingState -> GetOnAirTvPageKeyDataSource(api, uiScope)
-                    popularPagingState -> GetPopularTvPageKeyDataSource(api, uiScope)
-                    else -> GetPopularTvPageKeyDataSource(api, uiScope)
+                    airingTodayPagingState -> GetAiringTodayPageKeyDataSource(repo, uiScope)
+                    onAirPagingState -> GetOnAirTvPageKeyDataSource(repo, uiScope)
+                    popularPagingState -> GetPopularTvPageKeyDataSource(repo, uiScope)
+                    else -> GetTopRatedTvPageKeyDataSource(repo, uiScope)
                 }
 
             }

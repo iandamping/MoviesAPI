@@ -1,34 +1,38 @@
 package com.ian.app.muviepedia.data.viewmodel.movie
 
-import com.ian.app.helper.util.deferredPair
-import com.ian.app.muviepedia.api.ApiInterface
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ian.app.helper.util.computeDoubleResult
+import com.ian.app.helper.util.retryIO
 import com.ian.app.muviepedia.base.BaseViewModel
-import com.ian.app.muviepedia.base.OnFailedGetData
-import com.ian.app.muviepedia.base.OnGetData
-import com.ian.app.muviepedia.base.OnSuccessGetData
-import com.ian.app.muviepedia.util.MovieConstant.api_key
-import kotlinx.coroutines.cancelChildren
+import com.ian.app.muviepedia.data.model.DetailMovieData
+import com.ian.app.muviepedia.data.model.MovieData
+import com.ian.app.muviepedia.data.repo.movie.MovieRepository
+import kotlinx.coroutines.launch
 
 /**
  *
 Created by Ian Damping on 04/06/2019.
 Github = https://github.com/iandamping
  */
-class GetDetailMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetDetailMovieViewModel(private val repo: MovieRepository) : BaseViewModel() {
+    private val _detailMovie: MutableLiveData<Pair<DetailMovieData, List<MovieData>>> = MutableLiveData()
+
+    val detailMovie: LiveData<Pair<DetailMovieData, List<MovieData>>>
+        get() = _detailMovie
 
     fun getData(movieId: Int) {
-        liveDataState.value = OnSuccessGetData(false)
-        uiScope.deferredPair(Pair(api.getDetailMovieAsync(movieId, api_key), api.getSimilarMovieAsync(movieId, api_key)), { first, second ->
-            liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnGetData(Pair(first, second.results))
-        }, {
-            liveDataState.value = OnSuccessGetData(true)
-            liveDataState.value = OnFailedGetData(it)
-        })
+        viewModelScope.launch {
+            retryIO { extractAllData(movieId) }
+
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        fetchingJob.cancelChildren()
+    private suspend fun extractAllData(movieId: Int) {
+        val work1 = repo.getDetailMovieAsync(movieId)
+        val work2 = repo.getSimilarMovieAsync(movieId)
+        _detailMovie.value = computeDoubleResult(work1.await(), work2.await().results)
     }
+
 }

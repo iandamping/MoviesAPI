@@ -76,10 +76,23 @@ class HomeFragment : BaseFragment() {
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        vm.allHomeMovie.observe(this@HomeFragment.viewLifecycleOwner, Observer {
+            onSuccessGetPopularMovie(it.first.first.toMutableList())
+            onSuccessGetNowPlayingMovie(it.first.second.toMutableList())
+            onSuccessGetTopRatedMovie(it.second.first.toMutableList())
+            onSuccessGetUpComingMovie(it.second.second.toMutableList())
+        })
+    }
     override fun initFetchNetworkData() {
-        vm.getMovies().apply {
-            vm.liveDataState.observe(this@HomeFragment.viewLifecycleOwner, Observer { extractData(it) })
-        }
+      /*  vm.allHomeMovie.observe(this@HomeFragment.viewLifecycleOwner, Observer {
+            onSuccessGetPopularMovie(it.first.first.toMutableList())
+            onSuccessGetNowPlayingMovie(it.first.second.toMutableList())
+            onSuccessGetTopRatedMovie(it.second.first.toMutableList())
+            onSuccessGetUpComingMovie(it.second.second.toMutableList())
+        })*/
+//        vm.liveDataState.observe(this@HomeFragment.viewLifecycleOwner, Observer { extractData(it) })
     }
 
     override fun onFailedGetData(msg: String?) {

@@ -1,35 +1,40 @@
 package com.ian.app.muviepedia.data.viewmodel.movie
 
-import com.ian.app.helper.util.combinePairWithPairDeferred
-import com.ian.app.muviepedia.api.ApiInterface
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ian.app.helper.util.computeQuadResult
+import com.ian.app.helper.util.retryIO
 import com.ian.app.muviepedia.base.BaseViewModel
-import com.ian.app.muviepedia.base.OnFailedGetData
-import com.ian.app.muviepedia.base.OnGetHomeMoviesData
 import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.util.MovieConstant.api_key
+import com.ian.app.muviepedia.data.repo.movie.MovieRepository
+import kotlinx.coroutines.launch
 
 /**
  *
 Created by Ian Damping on 02/06/2019.
 Github = https://github.com/iandamping
  */
-class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetHomeMovieViewModel(private val repo: MovieRepository) : BaseViewModel() {
     private val ranges = 1..10
+    private val _allHomeMovie: MutableLiveData<Pair<Pair<List<MovieData>, List<MovieData>>, Pair<List<MovieData>, List<MovieData>>>> = MutableLiveData()
 
-    fun getMovies() {
-        uiScope.combinePairWithPairDeferred(Pair(
-                Pair(api.getPopularMovieAsync(api_key), api.getNowPlayingMovieAsync(api_key)),
-                Pair(api.getTopRatedMovieAsync(api_key), api.getUpComingMovieAsync(api_key))
-        ), {
-            liveDataState.value = OnGetHomeMoviesData(
-                    Pair(
-                            Pair(popularMovieMapper(it.first.first.results), nowPlayingMovieMapper(it.first.second.results)),
-                            Pair(topRatedMovieMapper(it.second.first.results), upComingMovieMapper(it.second.second.results))
-                    )
-            )
-        }, {
-            liveDataState.value = OnFailedGetData(it)
-        })
+    val allHomeMovie: LiveData<Pair<Pair<List<MovieData>, List<MovieData>>, Pair<List<MovieData>, List<MovieData>>>>
+        get() = _allHomeMovie
+
+
+    init {
+        viewModelScope.launch {
+            retryIO { getMovies() }
+        }
+    }
+
+    private suspend fun getMovies() {
+        val work1 = repo.getPopularMovieAsync()
+        val work2 = repo.getNowPlayingAsync()
+        val work3 = repo.getTopRatedMovieAsync()
+        val work4 = repo.getUpComingMovieAsync()
+        _allHomeMovie.value = computeQuadResult(popularMovieMapper(work1.await().results), nowPlayingMovieMapper(work2.await().results), topRatedMovieMapper(work3.await().results), upComingMovieMapper(work4.await().results))
     }
 
     private fun nowPlayingMovieMapper(data: List<MovieData>?): List<MovieData> {
@@ -73,10 +78,5 @@ class GetHomeMovieViewModel(private val api: ApiInterface) : BaseViewModel() {
             }
         }
         return newData
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        fetchingJob.cancel()
     }
 }

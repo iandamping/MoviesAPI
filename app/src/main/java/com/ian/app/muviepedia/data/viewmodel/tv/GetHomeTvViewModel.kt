@@ -1,35 +1,42 @@
 package com.ian.app.muviepedia.data.viewmodel.tv
 
-import com.ian.app.helper.util.combinePairWithPairDeferred
-import com.ian.app.muviepedia.api.ApiInterface
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ian.app.helper.util.computeQuadResult
+import com.ian.app.helper.util.retryIO
 import com.ian.app.muviepedia.base.BaseViewModel
-import com.ian.app.muviepedia.base.OnFailedGetData
-import com.ian.app.muviepedia.base.OnGetHomeTvData
 import com.ian.app.muviepedia.data.model.TvData
-import com.ian.app.muviepedia.util.MovieConstant.api_key
+import com.ian.app.muviepedia.data.repo.tv.TvRepository
+import kotlinx.coroutines.launch
 
 /**
  *
 Created by Ian Damping on 19/06/2019.
 Github = https://github.com/iandamping
  */
-class GetHomeTvViewModel(private val api: ApiInterface) : BaseViewModel() {
+class GetHomeTvViewModel(private val repo: TvRepository) : BaseViewModel() {
     private val ranges = 1..10
 
-    fun getTv() {
-        uiScope.combinePairWithPairDeferred(Pair(
-                Pair(api.getPopularTvAsync(api_key), api.getTopRatedTvAsync(api_key))
-                , Pair(api.getAiringTodayTvAsync(api_key), api.getOnAirTvAsync(api_key))
-        ), {
-            liveDataState.value = OnGetHomeTvData(
-                    Pair(
-                            Pair(popularTvMapper(it.first.first.results), topRatedTvMapper(it.first.second.results)),
-                            Pair(airingTodayTvMapper(it.second.first.results), onAirTvMapper(it.second.second.results))
-                    )
-            )
-        }, {
-            liveDataState.value = OnFailedGetData(it)
-        })
+    private val _allHomeTv: MutableLiveData<Pair<Pair<List<TvData>, List<TvData>>, Pair<List<TvData>, List<TvData>>>> = MutableLiveData()
+
+    val allHomeMovie: LiveData<Pair<Pair<List<TvData>, List<TvData>>, Pair<List<TvData>, List<TvData>>>>
+        get() = _allHomeTv
+
+    init {
+        viewModelScope.launch {
+            retryIO { getTv() }
+        }
+
+    }
+
+    private suspend fun getTv() {
+        val work1 = repo.getPopularTvAsync()
+        val work2 = repo.getTopRatedTvAsync()
+        val work3 = repo.getAiringTodayTvAsync()
+        val work4 = repo.getOnAirTvAsync()
+        _allHomeTv.value = computeQuadResult(popularTvMapper(work1.await().results), topRatedTvMapper(work2.await().results),
+                airingTodayTvMapper(work3.await().results), onAirTvMapper(work4.await().results))
     }
 
     private fun topRatedTvMapper(data: List<TvData>?): List<TvData> {

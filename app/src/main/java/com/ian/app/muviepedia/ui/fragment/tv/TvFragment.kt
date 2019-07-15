@@ -73,10 +73,25 @@ class TvFragment : BaseFragment() {
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        vm.allHomeMovie.observe(this@TvFragment.viewLifecycleOwner, Observer {
+            onSuccessGetNowPopularTv(it.first.first.toMutableList())
+            onSuccessGetTopRatedTv(it.first.second.toMutableList())
+            onSuccessGetAiringTodayTv(it.second.first.toMutableList())
+            onSuccessGetOnAirTv(it.second.second.toMutableList())
+        })
+    }
     override fun initFetchNetworkData() {
-        vm.getTv().apply {
+       /* vm.allHomeMovie.observe(this@TvFragment.viewLifecycleOwner, Observer {
+            onSuccessGetNowPopularTv(it.first.first.toMutableList())
+            onSuccessGetTopRatedTv(it.first.second.toMutableList())
+            onSuccessGetAiringTodayTv(it.second.first.toMutableList())
+            onSuccessGetOnAirTv(it.second.second.toMutableList())
+        })*/
+        /*vm.getTv().apply {
             vm.liveDataState.observe(this@TvFragment.viewLifecycleOwner, Observer { extractData(it) })
-        }
+        }*/
     }
 
     private fun extractData(data: BaseState) {
