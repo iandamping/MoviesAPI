@@ -53,6 +53,7 @@ class ProfileFragment : Fragment(), ProfileView {
         }
         if (data.emailUser != null) {
             actualView?.tvEmailUser?.text = data.emailUser
+
         }
 
         if (data.emailUser != null) {
