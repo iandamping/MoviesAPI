@@ -1,1 +1,169 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+    versionCatalogs {
+        libs {
+            version('coroutine-version', '1.6.4')
+            version('moshi-version', '1.9.3')
+            version('gson-version', '2.9.0')
+            version('navigation-version', '2.6.0')
+            version('room-version', '2.4.3')
+            version('datastore-version', '1.0.0')
+            version('coil-version', '2.2.2')
+            version('timber-version', '5.0.1')
+            version('hilt-version', '2.44.2')
+            version('dagger-version', '2.44.2')
+            version('hilt-navigation-compose-version', '1.0.0')
+            version('retrofit-version', '2.9.0')
+            version('okhttp3-version', '4.10.0')
+            version('activity-compose-version', '1.7.2')
+            version('viewmodel-compose-version', '2.6.1')
+            version('lottie-compose-version', '5.2.0')
+            version('lottie-view-version', '5.2.0')
+            version('accompanist-pager-compose-version', '0.25.0')
+            version('composebom', '2023.05.01')
+            version('compose', '1.4.7')
+            version('paging-version', '3.1.1')
+            version('paging-compose-version', '3.2.0-rc01')
+            version('splash-screen-version', '1.0.0')
+            version('androidx-core-version', '1.8.0')
+            version('lifecycle-runtime-version', '2.3.1')
+            version('constraint-compose-version', '1.0.1')
+            version('shimmer-version', '0.5.0')
+
+
+
+            //androidx
+            library('androidx-core', 'androidx.core', 'core-ktx').versionRef('androidx-core-version')
+            //androidx-runtime
+            library('androidx-lifecycle-runtime', 'androidx.lifecycle', 'lifecycle-runtime').versionRef('lifecycle-runtime-version')
+            library('androidx-lifecycle-extensions', 'androidx.lifecycle', 'lifecycle-extensions').versionRef('lifecycle-runtime-version')
+            library('androidx-viewmodel-ktx', 'androidx.lifecycle', 'lifecycle-viewmodel-ktx').versionRef('lifecycle-runtime-version')
+
+            //activity
+            library('activity-compose', 'androidx.activity', 'activity-compose').versionRef('activity-compose-version')
+            //viewModel
+            library('viewmodel-compose', 'androidx.lifecycle', 'lifecycle-viewmodel-compose').versionRef('viewmodel-compose-version')
+            //coroutine
+            library('coroutine-core', 'org.jetbrains.kotlinx', 'kotlinx-coroutines-core').versionRef('coroutine-version')
+            library('coroutine-android', 'org.jetbrains.kotlinx', 'kotlinx-coroutines-android').versionRef('coroutine-version')
+            //hilt
+            library('hilt', 'com.google.dagger', 'hilt-android').versionRef('hilt-version')
+            library('hilt-kapt', 'com.google.dagger', 'hilt-android-compiler').versionRef('hilt-version')
+            library('hilt-navigation-compose', 'androidx.hilt', 'hilt-navigation-compose').versionRef('hilt-navigation-compose-version')
+            //dagger
+            library('dagger', 'com.google.dagger', 'dagger').versionRef('dagger-version')
+            library('dagger-kapt', 'com.google.dagger', 'dagger-compiler').versionRef('dagger-version')
+            //room
+            library('room', 'androidx.room', 'room-ktx').versionRef('room-version')
+            library('room-kapt', 'androidx.room', 'room-compiler').versionRef('room-version')
+            library('room-paging', 'androidx.room', 'room-paging').versionRef('room-version')
+            //datastore
+            library('datastore-core', 'androidx.datastore', 'datastore-preferences-core').versionRef('datastore-version')
+            library('datastore', 'androidx.datastore', 'datastore-preferences').versionRef('datastore-version')
+            //gson
+            library('gson', 'com.google.code.gson', 'gson').versionRef('gson-version')
+            //moshi
+            library('moshi', 'com.squareup.moshi', 'moshi-kotlin').versionRef('moshi-version')
+            //coil
+            library('coil-compose', 'io.coil-kt', 'coil-compose').versionRef('coil-version')
+            library('coil-view', 'io.coil-kt', 'coil').versionRef('coil-version')
+            //timber
+            library('timber', 'com.jakewharton.timber', 'timber').versionRef('timber-version')
+            //navigation
+            library('navigation-compose', 'androidx.navigation', 'navigation-compose').versionRef('navigation-version')
+            library('navigation-fragment', 'androidx.navigation', 'navigation-fragment-ktx').versionRef('navigation-version')
+            library('navigation-ui', 'androidx.navigation', 'navigation-ui-ktx').versionRef('navigation-version')
+            //splash
+            library('splash-screen', 'androidx.core', 'core-splashscreen').versionRef('splash-screen-version')
+            //retrofit
+            library('retrofit', 'com.squareup.retrofit2', 'retrofit').versionRef('retrofit-version')
+            library('retrofit-moshi-converter', 'com.squareup.retrofit2', 'converter-moshi').versionRef('retrofit-version')
+            //okhttp
+            library('okhttp', 'com.squareup.okhttp3', 'okhttp').versionRef('okhttp3-version')
+            library('okhttp-logger', 'com.squareup.okhttp3', 'logging-interceptor').versionRef('okhttp3-version')
+            //paging
+            library('paging-runtime', 'androidx.paging', 'paging-runtime').versionRef('paging-version')
+            library('paging-common', 'androidx.paging', 'paging-common-ktx').versionRef('paging-version')
+            library('paging-compose', 'androidx.paging', 'paging-compose').versionRef('paging-compose-version')
+            //accompanist pager
+            library('accompanist-pager', 'com.google.accompanist', 'accompanist-pager').versionRef('accompanist-pager-compose-version')
+            library('accompanist-pager-indicator', 'com.google.accompanist', 'accompanist-pager-indicators').versionRef('accompanist-pager-compose-version')
+            //lottie compose
+            library('lottie-compose', 'com.airbnb.android', 'lottie-compose').versionRef('lottie-compose-version')
+            //lottie view
+            library('lottie-view', 'com.airbnb.android', 'lottie').versionRef('lottie-view-version')
+            //shimmer
+            library('shimmer-view', 'com.facebook.shimmer', 'shimmer').versionRef('shimmer-version')
+            //constraint compose
+            library('constraint-compose', 'androidx.constraintlayout', 'constraintlayout-compose').versionRef('constraint-compose-version')
+
+
+            bundle('okhttp-bundle', ['okhttp', 'okhttp-logger'])
+            bundle('lifecycle-bundle', ['androidx-lifecycle-runtime', 'androidx-lifecycle-extensions', 'androidx-viewmodel-ktx'])
+            bundle('datastore-bundle', ['datastore-core', 'datastore'])
+            bundle('retrofit-bundle', ['retrofit', 'retrofit-moshi-converter'])
+            bundle('coroutine-bundle', ['coroutine-core', 'coroutine-android'])
+            bundle('navigation-view', ['navigation-fragment', 'navigation-ui'])
+            bundle('accompanist-pager-bundle', ['accompanist-pager', 'accompanist-pager-indicator'])
+        }
+        unitTestLibs {
+            version('junit-version', '4.13.2')
+            version('hilt-version', '2.44.2')
+            version('coroutine-version', '1.6.4')
+            version('androidx-core-version', '2.1.0')
+            version('mockito-version', '4.4.0')
+            version('mockk-version', '1.13.5')
+
+            library('junit', 'junit', 'junit').versionRef('junit-version')
+            library('androidx-core', 'androidx.arch.core', 'core-testing').versionRef('androidx-core-version')
+            library('hilt-unit-test', 'com.google.dagger', 'hilt-android-testing').versionRef('hilt-version')
+            library('hilt-kapt-unit-test', 'com.google.dagger', 'hilt-android-compiler').versionRef('hilt-version')
+            library('coroutine-unit-test', 'org.jetbrains.kotlinx', 'kotlinx-coroutines-test').versionRef('coroutine-version')
+            library('mockito-core', 'org.mockito', 'mockito-core').versionRef('mockito-version')
+            library('mockito-inline', 'org.mockito', 'mockito-inline').versionRef('mockito-version')
+            library('mockk', 'io.mockk', 'mockk').versionRef('mockk-version')
+
+            bundle('mockito', ['mockito-core', 'mockito-inline'])
+        }
+        androidTestLibs {
+            version('junit-version', '1.1.5')
+            version('junit-compose-version', '1.4.3')
+            version('espresso-version', '3.5.1')
+            version('hilt-version', '2.44.2')
+            version('coroutine-version', '1.6.4')
+            version('navigation-compose-version', '2.5.3')
+            version('espresso-core-version', '3.5.1')
+
+            library('instrumentation-test', 'androidx.test.ext', 'junit').versionRef('junit-version')
+            library('instrumentation-compose-test', 'androidx.compose.ui', 'ui-test-junit4').versionRef('junit-compose-version')
+            library('espresso', 'androidx.test.espresso', 'espresso-core').versionRef('espresso-version')
+            library('hilt-instrumentation-test', 'com.google.dagger', 'hilt-android-testing').versionRef('hilt-version')
+            library('hilt-kapt-instrumentation-test', 'com.google.dagger', 'hilt-android-compiler').versionRef('hilt-version')
+            library('coroutine-instrumentation-test', 'org.jetbrains.kotlinx', 'kotlinx-coroutines-test').versionRef('coroutine-version')
+            library('navigation-instrumentation-test', 'androidx.navigation', 'navigation-testing').versionRef('navigation-compose-version')
+            bundle('instrumentation', ['instrumentation-test', 'espresso'])
+        }
+
+        debugLibs{
+            version('ui-manifeest-compose-version', '1.4.3')
+            version('lottie-compose-version', '4.1.0')
+            library('ui-manifest-compose-test', 'androidx.compose.ui', 'ui-test-manifest').versionRef('ui-manifeest-compose-version')
+            library('lottie-compose', 'com.airbnb.android', 'lottie-compose').versionRef('lottie-compose-version')
+
+        }
+
+    }
+}
+rootProject.name = "Foodiepedia uploader compose"
 include ':app'
