@@ -165,5 +165,5 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Foodiepedia uploader compose"
+rootProject.name = "MoviePedia"
 include ':app'
