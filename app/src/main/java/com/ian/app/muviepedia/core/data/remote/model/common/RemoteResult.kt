@@ -1,5 +1,6 @@
-package com.ian.app.muviepedia.model
+package com.ian.app.muviepedia.core.data.remote.model.common
 
+import com.ian.app.muviepedia.core.data.remote.model.BaseResponse
 import retrofit2.Response
 
 sealed class RemoteBaseResult<out T> {

@@ -1,9 +1,9 @@
-package com.ian.app.muviepedia.remote.helper
+package com.ian.app.muviepedia.core.data.remote.helper
 
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.model.BaseResponse
-import com.ian.app.muviepedia.model.RemoteBaseResult
-import com.ian.app.muviepedia.model.RemoteResult
+import com.ian.app.muviepedia.core.data.remote.model.BaseResponse
+import com.ian.app.muviepedia.core.data.remote.model.common.RemoteBaseResult
+import com.ian.app.muviepedia.core.data.remote.model.common.RemoteResult
 import com.ian.app.muviepedia.util.UtilityHelper
 import retrofit2.Response
 import java.net.SocketException
@@ -11,7 +11,8 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class RemoteHelperImpl @Inject constructor(private val utilityHelper: UtilityHelper) : RemoteHelper {
+class RemoteHelperImpl @Inject constructor(private val utilityHelper: UtilityHelper) :
+    RemoteHelper {
 
     override suspend fun <T> remoteWithBaseCall(call: Response<BaseResponse<T>>): RemoteBaseResult<T> {
         return try {

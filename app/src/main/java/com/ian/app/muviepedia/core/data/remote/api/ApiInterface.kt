@@ -1,7 +1,10 @@
-package com.ian.app.muviepedia.remote.api
+package com.ian.app.muviepedia.core.data.remote.api
 
 import com.ian.app.muviepedia.data.model.*
-import com.ian.app.muviepedia.model.BaseResponse
+import com.ian.app.muviepedia.core.data.remote.model.BaseResponse
+import com.ian.app.muviepedia.core.data.remote.model.response.DetailMovieResponse
+import com.ian.app.muviepedia.core.data.remote.model.response.MovieDataResponse
+import com.ian.app.muviepedia.core.data.remote.model.response.TvDataResponse
 import com.ian.app.muviepedia.util.MovieConstant.airingTodayTv
 import com.ian.app.muviepedia.util.MovieConstant.detailMovie
 import com.ian.app.muviepedia.util.MovieConstant.detailTv
@@ -27,66 +30,66 @@ Github = https://github.com/iandamping
 interface ApiInterface {
     /*Movie Session*/
     @GET(popularMovie)
-    suspend fun getPopularMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieData>>
+    suspend fun getPopularMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieDataResponse>>
 
     @GET(nowPlayingMovie)
-    suspend fun getNowPlayingMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieData>>
+    suspend fun getNowPlayingMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieDataResponse>>
 
     @GET(topRatedMovie)
-    suspend fun getTopRatedMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieData>>
+    suspend fun getTopRatedMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieDataResponse>>
 
     @GET(upComingMovie)
-    suspend fun getUpComingMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieData>>
+    suspend fun getUpComingMovieAsync(@Query("api_key") apiKey: String): Response<BaseResponse<MovieDataResponse>>
 
     @GET("$detailMovie{movie}")
     suspend fun getDetailMovieAsync(
         @Path("movie") movieId: Int,
         @Query("api_key") apiKey: String
-    ): Response<DetailMovieData>
+    ): Response<DetailMovieResponse>
 
     @GET("$similarMovie{movie_id}/similar")
     suspend fun getSimilarMovieAsync(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String
-    ): Response<BaseResponse<MovieData>>
+    ): Response<BaseResponse<MovieDataResponse>>
 
     /*Movie Paging session*/
     @GET(popularMovie)
     suspend fun pagingGetPopularMovieAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<MovieData>>
+    ): Response<BaseResponse<MovieDataResponse>>
 
     @GET(nowPlayingMovie)
     suspend fun pagingGetNowPlayingMovieMovieAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<MovieData>>
+    ): Response<BaseResponse<MovieDataResponse>>
 
     @GET(topRatedMovie)
     suspend fun pagingGetTopRatedMovieAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<MovieData>>
+    ): Response<BaseResponse<MovieDataResponse>>
 
     @GET(upComingMovie)
     suspend fun pagingGetUpComingMovieAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<MovieData>>
+    ): Response<BaseResponse<MovieDataResponse>>
 
     /*Tv Session*/
     @GET(popularTv)
-    suspend fun getPopularTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvData>>
+    suspend fun getPopularTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
 
     @GET(topRatedTv)
-    suspend fun getTopRatedTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvData>>
+    suspend fun getTopRatedTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
 
     @GET(airingTodayTv)
-    suspend fun getAiringTodayTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvData>>
+    suspend fun getAiringTodayTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
 
     @GET(onAirTv)
-    suspend fun getOnAirTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvData>>
+    suspend fun getOnAirTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
 
     @GET("$detailTv{tv_id}")
     suspend fun getDetailTvAsync(
@@ -98,31 +101,31 @@ interface ApiInterface {
     suspend fun getSimilarTvAsync(
         @Path("tv_id") tvId: Int,
         @Query("api_key") apiKey: String
-    ): Response<BaseResponse<TvData>>
+    ): Response<BaseResponse<TvDataResponse>>
 
     /*Tv Paging session*/
     @GET(popularTv)
     suspend fun pagingGetPopularTvAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<TvData>>
+    ): Response<BaseResponse<TvDataResponse>>
 
     @GET(topRatedTv)
     suspend fun pagingGetTopRatedTvAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<TvData>>
+    ): Response<BaseResponse<TvDataResponse>>
 
     @GET(airingTodayTv)
     suspend fun pagingGetAiringTodayTvAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<TvData>>
+    ): Response<BaseResponse<TvDataResponse>>
 
     @GET(onAirTv)
     suspend fun pagingGetOnAirTvAsync(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
-    ): Response<BaseResponse<TvData>>
+    ): Response<BaseResponse<TvDataResponse>>
 
 }

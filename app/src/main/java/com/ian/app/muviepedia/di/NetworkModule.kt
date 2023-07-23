@@ -1,7 +1,7 @@
 package com.ian.app.muviepedia.di
 
 import com.google.gson.GsonBuilder
-import com.ian.app.muviepedia.api.ApiInterface
+import com.ian.app.muviepedia.core.data.remote.api.ApiInterface
 import com.ian.app.muviepedia.util.MovieConstant.baseUrl
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Dispatcher

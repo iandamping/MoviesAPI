@@ -1,13 +1,13 @@
-package com.ian.app.muviepedia.remote
+package com.ian.app.muviepedia.core.data.remote.source.movie
 
-import com.ian.app.muviepedia.data.model.DetailMovieData
-import com.ian.app.muviepedia.data.model.MovieData
-import com.ian.app.muviepedia.model.BaseResponse
-import com.ian.app.muviepedia.model.DataSource
-import com.ian.app.muviepedia.model.RemoteBaseResult
-import com.ian.app.muviepedia.model.RemoteResult
-import com.ian.app.muviepedia.remote.api.ApiInterface
-import com.ian.app.muviepedia.remote.helper.RemoteHelper
+import com.ian.app.muviepedia.core.data.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.remote.helper.RemoteHelper
+import com.ian.app.muviepedia.core.data.remote.model.BaseResponse
+import com.ian.app.muviepedia.core.data.remote.model.common.DataSource
+import com.ian.app.muviepedia.core.data.remote.model.common.RemoteBaseResult
+import com.ian.app.muviepedia.core.data.remote.model.common.RemoteResult
+import com.ian.app.muviepedia.core.data.remote.model.response.DetailMovieResponse
+import com.ian.app.muviepedia.core.data.remote.model.response.MovieDataResponse
 import javax.inject.Inject
 
 class MovieRemoteDataSourceImpl @Inject constructor(
@@ -15,7 +15,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     injectedRemoteHelper: RemoteHelper
 ) : RemoteHelper by injectedRemoteHelper, MovieRemoteDataSource {
 
-    override suspend fun getDetailMovie(movieId: Int): DataSource<DetailMovieData> {
+    override suspend fun getDetailMovie(movieId: Int): DataSource<DetailMovieResponse> {
         return when (val data =
             remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = ""))) {
             is RemoteResult.Error -> DataSource.Error(data.exception.message ?: "")
@@ -28,7 +28,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSimilarMovie(movieId: Int): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getSimilarMovie(movieId: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.getSimilarMovieAsync(
                 movieId = movieId,
@@ -45,7 +45,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPopularMovie(): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getPopularMovie(): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(api.getPopularMovieAsync(""))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
@@ -57,7 +57,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNowPlaying(): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getNowPlaying(): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(api.getNowPlayingMovieAsync(""))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
@@ -69,7 +69,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTopRatedMovie(): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getTopRatedMovie(): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(api.getTopRatedMovieAsync(""))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
@@ -81,7 +81,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUpComingMovie(): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getUpComingMovie(): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(api.getUpComingMovieAsync(""))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
@@ -93,7 +93,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetNowPlayingMovieMovieAsync(
                 apiKey = "",
@@ -110,7 +110,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetPopularMovieAsync(
                 apiKey = "",
@@ -127,7 +127,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetTopRatedMovieAsync(
                 apiKey = "",
@@ -144,7 +144,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieData>> {
+    override suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetUpComingMovieAsync(
                 apiKey = "",

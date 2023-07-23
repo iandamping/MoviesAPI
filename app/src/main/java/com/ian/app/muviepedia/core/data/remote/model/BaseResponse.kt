@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.model
+package com.ian.app.muviepedia.core.data.remote.model
 
 import com.squareup.moshi.Json
 

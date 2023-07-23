@@ -1,8 +1,8 @@
 package com.ian.app.muviepedia.di.module
 
 import com.ian.app.muviepedia.di.scope.ApplicationScoped
-import com.ian.app.muviepedia.remote.api.ApiInterface
-import com.ian.app.muviepedia.remote.api.NetworkConstant
+import com.ian.app.muviepedia.core.data.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.remote.api.NetworkConstant
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -16,7 +16,6 @@ object NetworkModule {
 
 
     @Provides
-    @ApplicationScoped
     fun provideHttpClientForHomeScreen(): OkHttpClient {
         val logInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.model
+package com.ian.app.muviepedia.core.data.remote.model.common
 
 sealed class DataSource<out T> {
     data class Success<out T>(val data: T) : DataSource<T>()
