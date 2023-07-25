@@ -2,9 +2,9 @@ package com.ian.app.muviepedia.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.ian.app.muviepedia.core.data.cache.db.MoviePediaDatabase
-import com.ian.app.muviepedia.core.data.cache.db.dao.MovieDao
-import com.ian.app.muviepedia.core.data.cache.db.dao.TvDao
+import com.ian.app.muviepedia.core.data.dataSource.cache.db.MoviePediaDatabase
+import com.ian.app.muviepedia.core.data.dataSource.cache.db.dao.MovieDao
+import com.ian.app.muviepedia.core.data.dataSource.cache.db.dao.TvDao
 import com.ian.app.muviepedia.di.qualifier.ApplicationContext
 import com.ian.app.muviepedia.di.scope.ApplicationScoped
 import dagger.Module
