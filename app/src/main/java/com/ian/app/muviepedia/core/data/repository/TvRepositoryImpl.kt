@@ -9,7 +9,8 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.source.tv.TvRemoteData
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
-import com.ian.app.muviepedia.core.data.repository.model.mapListToDomain
+import com.ian.app.muviepedia.core.data.repository.model.mapLocalTelevisionListToDomain
+import com.ian.app.muviepedia.core.data.repository.model.mapRemoteTelevisionListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapToDomain
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.helper.NetworkBoundResource
@@ -56,7 +57,7 @@ class TvRepositoryImpl @Inject constructor(
                 is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
                 is DataSource.Success -> {
                     val data = withContext(defaultDispatcher) {
-                        remoteData.data.results.mapListToDomain()
+                        remoteData.data.results.mapRemoteTelevisionListToDomain()
                     }
                     emit(DomainSource.Success(data))
                 }
@@ -70,7 +71,7 @@ class TvRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Television>> {
                 return localDataSource.loadAllTvDataByType(TvType.Popular.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalTelevisionListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -80,6 +81,14 @@ class TvRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
                 return remoteDataSource.getPopularTv()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                return true
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAllData()
             }
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
@@ -107,7 +116,7 @@ class TvRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Television>> {
                 return localDataSource.loadAllTvDataByType(TvType.TopRated.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalTelevisionListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -117,6 +126,14 @@ class TvRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
                 return remoteDataSource.getPopularTv()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                return true
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAllData()
             }
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
@@ -144,7 +161,7 @@ class TvRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Television>> {
                 return localDataSource.loadAllTvDataByType(TvType.AiringToday.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalTelevisionListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -154,6 +171,14 @@ class TvRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
                 return remoteDataSource.getPopularTv()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                return true
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAllData()
             }
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
@@ -181,7 +206,7 @@ class TvRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Television>> {
                 return localDataSource.loadAllTvDataByType(TvType.OnAir.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalTelevisionListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -192,6 +217,15 @@ class TvRepositoryImpl @Inject constructor(
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
                 return remoteDataSource.getPopularTv()
             }
+
+            override suspend fun isItemSame(): Boolean {
+                return true
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAllData()
+            }
+
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {

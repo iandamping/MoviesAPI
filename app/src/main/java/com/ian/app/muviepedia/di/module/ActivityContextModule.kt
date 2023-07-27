@@ -12,6 +12,6 @@ class ActivityContextModule {
     @Provides
     @ActivityContext
     fun provideContext(activity: FragmentActivity): Context {
-        return activity as Context
+        return activity
     }
 }

@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace 'com.ian.app.muviepedia'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.ian.app.muviepedia"
-        minSdkVersion 19
-        targetSdkVersion 33
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -29,6 +29,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -36,11 +40,19 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
+
+    kapt {
+        correctErrorTypes true
     }
+
+    buildFeatures {
+        viewBinding true
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'MOVIE_API_KEY', MOVIE_API_KEY
+    }
+
+
 }
 
 dependencies {
@@ -56,14 +68,14 @@ dependencies {
     testImplementation(unitTestLibs.junit)
     testImplementation(unitTestLibs.mockk)
     androidTestImplementation(androidTestLibs.bundles.instrumentation)
-    //firebase
     //gson
     implementation(libs.moshi)
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
     implementation "com.google.firebase:firebase-database"
     implementation "com.google.firebase:firebase-storage"
-
+    //coil
+    implementation (libs.coil.view)
     //livedata
     implementation (libs.bundles.lifecycle.bundle)
     //navigation
@@ -80,7 +92,9 @@ dependencies {
     //internet & logging
     implementation (libs.bundles.okhttp.bundle)
     implementation (libs.bundles.retrofit.bundle)
-
+    //epoxy
+    implementation (libs.epoxy)
+    kapt(libs.epoxy.kapt)
     //lottie
     implementation(libs.lottie.view)
     //shimmer
@@ -93,3 +107,4 @@ dependencies {
     implementation (libs.bundles.coroutine.bundle)
 
 }
+

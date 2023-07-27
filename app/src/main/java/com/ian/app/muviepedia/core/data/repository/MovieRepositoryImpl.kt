@@ -9,7 +9,8 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.source.movie.MovieRemo
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
-import com.ian.app.muviepedia.core.data.repository.model.mapListToDomain
+import com.ian.app.muviepedia.core.data.repository.model.mapLocalMovieListToDomain
+import com.ian.app.muviepedia.core.data.repository.model.mapRemoteMovieListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapToDomain
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.helper.NetworkBoundResource
@@ -18,6 +19,7 @@ import com.ian.app.muviepedia.di.qualifier.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -33,6 +35,9 @@ class MovieRepositoryImpl @Inject constructor(
     companion object {
         private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
     }
+
+    private infix fun <T> List<T>.equalsIgnoreOrder(other: List<T>) =
+        this.size == other.size && this.toSet() == other.toSet()
 
     private fun Long.isExpired(): Boolean = (System.currentTimeMillis() - this) > CACHE_EXPIRY
 
@@ -56,7 +61,7 @@ class MovieRepositoryImpl @Inject constructor(
                 is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
                 is DataSource.Success -> {
                     val data = withContext(defaultDispatcher) {
-                        remoteData.data.results.mapListToDomain()
+                        remoteData.data.results.mapRemoteMovieListToDomain()
                     }
                     emit(DomainSource.Success(data))
                 }
@@ -71,16 +76,40 @@ class MovieRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.loadAllMovieDataByType(MovieType.Popular.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalMovieListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
-                val data = localDataSource.loadAllMovieDataByType(MovieType.Popular.name).first()
-                return data.first().timeStamp.isExpired()
+                val data =
+                    localDataSource.loadAllMovieDataByType(MovieType.Popular.name).firstOrNull()
+                val isExpired = data?.firstOrNull()?.timeStamp?.isExpired()
+                return isExpired ?: false
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
                 return remoteDataSource.getPopularMovie()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                val localData = localDataSource.loadAllMovieDataByType(MovieType.Popular.name).firstOrNull()
+                val remoteData = remoteDataSource.getPopularMovie()
+                return if (localData!=null){
+                    when(remoteData){
+                        is DataSource.Error -> false
+                        is DataSource.Success ->{
+                            val remoteNames = remoteData.data.results.map { it.title }
+                            val localNames = localData.map { it.title }
+                            localNames equalsIgnoreOrder remoteNames
+                        }
+                    }
+                } else {
+                    false
+                }
+
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAll()
             }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
@@ -108,7 +137,7 @@ class MovieRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalMovieListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -118,6 +147,27 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
                 return remoteDataSource.getPopularMovie()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                val localData = localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name).firstOrNull()
+                val remoteData = remoteDataSource.getPopularMovie()
+                return if (localData!=null){
+                    when(remoteData){
+                        is DataSource.Error -> false
+                        is DataSource.Success ->{
+                            val remoteNames = remoteData.data.results.map { it.title }
+                            val localNames = localData.map { it.title }
+                            localNames equalsIgnoreOrder remoteNames
+                        }
+                    }
+                } else {
+                    false
+                }
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAll()
             }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
@@ -145,7 +195,7 @@ class MovieRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.loadAllMovieDataByType(MovieType.TopRated.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalMovieListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -155,6 +205,27 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
                 return remoteDataSource.getPopularMovie()
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAll()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                val localData = localDataSource.loadAllMovieDataByType(MovieType.TopRated.name).firstOrNull()
+                val remoteData = remoteDataSource.getPopularMovie()
+                return if (localData!=null){
+                    when(remoteData){
+                        is DataSource.Error -> false
+                        is DataSource.Success ->{
+                            val remoteNames = remoteData.data.results.map { it.title }
+                            val localNames = localData.map { it.title }
+                            localNames equalsIgnoreOrder remoteNames
+                        }
+                    }
+                } else {
+                    false
+                }
             }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
@@ -182,7 +253,7 @@ class MovieRepositoryImpl @Inject constructor(
 
             override fun loadFromDB(): Flow<List<Movie>> {
                 return localDataSource.loadAllMovieDataByType(MovieType.UpComing.name)
-                    .map { it.mapListToDomain() }
+                    .map { it.mapLocalMovieListToDomain() }
             }
 
             override suspend fun isExpired(): Boolean {
@@ -192,6 +263,27 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
                 return remoteDataSource.getPopularMovie()
+            }
+
+            override suspend fun clearFirst() {
+                localDataSource.deleteAll()
+            }
+
+            override suspend fun isItemSame(): Boolean {
+                val localData = localDataSource.loadAllMovieDataByType(MovieType.UpComing.name).firstOrNull()
+                val remoteData = remoteDataSource.getPopularMovie()
+                return if (localData!=null){
+                    when(remoteData){
+                        is DataSource.Error -> false
+                        is DataSource.Success ->{
+                            val remoteNames = remoteData.data.results.map { it.title }
+                            val localNames = localData.map { it.title }
+                            localNames equalsIgnoreOrder remoteNames
+                        }
+                    }
+                } else {
+                    false
+                }
             }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {

@@ -37,17 +37,15 @@ dependencyResolutionManagement {
             version('paging-compose-version', '3.2.0-rc01')
             version('splash-screen-version', '1.0.0')
             version('androidx-core-version', '1.8.0')
-            version('lifecycle-runtime-version', '2.3.1')
+            version('lifecycle-runtime-version', '2.6.1')
             version('constraint-compose-version', '1.0.1')
             version('shimmer-version', '0.5.0')
-
-
+            version('epoxy-version', '5.1.1')
 
             //androidx
             library('androidx-core', 'androidx.core', 'core-ktx').versionRef('androidx-core-version')
             //androidx-runtime
             library('androidx-lifecycle-runtime', 'androidx.lifecycle', 'lifecycle-runtime').versionRef('lifecycle-runtime-version')
-            library('androidx-lifecycle-extensions', 'androidx.lifecycle', 'lifecycle-extensions').versionRef('lifecycle-runtime-version')
             library('androidx-viewmodel-ktx', 'androidx.lifecycle', 'lifecycle-viewmodel-ktx').versionRef('lifecycle-runtime-version')
 
             //activity
@@ -107,10 +105,13 @@ dependencyResolutionManagement {
             library('shimmer-view', 'com.facebook.shimmer', 'shimmer').versionRef('shimmer-version')
             //constraint compose
             library('constraint-compose', 'androidx.constraintlayout', 'constraintlayout-compose').versionRef('constraint-compose-version')
+            //epoxy
+            library('epoxy', 'com.airbnb.android', 'epoxy').versionRef('epoxy-version')
+            library('epoxy-kapt', 'com.airbnb.android', 'epoxy-processor').versionRef('epoxy-version')
 
 
             bundle('okhttp-bundle', ['okhttp', 'okhttp-logger'])
-            bundle('lifecycle-bundle', ['androidx-lifecycle-runtime', 'androidx-lifecycle-extensions', 'androidx-viewmodel-ktx'])
+            bundle('lifecycle-bundle', ['androidx-lifecycle-runtime', 'androidx-viewmodel-ktx'])
             bundle('datastore-bundle', ['datastore-core', 'datastore'])
             bundle('retrofit-bundle', ['retrofit', 'retrofit-moshi-converter'])
             bundle('coroutine-bundle', ['coroutine-core', 'coroutine-android'])

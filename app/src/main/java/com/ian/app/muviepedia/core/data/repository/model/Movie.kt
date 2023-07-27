@@ -53,7 +53,7 @@ fun MovieDataResponse.mapToDomain(): Movie = Movie(
     release_date = release_date ?: ""
 )
 
-fun List<LocalMovieEntity>.mapListToDomain():List<Movie> = this.map { it.mapToDomain() }
+fun List<LocalMovieEntity>.mapLocalMovieListToDomain():List<Movie> = this.map { it.mapToDomain() }
 
 
-fun List<MovieDataResponse>.mapListToDomain():List<Movie> = this.map { it.mapToDomain() }
+fun List<MovieDataResponse>.mapRemoteMovieListToDomain():List<Movie> = this.map { it.mapToDomain() }

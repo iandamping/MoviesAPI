@@ -18,15 +18,15 @@ class TvLocalDataSourceImpl @Inject constructor(private val tvDao: TvDao) : TvLo
         return tvDao.loadAllTvDataByType(type)
     }
 
-    override fun insertTvData(vararg inputTv: LocalTvEntity) {
+    override suspend fun insertTvData(vararg inputTv: LocalTvEntity) {
         tvDao.insertTvData(inputTv = inputTv)
     }
 
-    override fun deleteAllData() {
+    override suspend fun deleteAllData() {
         tvDao.deleteAllData()
     }
 
-    override fun deleteSelectedId(selectedId: Int) {
+    override suspend fun deleteSelectedId(selectedId: Int) {
         tvDao.deleteSelectedId(selectedId)
     }
 }

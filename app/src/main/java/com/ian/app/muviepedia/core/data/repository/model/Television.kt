@@ -46,7 +46,7 @@ fun TvDataResponse.mapToDomain(): Television = Television(
     posterPath = this.poster_path ?: ""
 )
 
-fun List<LocalTvEntity>.mapListToDomain(): List<Television> = this.map { it.mapToDomain() }
+fun List<LocalTvEntity>.mapLocalTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }
 
 
-fun List<TvDataResponse>.mapListToDomain(): List<Television> = this.map { it.mapToDomain() }
+fun List<TvDataResponse>.mapRemoteTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }

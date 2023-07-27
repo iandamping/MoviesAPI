@@ -11,9 +11,9 @@ interface TvLocalDataSource {
 
     fun loadAllTvDataByType(type: String): Flow<List<LocalTvEntity>>
 
-    fun insertTvData(vararg inputTv: LocalTvEntity)
+    suspend fun insertTvData(vararg inputTv: LocalTvEntity)
 
-    fun deleteAllData()
+    suspend fun deleteAllData()
 
-    fun deleteSelectedId(selectedId: Int)
+    suspend fun deleteSelectedId(selectedId: Int)
 }

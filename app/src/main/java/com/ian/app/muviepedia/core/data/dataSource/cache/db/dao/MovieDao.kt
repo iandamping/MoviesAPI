@@ -16,11 +16,11 @@ interface MovieDao {
     fun loadAllMovieDataByType(type: String): Flow<List<LocalMovieEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovieData(vararg inputMovie: LocalMovieEntity)
+    suspend fun insertMovieData(vararg inputMovie: LocalMovieEntity)
 
     @Query("DELETE FROM movie_entity")
-    fun deleteAllData()
+    suspend fun deleteAllData()
 
     @Query("DELETE FROM movie_entity where localID = :selectedId")
-    fun deleteSelectedId(selectedId: Int)
+    suspend fun deleteSelectedId(selectedId: Int)
 }

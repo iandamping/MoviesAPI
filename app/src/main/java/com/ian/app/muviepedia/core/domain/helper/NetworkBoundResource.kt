@@ -12,62 +12,65 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private var result: Flow<DomainSource<ResultType>> = flow {
         val dbSource = loadFromDB().first()
+        when {
+            shouldFetch(dbSource) -> {
+                when (val apiResponse = createCall()) {
 
-        if (shouldFetch(dbSource)) {
-            when (val apiResponse = createCall()) {
+                    is DataSource.Success -> {
+                        saveCallResult(apiResponse.data)
 
-                is DataSource.Success -> {
-                    saveCallResult(apiResponse.data)
+                        emitAll(loadFromDB().map {
+                            DomainSource.Success(
+                                it
+                            )
+                        })
+                    }
 
-                    emitAll(loadFromDB().map {
-                        DomainSource.Success(
-                            it
+                    is DataSource.Error -> {
+                        onFetchFailed()
+                        emit(
+                            DomainSource.Error(
+                                apiResponse.message
+                            )
                         )
-                    })
-                }
-
-                is DataSource.Error -> {
-                    onFetchFailed()
-                    emit(
-                        DomainSource.Error(
-                            apiResponse.message
-                        )
-                    )
-                }
-            }
-        } else {
-            emitAll(loadFromDB().map {
-                DomainSource.Success(
-                    it
-                )
-            })
-        }
-
-        if (isExpired()){
-            when (val apiResponse = createCall()) {
-
-                is DataSource.Success -> {
-                    saveCallResult(apiResponse.data)
-
-                    emitAll(loadFromDB().map {
-                        DomainSource.Success(
-                            it
-                        )
-                    })
-                }
-
-                is DataSource.Error -> {
-                    onFetchFailed()
-                    emit(
-                        DomainSource.Error(
-                            apiResponse.message
-                        )
-                    )
+                    }
                 }
             }
+
+            isExpired() -> {
+                when (val apiResponse = createCall()) {
+
+                    is DataSource.Success -> {
+                        clearFirst()
+                        saveCallResult(apiResponse.data)
+
+
+                        emitAll(loadFromDB().map {
+                            DomainSource.Success(
+                                it
+                            )
+                        })
+                    }
+
+                    is DataSource.Error -> {
+                        onFetchFailed()
+                        emit(
+                            DomainSource.Error(
+                                apiResponse.message
+                            )
+                        )
+                    }
+                }
+            }
+
+            else -> {
+                emitAll(loadFromDB().map {
+                    DomainSource.Success(
+                        it
+                    )
+                })
+            }
         }
-
-
     }
 
     protected open fun onFetchFailed() {}
@@ -81,6 +84,11 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     protected abstract suspend fun createCall(): DataSource<RequestType>
 
     protected abstract suspend fun saveCallResult(data: RequestType)
+
+    //not used
+    protected abstract suspend fun isItemSame(): Boolean
+
+    protected abstract suspend fun clearFirst()
 
     fun asFlow(): Flow<DomainSource<ResultType>> = result
 }

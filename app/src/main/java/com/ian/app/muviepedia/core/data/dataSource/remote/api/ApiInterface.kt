@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.api
 
-import com.ian.app.muviepedia.data.model.*
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse

@@ -20,15 +20,15 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
         return movieDao.loadAllMovieDataByType(type)
     }
 
-    override fun insertMovie(vararg inputMovie: LocalMovieEntity) {
+    override suspend fun insertMovie(vararg inputMovie: LocalMovieEntity) {
         movieDao.insertMovieData(inputMovie = inputMovie)
     }
 
-    override fun deleteAll() {
+    override suspend fun deleteAll() {
         movieDao.deleteAllData()
     }
 
-    override fun deleteSelectedId(selectedId: Int) {
+    override suspend fun deleteSelectedId(selectedId: Int) {
         movieDao.deleteSelectedId(selectedId = selectedId)
     }
 }

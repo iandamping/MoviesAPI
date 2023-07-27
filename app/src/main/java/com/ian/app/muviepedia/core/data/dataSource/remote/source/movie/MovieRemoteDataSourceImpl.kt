@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.source.movie
 
+import com.ian.app.muviepedia.BuildConfig.MOVIE_API_KEY
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
@@ -17,7 +18,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getDetailMovie(movieId: Int): DataSource<DetailMovieResponse> {
         return when (val data =
-            remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = ""))) {
+            remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = MOVIE_API_KEY))) {
             is RemoteResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteResult.Success -> {
                 val result = data.data.body()
@@ -46,7 +47,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getPopularMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(api.getPopularMovieAsync(""))) {
+        return when (val data = remoteWithBaseCall(api.getPopularMovieAsync(MOVIE_API_KEY))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
@@ -58,7 +59,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getNowPlaying(): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(api.getNowPlayingMovieAsync(""))) {
+        return when (val data = remoteWithBaseCall(api.getNowPlayingMovieAsync(MOVIE_API_KEY))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
@@ -70,7 +71,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getTopRatedMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(api.getTopRatedMovieAsync(""))) {
+        return when (val data = remoteWithBaseCall(api.getTopRatedMovieAsync(MOVIE_API_KEY))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
@@ -82,7 +83,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getUpComingMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(api.getUpComingMovieAsync(""))) {
+        return when (val data = remoteWithBaseCall(api.getUpComingMovieAsync(MOVIE_API_KEY))) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
@@ -96,7 +97,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetNowPlayingMovieMovieAsync(
-                apiKey = "",
+                apiKey = MOVIE_API_KEY,
                 page = pageMovie
             )
         )) {
@@ -113,7 +114,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetPopularMovieAsync(
-                apiKey = "",
+                apiKey = MOVIE_API_KEY,
                 page = pageMovie
             )
         )) {
@@ -130,7 +131,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetTopRatedMovieAsync(
-                apiKey = "",
+                apiKey = MOVIE_API_KEY,
                 page = pageMovie
             )
         )) {
@@ -147,7 +148,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
         return when (val data = remoteWithBaseCall(
             api.pagingGetUpComingMovieAsync(
-                apiKey = "",
+                apiKey = MOVIE_API_KEY,
                 page = pageMovie
             )
         )) {
