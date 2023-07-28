@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentHomeBinding
 import com.ian.app.muviepedia.di.fragmentComponent
-import com.ian.app.muviepedia.feature.home.epoxy.EpoxyPopularMovieController
-import com.ian.app.muviepedia.feature.state.PresentationState
+import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieController
+import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieController
 import javax.inject.Inject
 
 class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
-    EpoxyPopularMovieController.EpoxyPopularMovieControllerListener {
+    EpoxyPopularMovieController.EpoxyPopularMovieControllerListener,
+    EpoxyNowPlayingMovieController.EpoxyNowPlayingMovieControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -23,8 +24,13 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
         viewModelFactory
     }
 
-    private val epoxyMultiProductHomeController: EpoxyPopularMovieController by lazy {
+    private val epoxyPopularMovieController: EpoxyPopularMovieController by lazy {
         EpoxyPopularMovieController(this)
+    }
+
+
+    private val epoxyNowPlayingMovieController: EpoxyNowPlayingMovieController by lazy {
+        EpoxyNowPlayingMovieController(this)
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
@@ -35,39 +41,36 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     }
 
     override fun initView() {
-        with(binding.rvHome) {
-            setController(epoxyMultiProductHomeController)
+        with(binding.rvPopular) {
+            setController(epoxyPopularMovieController)
+            LinearSnapHelper().attachToRecyclerView(this)
+        }
+        with(binding.rvNowPlaying) {
+            setController(epoxyNowPlayingMovieController)
             LinearSnapHelper().attachToRecyclerView(this)
         }
     }
 
     override fun viewCreated() {
         consumeSuspend {
-            viewModel.popularMovieUiState.collect { data ->
-                when (data.uiState) {
-                    PresentationState.Loading -> viewModel.setEpoxyLoading()
-                    PresentationState.Success -> {
-                        if (data.data.isNotEmpty()) {
-                            viewModel.setEpoxyData(data.data)
-                        } else {
-                            viewModel.setEpoxyError()
-                        }
-                    }
-
-                    PresentationState.Failed -> viewModel.setEpoxyError()
-                }
-            }
-        }
-
-        consumeSuspend {
             viewModel.epoxyPopularMovieData.collect { data ->
-                epoxyMultiProductHomeController.setData(data)
+                epoxyPopularMovieController.setData(data)
+            }
+        }
+        consumeSuspend {
+            viewModel.epoxyNowPlayingMovieData.collect { data ->
+                epoxyNowPlayingMovieController.setData(data)
             }
         }
     }
 
-
-    override fun onMovieClick(id: Int) {
-        Log.e("TAG", "onMovieClick id: $id", )
+    override fun onPopularMovieClick(id: Int) {
+        Log.e("TAG", "onPopularMovieClick: $id")
     }
+
+    override fun onNowPlayingClick(id: Int) {
+        Log.e("TAG", "onNowPlayingClick: $id")
+    }
+
+
 }

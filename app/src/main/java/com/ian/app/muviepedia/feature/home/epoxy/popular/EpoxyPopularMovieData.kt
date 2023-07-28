@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.feature.home.epoxy
+package com.ian.app.muviepedia.feature.home.epoxy.popular
 
 sealed class EpoxyPopularMovieData {
 

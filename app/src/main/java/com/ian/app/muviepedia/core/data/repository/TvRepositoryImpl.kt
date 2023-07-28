@@ -125,7 +125,7 @@ class TvRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
-                return remoteDataSource.getPopularTv()
+                return remoteDataSource.getTopRatedTv()
             }
 
             override suspend fun isItemSame(): Boolean {
@@ -170,7 +170,7 @@ class TvRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
-                return remoteDataSource.getPopularTv()
+                return remoteDataSource.getAiringTodayTv()
             }
 
             override suspend fun isItemSame(): Boolean {
@@ -215,7 +215,7 @@ class TvRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<TvDataResponse>> {
-                return remoteDataSource.getPopularTv()
+                return remoteDataSource.getOnAirTv()
             }
 
             override suspend fun isItemSame(): Boolean {

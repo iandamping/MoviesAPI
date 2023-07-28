@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.feature.home.epoxy
+package com.ian.app.muviepedia.feature.home.epoxy.popular
 
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ShimmerItemPopularBinding
