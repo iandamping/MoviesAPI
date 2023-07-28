@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.feature.home.epoxy
+package com.ian.app.muviepedia.feature.home.epoxy.popular
 
 import com.airbnb.epoxy.TypedEpoxyController
 
@@ -6,7 +6,7 @@ class EpoxyPopularMovieController(private val clickListener: EpoxyPopularMovieCo
     TypedEpoxyController<List<EpoxyPopularMovieData>>() {
 
     interface EpoxyPopularMovieControllerListener {
-        fun onMovieClick(id: Int)
+        fun onPopularMovieClick(id: Int)
     }
 
     override fun buildModels(data: List<EpoxyPopularMovieData>?) {
@@ -21,7 +21,7 @@ class EpoxyPopularMovieController(private val clickListener: EpoxyPopularMovieCo
                 is EpoxyPopularMovieData.MovieData -> {
                     EpoxySuccessPopularMovie(
                         data = multiData,
-                        clickListener = clickListener::onMovieClick
+                        clickListener = clickListener::onPopularMovieClick
                     )
                         .id(multiData.epoxyId)
                         .addTo(this)

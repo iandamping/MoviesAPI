@@ -146,12 +146,12 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
-                return remoteDataSource.getPopularMovie()
+                return remoteDataSource.getNowPlaying()
             }
 
             override suspend fun isItemSame(): Boolean {
                 val localData = localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name).firstOrNull()
-                val remoteData = remoteDataSource.getPopularMovie()
+                val remoteData = remoteDataSource.getNowPlaying()
                 return if (localData!=null){
                     when(remoteData){
                         is DataSource.Error -> false
@@ -204,7 +204,7 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
-                return remoteDataSource.getPopularMovie()
+                return remoteDataSource.getTopRatedMovie()
             }
 
             override suspend fun clearFirst() {
@@ -213,7 +213,7 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun isItemSame(): Boolean {
                 val localData = localDataSource.loadAllMovieDataByType(MovieType.TopRated.name).firstOrNull()
-                val remoteData = remoteDataSource.getPopularMovie()
+                val remoteData = remoteDataSource.getTopRatedMovie()
                 return if (localData!=null){
                     when(remoteData){
                         is DataSource.Error -> false
@@ -262,7 +262,7 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
-                return remoteDataSource.getPopularMovie()
+                return remoteDataSource.getUpComingMovie()
             }
 
             override suspend fun clearFirst() {
@@ -271,7 +271,7 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun isItemSame(): Boolean {
                 val localData = localDataSource.loadAllMovieDataByType(MovieType.UpComing.name).firstOrNull()
-                val remoteData = remoteDataSource.getPopularMovie()
+                val remoteData = remoteDataSource.getUpComingMovie()
                 return if (localData!=null){
                     when(remoteData){
                         is DataSource.Error -> false

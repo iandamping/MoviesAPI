@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExportableFileTemplateSettings">
+    <default_templates>
+      <template name="EpoxyControler - Movie.kt" file-name="Epoxy${NAME}MovieController" reformat="true" live-template-enabled="false" />
+      <template name="EpoxyData - Movie.kt" file-name="Epoxy${NAME}MovieData" reformat="true" live-template-enabled="false" />
+      <template name="EpoxyScreen - Error.kt" file-name="EpoxyError${NAME}Movie" reformat="true" live-template-enabled="false">
+        <template name="EpoxyScreen - Error.kt.child.0.kt" file-name="EpoxyShimmer${NAME}Movie" reformat="true" live-template-enabled="false" />
+        <template name="EpoxyScreen - Error.kt.child.1.kt" file-name="EpoxySuccess${NAME}Movie" reformat="true" live-template-enabled="false" />
+      </template>
+      <template name="EpoxyScreen - Error.kt.child.0.kt" file-name="EpoxyShimmer${NAME}Movie" reformat="true" live-template-enabled="false" />
+      <template name="EpoxyScreen - Error.kt.child.1.kt" file-name="EpoxySuccess${NAME}Movie" reformat="true" live-template-enabled="false" />
+    </default_templates>
+  </component>
+</project>
