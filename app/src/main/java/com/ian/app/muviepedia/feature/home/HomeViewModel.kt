@@ -6,7 +6,6 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.core.presentation.EpoxyMapper
-import com.ian.app.muviepedia.core.presentation.model.GenericPairData
 import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeCarouselData
 import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -107,24 +105,22 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
+        viewModelScope.launch {
+            movieRepository.fetchPopularMovie().onStart { setEpoxyPopularMovieLoading() }.collect {
+                when (it) {
+                    is DomainSource.Error -> setEpoxyPopularMovieError()
+                    is DomainSource.Success -> setEpoxyPopularMovieData(it.data)
+
+                }
+            }
+        }
 
         viewModelScope.launch {
-            movieRepository.fetchPopularMovie()
-                .zip(movieRepository.fetchNowPlayingMovie()) { a, b ->
-                    GenericPairData(a, b)
-                }.onStart {
-                    setEpoxyNowPlayingMovieLoading()
-                    setEpoxyPopularMovieLoading()
-                }.collect {
-                    when (it.data1) {
-                        is DomainSource.Error -> setEpoxyPopularMovieError()
-                        is DomainSource.Success -> setEpoxyPopularMovieData(it.data1.data)
-
-                    }
-                    when (it.data2) {
+            movieRepository.fetchNowPlayingMovie().onStart { setEpoxyNowPlayingMovieLoading() }
+                .collect {
+                    when (it) {
                         is DomainSource.Error -> setEpoxyNowPlayingMovieError()
-
-                        is DomainSource.Success -> setEpoxyNowPlayingMovieData(it.data2.data)
+                        is DomainSource.Success -> setEpoxyNowPlayingMovieData(it.data)
                     }
                 }
         }
