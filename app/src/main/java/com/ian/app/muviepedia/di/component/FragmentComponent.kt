@@ -1,9 +1,10 @@
 package com.ian.app.muviepedia.di.component
 
+import com.ian.app.muviepedia.di.module.ViewHelperModule
 import com.ian.app.muviepedia.feature.home.HomeFragment
 import dagger.Subcomponent
 
-@Subcomponent
+@Subcomponent(modules = [ViewHelperModule::class])
 interface FragmentComponent {
 
     fun injectInto(fragment: HomeFragment)

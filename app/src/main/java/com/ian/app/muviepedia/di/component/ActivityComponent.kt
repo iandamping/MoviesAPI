@@ -7,7 +7,13 @@ import com.ian.app.muviepedia.di.module.sub.FragmentSubComponentModule
 import dagger.BindsInstance
 import dagger.Subcomponent
 
-@Subcomponent(modules = [ActivityContextModule::class, ActivityModule::class, FragmentSubComponentModule::class])
+@Subcomponent(
+    modules = [
+        ActivityContextModule::class,
+        ActivityModule::class,
+        FragmentSubComponentModule::class
+    ]
+)
 interface ActivityComponent {
 
     fun provideFragmentComponent(): FragmentComponent.Factory

@@ -5,26 +5,37 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentHomeBinding
 import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeController
+import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
 class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyPopularMovieControllerListener,
-    EpoxyHomeController.EpoxyNowPlayingMovieControllerListener {
+    EpoxyHomeController.EpoxyNowPlayingMovieControllerListener,
+    EpoxyHomeController.EpoxyTopRatedMovieControllerListener,
+    EpoxyHomeController.EpoxyUpComingMovieControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var viewHelper: ViewHelper
 
     private val viewModel: HomeViewModel by viewModels {
         viewModelFactory
     }
 
     private val epoxyHomeController: EpoxyHomeController by lazy {
-        EpoxyHomeController(this, this)
+        EpoxyHomeController(
+            viewHelper = viewHelper,
+            clickListener1 = this,
+            clickListener2 = this,
+            clickListener3 = this,
+            clickListener4 = this
+        )
     }
 
 
@@ -38,7 +49,6 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     override fun initView() {
         with(binding.rvHome) {
             setController(epoxyHomeController)
-            LinearSnapHelper().attachToRecyclerView(this)
         }
 
     }
@@ -57,6 +67,14 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
 
     override fun onNowPlayingClick(id: Int) {
         Log.e("TAG", "onNowPlayingClick: $id")
+    }
+
+    override fun onTopRatedMovieClick(id: Int) {
+        Log.e("TAG", "onTopRatedMovieClick: $id")
+    }
+
+    override fun onUpComingMovieClick(id: Int) {
+        Log.e("TAG", "onUpComingMovieClick: $id")
     }
 
 
