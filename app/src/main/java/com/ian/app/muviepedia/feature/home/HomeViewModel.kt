@@ -9,6 +9,8 @@ import com.ian.app.muviepedia.core.presentation.EpoxyMapper
 import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeCarouselData
 import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -104,6 +106,78 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun setEpoxyTopRatedMovieData(movieData: List<Movie>) {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                topRated = epoxyMapper.epoxyTopRatedMovieListMapper(
+                    epoxyMapper.extractMovieToEpoxy(
+                        movieData
+                    )
+                )
+            )
+        }
+    }
+
+
+    private fun setEpoxyTopRatedMovieLoading() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                topRated = mutableListOf(
+                    EpoxyTopRatedMovieData.Shimmer(0),
+                    EpoxyTopRatedMovieData.Shimmer(1),
+                    EpoxyTopRatedMovieData.Shimmer(2),
+                    EpoxyTopRatedMovieData.Shimmer(3),
+                    EpoxyTopRatedMovieData.Shimmer(4),
+                    EpoxyTopRatedMovieData.Shimmer(5),
+                    EpoxyTopRatedMovieData.Shimmer(6),
+                )
+            )
+
+        }
+    }
+
+    private fun setEpoxyTopRatedMovieError() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(topRated = mutableListOf(EpoxyTopRatedMovieData.Error))
+        }
+    }
+
+    private fun setEpoxyUpComingMovieData(movieData: List<Movie>) {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                upComing = epoxyMapper.epoxyUpComingMovieListMapper(
+                    epoxyMapper.extractMovieToEpoxy(
+                        movieData
+                    )
+                )
+            )
+        }
+    }
+
+
+    private fun setEpoxyUpComingMovieLoading() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                upComing = mutableListOf(
+                    EpoxyUpComingMovieData.Shimmer(0),
+                    EpoxyUpComingMovieData.Shimmer(1),
+                    EpoxyUpComingMovieData.Shimmer(2),
+                    EpoxyUpComingMovieData.Shimmer(3),
+                    EpoxyUpComingMovieData.Shimmer(4),
+                    EpoxyUpComingMovieData.Shimmer(5),
+                    EpoxyUpComingMovieData.Shimmer(6),
+                )
+            )
+
+        }
+    }
+
+    private fun setEpoxyUpComingMovieError() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(upComing = mutableListOf(EpoxyUpComingMovieData.Error))
+        }
+    }
+
     init {
         viewModelScope.launch {
             movieRepository.fetchPopularMovie().onStart { setEpoxyPopularMovieLoading() }.collect {
@@ -121,6 +195,30 @@ class HomeViewModel @Inject constructor(
                     when (it) {
                         is DomainSource.Error -> setEpoxyNowPlayingMovieError()
                         is DomainSource.Success -> setEpoxyNowPlayingMovieData(it.data)
+                    }
+                }
+        }
+
+
+        viewModelScope.launch {
+            movieRepository.fetchTopRatedMovie().onStart { setEpoxyTopRatedMovieLoading() }
+                .collect {
+                    when (it) {
+                        is DomainSource.Error -> setEpoxyTopRatedMovieError()
+                        is DomainSource.Success -> setEpoxyTopRatedMovieData(it.data)
+
+                    }
+                }
+        }
+
+
+        viewModelScope.launch {
+            movieRepository.fetchUpComingMovie().onStart { setEpoxyUpComingMovieLoading() }
+                .collect {
+                    when (it) {
+                        is DomainSource.Error -> setEpoxyUpComingMovieError()
+                        is DomainSource.Success -> setEpoxyUpComingMovieData(it.data)
+
                     }
                 }
         }
