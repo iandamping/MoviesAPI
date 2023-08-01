@@ -1,17 +1,17 @@
 package com.ian.app.muviepedia.feature.state
 
-import com.ian.app.muviepedia.core.data.repository.model.Movie
+import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
 
-data class PopularMovieUiState(
+data class DetailMovieUiState(
     val uiState: PresentationState,
-    val data: List<Movie>,
+    val data: MovieDetail?,
     val errorMessage: String
 ) {
     companion object {
-        fun initialize(): PopularMovieUiState {
-            return PopularMovieUiState(
+        fun initialize(): DetailMovieUiState {
+            return DetailMovieUiState(
                 uiState = PresentationState.Loading,
-                data = emptyList(),
+                data = null,
                 errorMessage = ""
             )
         }
