@@ -30,7 +30,7 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
         viewModelFactory
     }
     private val epoxyDetailController: EpoxyDetailController by lazy {
-        EpoxyDetailController(this)
+        EpoxyDetailController(backPressListener = this, viewHelper = viewHelper)
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
@@ -57,9 +57,7 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
                     }
 
                     PresentationState.Success -> {
-                        if (it.data != null) {
-                            epoxyDetailController.setData(it.data)
-                        }
+                        epoxyDetailController.setData(it)
 
                     }
 

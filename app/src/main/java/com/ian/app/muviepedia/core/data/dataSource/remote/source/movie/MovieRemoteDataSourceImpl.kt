@@ -33,7 +33,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return when (val data = remoteWithBaseCall(
             api.getSimilarMovieAsync(
                 movieId = movieId,
-                apiKey = ""
+                apiKey = MOVIE_API_KEY
             )
         )) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")

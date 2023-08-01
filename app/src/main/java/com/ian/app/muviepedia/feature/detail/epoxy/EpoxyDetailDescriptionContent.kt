@@ -5,12 +5,13 @@ import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.DetailMovieDescriptionContentBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 
-class EpoxyDetailDescriptionContent(private val description: String) :
+class EpoxyDetailDescriptionContent(private val title: String, private val description: String) :
     ViewBindingEpoxyModelWithHolder<DetailMovieDescriptionContentBinding>() {
     override fun DetailMovieDescriptionContentBinding.bind() {
         tvDetailDesc.text = description
+        tvTitle.text = title
         tvDetailDesc.setTextColor(Color.WHITE)
-        textView.setTextColor(Color.WHITE)
+        tvTitle.setTextColor(Color.WHITE)
     }
 
     override fun getDefaultLayout(): Int {
