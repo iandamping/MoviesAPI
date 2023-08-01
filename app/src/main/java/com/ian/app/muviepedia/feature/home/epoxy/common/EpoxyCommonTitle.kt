@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.feature.home.epoxy.common
 
+import android.graphics.Color
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.CommonTittleBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
@@ -9,6 +10,7 @@ class EpoxyCommonTitle(private val title: String, private val fontSize: Int) :
     override fun CommonTittleBinding.bind() {
         tvTittle.textSize = fontSize.toFloat()
         tvTittle.text = title
+        tvTittle.setTextColor(Color.WHITE)
 
     }
 

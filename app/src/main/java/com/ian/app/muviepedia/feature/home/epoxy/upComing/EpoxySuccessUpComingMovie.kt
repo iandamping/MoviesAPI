@@ -14,7 +14,6 @@ class EpoxySuccessUpComingMovie(
     override fun ItemUpComingBinding.bind() {
         viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
         ivMovie.load(data.poster_path)
-        tvMovieName.text = data.title
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }

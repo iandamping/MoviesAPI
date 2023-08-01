@@ -2,6 +2,7 @@ package com.ian.app.muviepedia.di.module
 
 import androidx.lifecycle.ViewModel
 import com.ian.app.muviepedia.di.module.viewModel.ViewModelKey
+import com.ian.app.muviepedia.feature.detail.DetailViewModel
 import com.ian.app.muviepedia.feature.home.HomeViewModel
 import dagger.Binds
 import dagger.Module
@@ -14,4 +15,9 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     fun bindMovieViewModel(viewModel: HomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
 }

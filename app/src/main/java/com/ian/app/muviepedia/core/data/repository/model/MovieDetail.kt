@@ -57,67 +57,67 @@ data class MovieDetail(
     )
 }
 
-fun DetailMovieResponse.BelongsToCollectionResponse.mapToDomain(): MovieDetail.BelongsToCollection {
+fun DetailMovieResponse.BelongsToCollectionResponse?.mapToDomain(): MovieDetail.BelongsToCollection {
     return MovieDetail.BelongsToCollection(
-        id,
-        name,
-        posterPath,
-        backdropPath
+        this?.id ?: 0,
+        this?.name ?: "",
+        this?.posterPath ?: "",
+        this?.backdropPath ?: ""
     )
 }
 
-fun DetailMovieResponse.GenreResponse.mapToDomain(): MovieDetail.Genre {
-    return MovieDetail.Genre(id, name)
+fun DetailMovieResponse.GenreResponse?.mapToDomain(): MovieDetail.Genre {
+    return MovieDetail.Genre(this?.id ?: 0, this?.name ?: "")
 }
 
-fun DetailMovieResponse.ProductionCompanyResponse.mapToDomain(): MovieDetail.ProductionCompany {
+fun DetailMovieResponse.ProductionCompanyResponse?.mapToDomain(): MovieDetail.ProductionCompany {
     return MovieDetail.ProductionCompany(
-        id,
-        logoPath,
-        name,
-        originCountry
+        this?.id ?: 0,
+        this?.logoPath ?: "",
+        this?.name ?: "",
+        this?.originCountry ?: ""
     )
 }
 
-fun DetailMovieResponse.ProductionCountryResponse.mapToDomain(): MovieDetail.ProductionCountry {
+fun DetailMovieResponse.ProductionCountryResponse?.mapToDomain(): MovieDetail.ProductionCountry {
     return MovieDetail.ProductionCountry(
-        iso31661,
-        name
+        this?.iso31661 ?: "",
+        this?.name ?: ""
     )
 }
 
-fun DetailMovieResponse.SpokenLanguageResponse.mapToDomain(): MovieDetail.SpokenLanguage {
+fun DetailMovieResponse.SpokenLanguageResponse?.mapToDomain(): MovieDetail.SpokenLanguage {
     return MovieDetail.SpokenLanguage(
-        iso31661,
-        name
+        this?.iso31661 ?: "",
+        this?.name ?: ""
     )
 }
 
 fun DetailMovieResponse.mapToDomain(): MovieDetail {
     return MovieDetail(
-        adult,
-        backdrop_path,
+        adult ?: false,
+        backdrop_path ?: "",
         belongs_to_collection.mapToDomain(),
-        budget,
+        budget ?: 0,
         genres.map { it.mapToDomain() },
-        id,
-        imdb_id,
-        original_language,
-        original_title,
-        overview,
-        popularity,
-        poster_path,
+        id ?: 0,
+        imdb_id ?: "",
+        original_language ?: "",
+        original_title ?: "",
+        overview ?: "",
+        popularity ?: 0.0,
+        poster_path ?: "",
         production_companies.map { it.mapToDomain() },
         production_countries.map { it.mapToDomain() },
-        release_date,
-        revenue,
-        runtime,
+        release_date ?: "",
+        revenue ?: "",
+        runtime ?: 0,
         spoken_languages.map { it.mapToDomain() },
-        status,
-        tagline,
-        title,
-        video,
-        vote_average,
-        vote_count
+        status ?: "",
+        tagline ?: "",
+        title ?: "",
+        video ?: false,
+        vote_average ?: 0.0,
+        vote_count ?: 0
     )
 }

@@ -1,10 +1,11 @@
 package com.ian.app.muviepedia.feature.home
 
-import android.util.Log
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentHomeBinding
 import com.ian.app.muviepedia.di.fragmentComponent
@@ -47,6 +48,7 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     }
 
     override fun initView() {
+        requireActivity().window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.BLACK))
         with(binding.rvHome) {
             setController(epoxyHomeController)
         }
@@ -62,19 +64,19 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     }
 
     override fun onPopularMovieClick(id: Int) {
-        Log.e("TAG", "onPopularMovieClick: $id")
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
     override fun onNowPlayingClick(id: Int) {
-        Log.e("TAG", "onNowPlayingClick: $id")
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
     override fun onTopRatedMovieClick(id: Int) {
-        Log.e("TAG", "onTopRatedMovieClick: $id")
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
     override fun onUpComingMovieClick(id: Int) {
-        Log.e("TAG", "onUpComingMovieClick: $id")
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
     }
 
 
