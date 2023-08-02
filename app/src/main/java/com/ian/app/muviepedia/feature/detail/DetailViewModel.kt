@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.feature.detail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ian.app.muviepedia.core.domain.MovieRepository
@@ -26,13 +27,13 @@ class DetailViewModel @Inject constructor(
     )
     val detailMovieUiState: StateFlow<DetailMovieUiState> = _detailMovieUiState.asStateFlow()
 
-
     fun getDetailMovie(movieId: Int) {
+        Log.e("TAG", "getDetailMovie: $movieId", )
         viewModelScope.launch {
             movieRepository.fetchDetailMovie(movieId = movieId)
                 .combine(movieRepository.fetchSimilarMovie(movieId)) { a, b ->
                     GenericPairData(a, b)
-                }.collect { data ->
+                }.collect() { data ->
                     when (data.data1) {
                         is DomainSource.Error -> _detailMovieUiState.update { uiState ->
                             uiState.copy(

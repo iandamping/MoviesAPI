@@ -9,6 +9,7 @@ import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyDetailController(
     private val backPressListener: EpoxyDetailControllerBackPress,
+    private val similarMovieListener: EpoxyDetailControllerSimilarItemListener,
     private val viewHelper: ViewHelper
 ) :
     TypedEpoxyController<DetailMovieUiState>() {
@@ -17,22 +18,27 @@ class EpoxyDetailController(
         fun onBackIsPressed()
     }
 
+    interface EpoxyDetailControllerSimilarItemListener {
+        fun onSimilarItemClick(movieId: Int)
+    }
+
     override fun buildModels(data: DetailMovieUiState?) {
+        // if the view is dynamic use their data as epoxyModel id
         if (data != null) {
             if (data.data != null) {
                 EpoxyDetailImageContent(imageUrl = imageFormatter + data.data.backdrop_path) {
                     backPressListener.onBackIsPressed()
-                }.id("detail_image")
+                }.id(data.data.backdrop_path)
                     .addTo(this)
 
                 EpoxyDetailDescriptionContent(
                     description = data.data.overview,
                     title = data.data.title
                 )
-                    .id("detail_description")
+                    .id(data.data.overview)
                     .addTo(this)
             }
-
+            // if the view is static use static string to epoxyModel id
             EpoxyCommonTitle("Similar Movie", 24)
                 .id("detail_similar_movie_title")
                 .addTo(this)
@@ -42,11 +48,12 @@ class EpoxyDetailController(
                     EpoxyDetailSimilarMovieContent(
                         data = it,
                         viewHelper = viewHelper,
-                        clickListener = {}).id(it.epoxyId)
+                        clickListener = similarMovieListener::onSimilarItemClick
+                    ).id(it.epoxyId)
                 }
 
                 CarouselModel_()
-                    .id("detail_similar_movie")
+                    .id(data.data?.id)
                     .models(carouselSimilarMovieModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)

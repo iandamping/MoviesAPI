@@ -16,7 +16,8 @@ import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
 class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
-    EpoxyDetailController.EpoxyDetailControllerBackPress {
+    EpoxyDetailController.EpoxyDetailControllerBackPress,
+    EpoxyDetailController.EpoxyDetailControllerSimilarItemListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -30,7 +31,11 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
         viewModelFactory
     }
     private val epoxyDetailController: EpoxyDetailController by lazy {
-        EpoxyDetailController(backPressListener = this, viewHelper = viewHelper)
+        EpoxyDetailController(
+            similarMovieListener = this,
+            backPressListener = this,
+            viewHelper = viewHelper
+        )
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
@@ -58,7 +63,6 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
 
                     PresentationState.Success -> {
                         epoxyDetailController.setData(it)
-
                     }
 
                     PresentationState.Failed -> {
@@ -73,5 +77,9 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
 
     override fun onBackIsPressed() {
         findNavController().popBackStack()
+    }
+
+    override fun onSimilarItemClick(movieId: Int) {
+        viewModel.getDetailMovie(movieId)
     }
 }
