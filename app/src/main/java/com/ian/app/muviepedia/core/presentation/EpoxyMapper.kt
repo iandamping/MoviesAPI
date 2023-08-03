@@ -1,11 +1,14 @@
 package com.ian.app.muviepedia.core.presentation
 
 import com.ian.app.muviepedia.core.data.repository.model.Movie
+import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
+import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.television.EpoxyPopularTelevisionData
 
 interface EpoxyMapper {
 
@@ -18,4 +21,10 @@ interface EpoxyMapper {
     fun epoxyTopRatedMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyTopRatedMovieData.MovieData>
 
     fun epoxyUpComingMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyUpComingMovieData.MovieData>
+
+    fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision>
+
+    fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
+
+
 }

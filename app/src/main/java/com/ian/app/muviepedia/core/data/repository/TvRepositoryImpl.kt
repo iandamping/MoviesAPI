@@ -83,9 +83,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getPopularTv()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                return true
-            }
 
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
@@ -128,9 +125,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getTopRatedTv()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                return true
-            }
 
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
@@ -173,9 +167,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getAiringTodayTv()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                return true
-            }
 
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
@@ -218,9 +209,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getOnAirTv()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                return true
-            }
 
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()

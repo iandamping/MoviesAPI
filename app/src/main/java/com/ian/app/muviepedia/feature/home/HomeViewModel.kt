@@ -3,7 +3,9 @@ package com.ian.app.muviepedia.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ian.app.muviepedia.core.data.repository.model.Movie
+import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.domain.MovieRepository
+import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.core.presentation.EpoxyMapper
 import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeCarouselData
@@ -11,6 +13,7 @@ import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovie
 import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.television.EpoxyPopularTelevisionData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +24,7 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
+    private val tvRepository: TvRepository,
     private val epoxyMapper: EpoxyMapper
 ) :
     ViewModel() {
@@ -34,7 +38,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyPopularMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                popular = epoxyMapper.epoxyPopularMovieListMapper(
+                popularMovie = epoxyMapper.epoxyPopularMovieListMapper(
                     epoxyMapper.extractMovieToEpoxy(
                         movieData
                     )
@@ -47,7 +51,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyPopularMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                popular = mutableListOf(
+                popularMovie = mutableListOf(
                     EpoxyPopularMovieData.Shimmer(0),
                     EpoxyPopularMovieData.Shimmer(1),
                     EpoxyPopularMovieData.Shimmer(2),
@@ -63,7 +67,7 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyPopularMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(popular = mutableListOf(EpoxyPopularMovieData.Error))
+            uiState.copy(popularMovie = mutableListOf(EpoxyPopularMovieData.Error))
 
         }
     }
@@ -72,7 +76,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyNowPlayingMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                nowPlaying = epoxyMapper.epoxyNowPlayingMovieListMapper(
+                nowPlayingMovie = epoxyMapper.epoxyNowPlayingMovieListMapper(
                     epoxyMapper.extractMovieToEpoxy(
                         movieData
                     )
@@ -85,7 +89,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyNowPlayingMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                nowPlaying = mutableListOf(
+                nowPlayingMovie = mutableListOf(
                     EpoxyNowPlayingMovieData.Shimmer(0),
                     EpoxyNowPlayingMovieData.Shimmer(1),
                     EpoxyNowPlayingMovieData.Shimmer(2),
@@ -101,7 +105,7 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyNowPlayingMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(nowPlaying = mutableListOf(EpoxyNowPlayingMovieData.Error))
+            uiState.copy(nowPlayingMovie = mutableListOf(EpoxyNowPlayingMovieData.Error))
 
         }
     }
@@ -109,7 +113,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyTopRatedMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                topRated = epoxyMapper.epoxyTopRatedMovieListMapper(
+                topRatedMovie = epoxyMapper.epoxyTopRatedMovieListMapper(
                     epoxyMapper.extractMovieToEpoxy(
                         movieData
                     )
@@ -122,7 +126,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyTopRatedMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                topRated = mutableListOf(
+                topRatedMovie = mutableListOf(
                     EpoxyTopRatedMovieData.Shimmer(0),
                     EpoxyTopRatedMovieData.Shimmer(1),
                     EpoxyTopRatedMovieData.Shimmer(2),
@@ -138,14 +142,14 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyTopRatedMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(topRated = mutableListOf(EpoxyTopRatedMovieData.Error))
+            uiState.copy(topRatedMovie = mutableListOf(EpoxyTopRatedMovieData.Error))
         }
     }
 
     private fun setEpoxyUpComingMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                upComing = epoxyMapper.epoxyUpComingMovieListMapper(
+                upComingMovie = epoxyMapper.epoxyUpComingMovieListMapper(
                     epoxyMapper.extractMovieToEpoxy(
                         movieData
                     )
@@ -155,10 +159,47 @@ class HomeViewModel @Inject constructor(
     }
 
 
+    private fun setEpoxyPopularTelevisionData(televisionData: List<Television>) {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                popularTelevision = epoxyMapper.epoxyPopularTelevisionListMapper(
+                    epoxyMapper.extractTelevisionToEpoxy(
+                        televisionData
+                    )
+                )
+            )
+        }
+    }
+
+
+    private fun setEpoxyPopularTelevisionLoading() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                popularTelevision = mutableListOf(
+                    EpoxyPopularTelevisionData.Shimmer(0),
+                    EpoxyPopularTelevisionData.Shimmer(1),
+                    EpoxyPopularTelevisionData.Shimmer(2),
+                    EpoxyPopularTelevisionData.Shimmer(3),
+                    EpoxyPopularTelevisionData.Shimmer(4),
+                    EpoxyPopularTelevisionData.Shimmer(5),
+                    EpoxyPopularTelevisionData.Shimmer(6),
+                )
+            )
+
+        }
+    }
+
+    private fun setEpoxyPopularTelevisionError() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(popularTelevision = mutableListOf(EpoxyPopularTelevisionData.Error))
+
+        }
+    }
+
     private fun setEpoxyUpComingMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                upComing = mutableListOf(
+                upComingMovie = mutableListOf(
                     EpoxyUpComingMovieData.Shimmer(0),
                     EpoxyUpComingMovieData.Shimmer(1),
                     EpoxyUpComingMovieData.Shimmer(2),
@@ -174,7 +215,7 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyUpComingMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(upComing = mutableListOf(EpoxyUpComingMovieData.Error))
+            uiState.copy(upComingMovie = mutableListOf(EpoxyUpComingMovieData.Error))
         }
     }
 
@@ -222,5 +263,16 @@ class HomeViewModel @Inject constructor(
                     }
                 }
         }
+
+        viewModelScope.launch {
+            tvRepository.prefetchPopularTv().onStart { setEpoxyPopularTelevisionLoading() }
+                .collect {
+                    when (it) {
+                        is DomainSource.Error -> setEpoxyPopularTelevisionError()
+                        is DomainSource.Success -> setEpoxyPopularTelevisionData(it.data)
+                    }
+                }
+        }
+
     }
 }

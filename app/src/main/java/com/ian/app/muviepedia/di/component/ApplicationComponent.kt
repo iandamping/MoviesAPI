@@ -12,6 +12,7 @@ import com.ian.app.muviepedia.di.module.ViewModelModule
 import com.ian.app.muviepedia.di.module.coroutine.CoroutineModule
 import com.ian.app.muviepedia.di.module.coroutine.CoroutineScopeModule
 import com.ian.app.muviepedia.di.module.data.local.MovieLocalDataSourceModule
+import com.ian.app.muviepedia.di.module.data.local.TvLocalDataSourceModule
 import com.ian.app.muviepedia.di.module.data.remote.MovieRemoteDataSourceModule
 import com.ian.app.muviepedia.di.module.data.remote.TvRemoteDataSourceModule
 import com.ian.app.muviepedia.di.module.data.repository.MovieRepositoryModule
@@ -35,6 +36,7 @@ import dagger.Component
         UtilityHelperModule::class,
         MovieRemoteDataSourceModule::class,
         MovieLocalDataSourceModule::class,
+        TvLocalDataSourceModule::class,
         TvRemoteDataSourceModule::class,
         MovieRepositoryModule::class,
         TvRepositoryModule::class,

@@ -85,9 +85,6 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract suspend fun saveCallResult(data: RequestType)
 
-    //not used
-    protected abstract suspend fun isItemSame(): Boolean
-
     protected abstract suspend fun clearFirst()
 
     fun asFlow(): Flow<DomainSource<ResultType>> = result
