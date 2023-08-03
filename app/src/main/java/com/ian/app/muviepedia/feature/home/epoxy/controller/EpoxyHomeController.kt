@@ -27,6 +27,7 @@ import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyErrorT
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyShimmerTopRatedTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxySuccessTopRatedTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
+import com.ian.app.muviepedia.util.epoxy.HorizontalGridCarouselModel_
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyHomeController(
@@ -74,7 +75,7 @@ class EpoxyHomeController(
                         }
                     }
                 }
-                CarouselModel_()
+                HorizontalGridCarouselModel_()
                     .id("movie_popular")
                     .models(carouselPopularModel)
                     .numViewsToShowOnScreen(2f)

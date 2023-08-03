@@ -6,7 +6,7 @@ import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.ModelView
 
 // GridCarousel
-@ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_MATCH_HEIGHT)
+@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class HorizontalGridCarousel(context: Context) : Carousel(context) {
     override fun createLayoutManager(): LayoutManager {
         return GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)

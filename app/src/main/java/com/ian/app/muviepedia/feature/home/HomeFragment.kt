@@ -44,10 +44,7 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     }
 
     override fun initView() {
-        with(binding.rvHome) {
-            setController(epoxyHomeController)
-        }
-
+        binding.rvHome.setController(epoxyHomeController)
     }
 
     override fun viewCreated() {

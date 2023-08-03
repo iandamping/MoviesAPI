@@ -62,9 +62,6 @@ class EpoxyDetailController(
                         .id(data.movieData.overview)
                         .addTo(this)
                 }
-                EpoxyCommonTitle("Similar Movie", 24)
-                    .id("detail_similar_movie_title")
-                    .addTo(this)
 
                 if (data.uiState == PresentationState.Loading) {
                     val shimmerModel: MutableList<EpoxyModel<ViewBindingHolder>> =
@@ -85,6 +82,11 @@ class EpoxyDetailController(
                 }
 
                 if (data.similarMovieData.isNotEmpty()) {
+
+                    EpoxyCommonTitle("Similar Movie", 24)
+                        .id("detail_similar_movie_title")
+                        .addTo(this)
+
                     val carouselSimilarMovieModel = data.similarMovieData.map {
                         EpoxyDetailSimilarMovieContent(
                             data = it,
@@ -125,9 +127,6 @@ class EpoxyDetailController(
                         .addTo(this)
                 }
 
-                EpoxyCommonTitle("Similar Television", 24)
-                    .id("detail_similar_television_title")
-                    .addTo(this)
 
                 if (data.uiState == PresentationState.Loading) {
                     val shimmerModel: MutableList<EpoxyModel<ViewBindingHolder>> =
@@ -148,6 +147,11 @@ class EpoxyDetailController(
                 }
 
                 if (data.similarTelevisionData.isNotEmpty()) {
+
+                    EpoxyCommonTitle("Similar Television", 24)
+                        .id("detail_similar_television_title")
+                        .addTo(this)
+
                     val carouselSimilarTelevisionModel = data.similarTelevisionData.map {
                         EpoxyDetailSimilarTelevisionContent(
                             data = it,
