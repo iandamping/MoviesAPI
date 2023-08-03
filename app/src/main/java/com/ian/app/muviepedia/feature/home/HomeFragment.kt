@@ -1,6 +1,6 @@
 package com.ian.app.muviepedia.feature.home
 
-import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -17,7 +17,8 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyPopularMovieControllerListener,
     EpoxyHomeController.EpoxyNowPlayingMovieControllerListener,
     EpoxyHomeController.EpoxyTopRatedMovieControllerListener,
-    EpoxyHomeController.EpoxyUpComingMovieControllerListener {
+    EpoxyHomeController.EpoxyUpComingMovieControllerListener,
+    EpoxyHomeController.EpoxyPopularTelevisionControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -35,7 +36,8 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
             clickListener1 = this,
             clickListener2 = this,
             clickListener3 = this,
-            clickListener4 = this
+            clickListener4 = this,
+            clickListener5 = this
         )
     }
 
@@ -48,7 +50,6 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     }
 
     override fun initView() {
-        requireActivity().window.setBackgroundDrawable(ColorDrawable(android.graphics.Color.BLACK))
         with(binding.rvHome) {
             setController(epoxyHomeController)
         }
@@ -77,6 +78,10 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
 
     override fun onUpComingMovieClick(id: Int) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
+    }
+
+    override fun onPopularTelevisionClick(id: Int) {
+        Log.e("TAG", "onPopularTelevisionClick: $id")
     }
 
 

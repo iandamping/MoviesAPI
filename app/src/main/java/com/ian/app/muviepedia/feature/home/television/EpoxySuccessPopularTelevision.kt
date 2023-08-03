@@ -1,30 +1,30 @@
-package com.ian.app.muviepedia.feature.home.epoxy.popular
+package com.ian.app.muviepedia.feature.home.television
 
 import coil.load
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.databinding.ItemPopularMovieBinding
+import com.ian.app.muviepedia.databinding.ItemPopularTelevisionBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
-class EpoxySuccessPopularMovie(
+class EpoxySuccessPopularTelevision(
     private val viewHelper: ViewHelper,
-    private val data: EpoxyPopularMovieData.MovieData,
+    private val data: EpoxyPopularTelevisionData.TelevisionData,
     private val clickListener: (Int) -> Unit
-) : ViewBindingEpoxyModelWithHolder<ItemPopularMovieBinding>() {
-    override fun ItemPopularMovieBinding.bind() {
+) : ViewBindingEpoxyModelWithHolder<ItemPopularTelevisionBinding>() {
+    override fun ItemPopularTelevisionBinding.bind() {
         viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
-        ivMovie.load(data.poster_path) {
+        ivTelevision.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)
             error(R.drawable.empty_image)
         }
-
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }
     }
 
+
     override fun getDefaultLayout(): Int {
-        return R.layout.item_popular_movie
+        return R.layout.item_popular_television
     }
 }

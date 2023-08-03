@@ -90,24 +90,6 @@ class MovieRepositoryImpl @Inject constructor(
                 return remoteDataSource.getPopularMovie()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                val localData = localDataSource.loadAllMovieDataByType(MovieType.Popular.name).firstOrNull()
-                val remoteData = remoteDataSource.getPopularMovie()
-                return if (localData!=null){
-                    when(remoteData){
-                        is DataSource.Error -> false
-                        is DataSource.Success ->{
-                            val remoteNames = remoteData.data.results.map { it.title }
-                            val localNames = localData.map { it.title }
-                            localNames equalsIgnoreOrder remoteNames
-                        }
-                    }
-                } else {
-                    false
-                }
-
-            }
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAll()
             }
@@ -149,22 +131,6 @@ class MovieRepositoryImpl @Inject constructor(
                 return remoteDataSource.getNowPlaying()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                val localData = localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name).firstOrNull()
-                val remoteData = remoteDataSource.getNowPlaying()
-                return if (localData!=null){
-                    when(remoteData){
-                        is DataSource.Error -> false
-                        is DataSource.Success ->{
-                            val remoteNames = remoteData.data.results.map { it.title }
-                            val localNames = localData.map { it.title }
-                            localNames equalsIgnoreOrder remoteNames
-                        }
-                    }
-                } else {
-                    false
-                }
-            }
 
             override suspend fun clearFirst() {
                 localDataSource.deleteAll()
@@ -211,22 +177,6 @@ class MovieRepositoryImpl @Inject constructor(
                 localDataSource.deleteAll()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                val localData = localDataSource.loadAllMovieDataByType(MovieType.TopRated.name).firstOrNull()
-                val remoteData = remoteDataSource.getTopRatedMovie()
-                return if (localData!=null){
-                    when(remoteData){
-                        is DataSource.Error -> false
-                        is DataSource.Success ->{
-                            val remoteNames = remoteData.data.results.map { it.title }
-                            val localNames = localData.map { it.title }
-                            localNames equalsIgnoreOrder remoteNames
-                        }
-                    }
-                } else {
-                    false
-                }
-            }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
@@ -269,22 +219,6 @@ class MovieRepositoryImpl @Inject constructor(
                 localDataSource.deleteAll()
             }
 
-            override suspend fun isItemSame(): Boolean {
-                val localData = localDataSource.loadAllMovieDataByType(MovieType.UpComing.name).firstOrNull()
-                val remoteData = remoteDataSource.getUpComingMovie()
-                return if (localData!=null){
-                    when(remoteData){
-                        is DataSource.Error -> false
-                        is DataSource.Success ->{
-                            val remoteNames = remoteData.data.results.map { it.title }
-                            val localNames = localData.map { it.title }
-                            localNames equalsIgnoreOrder remoteNames
-                        }
-                    }
-                } else {
-                    false
-                }
-            }
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
