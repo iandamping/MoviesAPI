@@ -31,37 +31,19 @@ import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyHomeController(
     private val viewHelper: ViewHelper,
-    private val clickListener1: EpoxyNowPlayingMovieControllerListener,
-    private val clickListener2: EpoxyPopularMovieControllerListener,
-    private val clickListener3: EpoxyTopRatedMovieControllerListener,
-    private val clickListener4: EpoxyUpComingMovieControllerListener,
-    private val clickListener5: EpoxyPopularTelevisionControllerListener,
-    private val clickListener6: EpoxyTopRatedTelevisionControllerListener
+    private val movieClickListener: EpoxyMovieControllerListener,
+    private val televisionClickListener: EpoxyTelevisionControllerListener,
 ) : TypedEpoxyController<EpoxyHomeData>() {
 
-    interface EpoxyNowPlayingMovieControllerListener {
-        fun onNowPlayingClick(id: Int)
+
+    interface EpoxyMovieControllerListener {
+        fun onMovieClick(id: Int)
     }
 
-    interface EpoxyPopularMovieControllerListener {
-        fun onPopularMovieClick(id: Int)
+    interface EpoxyTelevisionControllerListener {
+        fun onTelevisionClick(id: Int)
     }
 
-    interface EpoxyTopRatedMovieControllerListener {
-        fun onTopRatedMovieClick(id: Int)
-    }
-
-    interface EpoxyUpComingMovieControllerListener {
-        fun onUpComingMovieClick(id: Int)
-    }
-
-    interface EpoxyPopularTelevisionControllerListener {
-        fun onPopularTelevisionClick(id: Int)
-    }
-
-    interface EpoxyTopRatedTelevisionControllerListener {
-        fun onTopRatedTelevisionClick(id: Int)
-    }
 
     override fun buildModels(data: EpoxyHomeData?) {
         EpoxyCommonTitle("Popular Movie", 18)
@@ -81,7 +63,7 @@ class EpoxyHomeController(
                             EpoxySuccessPopularMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener2::onPopularMovieClick
+                                clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
                         }
@@ -117,7 +99,7 @@ class EpoxyHomeController(
                             EpoxySuccessNowPlayingMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener1::onNowPlayingClick
+                                clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
                         }
@@ -153,7 +135,7 @@ class EpoxyHomeController(
                             EpoxySuccessTopRatedMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener3::onTopRatedMovieClick
+                                clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
                         }
@@ -190,7 +172,7 @@ class EpoxyHomeController(
                             EpoxySuccessUpComingMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener4::onUpComingMovieClick
+                                clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
                         }
@@ -228,7 +210,7 @@ class EpoxyHomeController(
                             EpoxySuccessPopularTelevision(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener5::onPopularTelevisionClick
+                                clickListener = televisionClickListener::onTelevisionClick
                             )
                                 .id(multiData.epoxyId)
                         }
@@ -266,7 +248,7 @@ class EpoxyHomeController(
                             EpoxySuccessTopRatedTelevision(
                                 viewHelper = viewHelper,
                                 data = multiData,
-                                clickListener = clickListener6::onTopRatedTelevisionClick
+                                clickListener = televisionClickListener::onTelevisionClick
                             )
                                 .id(multiData.epoxyId)
                         }

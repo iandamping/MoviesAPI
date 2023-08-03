@@ -19,5 +19,8 @@
         <argument
             android:name="passedMovieId"
             app:argType="integer" />
+        <argument
+            android:name="passedDetailFlag"
+            app:argType="com.ian.app.muviepedia.feature.detail.enums.DetailFlag" />
     </fragment>
 </navigation>
