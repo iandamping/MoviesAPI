@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.feature.detail.epoxy
+package com.ian.app.muviepedia.feature.detail.epoxy.movie
 
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ShimmerDetailSimilarMovieContentBinding

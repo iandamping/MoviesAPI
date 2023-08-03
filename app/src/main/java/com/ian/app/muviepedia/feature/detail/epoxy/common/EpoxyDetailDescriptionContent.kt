@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.feature.detail.epoxy
+package com.ian.app.muviepedia.feature.detail.epoxy.common
 
 import android.graphics.Color
 import com.ian.app.muviepedia.R

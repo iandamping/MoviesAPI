@@ -9,7 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentDetailBinding
 import com.ian.app.muviepedia.di.fragmentComponent
-import com.ian.app.muviepedia.feature.detail.epoxy.EpoxyDetailController
+import com.ian.app.muviepedia.feature.detail.epoxy.controller.EpoxyDetailController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
     }
 
     override fun initView() {
-        viewModel.getDetailMovie(args.passedMovieId)
+        viewModel.getDetailMovie(args.passedMovieId, args.passedDetailFlag)
         with(binding.rvDetail) {
             setController(epoxyDetailController)
         }
@@ -62,7 +62,7 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
         findNavController().popBackStack()
     }
 
-    override fun onSimilarItemClick(movieId: Int) {
-        viewModel.getDetailMovie(movieId)
+    override fun onSimilarItemClick(id: Int) {
+        viewModel.getDetailMovie(id, args.passedDetailFlag)
     }
 }

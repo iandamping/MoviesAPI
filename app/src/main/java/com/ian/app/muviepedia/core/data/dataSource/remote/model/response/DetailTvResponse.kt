@@ -24,7 +24,7 @@ data class DetailTvResponse(
     @Json(name = "spoken_languages") val spoken_languages: List<SpokenLanguageResponse>,
     @Json(name = "status") val status: String?,
     @Json(name = "tagline") val tagline: String?,
-    @Json(name = "title") val title: String?,
+    @Json(name = "name") val title: String?,
     @Json(name = "video") val video: Boolean?,
     @Json(name = "vote_average") val vote_average: Double?,
     @Json(name = "vote_count") val vote_count: Int?

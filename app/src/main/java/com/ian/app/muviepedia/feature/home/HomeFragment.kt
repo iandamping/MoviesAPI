@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.feature.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -9,17 +8,14 @@ import androidx.navigation.fragment.findNavController
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentHomeBinding
 import com.ian.app.muviepedia.di.fragmentComponent
+import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
 import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
 class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
-    EpoxyHomeController.EpoxyPopularMovieControllerListener,
-    EpoxyHomeController.EpoxyNowPlayingMovieControllerListener,
-    EpoxyHomeController.EpoxyTopRatedMovieControllerListener,
-    EpoxyHomeController.EpoxyUpComingMovieControllerListener,
-    EpoxyHomeController.EpoxyPopularTelevisionControllerListener,
-    EpoxyHomeController.EpoxyTopRatedTelevisionControllerListener {
+    EpoxyHomeController.EpoxyMovieControllerListener,
+    EpoxyHomeController.EpoxyTelevisionControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -34,12 +30,8 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     private val epoxyHomeController: EpoxyHomeController by lazy {
         EpoxyHomeController(
             viewHelper = viewHelper,
-            clickListener1 = this,
-            clickListener2 = this,
-            clickListener3 = this,
-            clickListener4 = this,
-            clickListener5 = this,
-            clickListener6 = this
+            movieClickListener = this,
+            televisionClickListener = this
         )
     }
 
@@ -66,28 +58,23 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
         }
     }
 
-    override fun onPopularMovieClick(id: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
+    override fun onMovieClick(id: Int) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                id,
+                DetailFlag.MOVIE
+            )
+        )
+
     }
 
-    override fun onNowPlayingClick(id: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
-    }
-
-    override fun onTopRatedMovieClick(id: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
-    }
-
-    override fun onUpComingMovieClick(id: Int) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(id))
-    }
-
-    override fun onPopularTelevisionClick(id: Int) {
-        Log.e("TAG", "onPopularTelevisionClick: $id")
-    }
-
-    override fun onTopRatedTelevisionClick(id: Int) {
-        Log.e("TAG", "onTopRatedTelevisionClick: $id")
+    override fun onTelevisionClick(id: Int) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                id,
+                DetailFlag.TELEVISION
+            )
+        )
     }
 
 
