@@ -4,11 +4,12 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
-import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
-import com.ian.app.muviepedia.feature.home.television.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
 import javax.inject.Inject
 
 class EpoxyMapperImpl @Inject constructor() :
@@ -80,8 +81,29 @@ class EpoxyMapperImpl @Inject constructor() :
         return data.map { it.toEpoxyPopularData() }
     }
 
+    override fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData> {
+        return data.map { it.toEpoxyTopRatedData() }
+    }
+
     private fun EpoxyTelevision.toEpoxyPopularData(): EpoxyPopularTelevisionData.TelevisionData {
         return EpoxyPopularTelevisionData.TelevisionData(
+            epoxyId = epoxyId,
+            originalName = originalName,
+            name = name,
+            popularity = popularity,
+            voteCount = voteCount,
+            firstAirDate = firstAirDate,
+            backdropPath = backdropPath,
+            originalLanguage = originalLanguage,
+            id = id,
+            voteAverage = voteAverage,
+            overview = overview,
+            posterPath = posterPath
+        )
+    }
+
+    private fun EpoxyTelevision.toEpoxyTopRatedData(): EpoxyTopRatedTelevisionData.TelevisionData {
+        return EpoxyTopRatedTelevisionData.TelevisionData(
             epoxyId = epoxyId,
             originalName = originalName,
             name = name,

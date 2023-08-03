@@ -8,12 +8,13 @@ import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.core.presentation.EpoxyMapper
-import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeCarouselData
-import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
-import com.ian.app.muviepedia.feature.home.television.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,9 +30,9 @@ class HomeViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _epoxyMovieData: MutableStateFlow<EpoxyHomeCarouselData> =
-        MutableStateFlow(EpoxyHomeCarouselData.init())
-    val epoxyMovieData: StateFlow<EpoxyHomeCarouselData> =
+    private val _epoxyMovieData: MutableStateFlow<EpoxyHomeData> =
+        MutableStateFlow(EpoxyHomeData.init())
+    val epoxyMovieData: StateFlow<EpoxyHomeData> =
         _epoxyMovieData.asStateFlow()
 
 
@@ -159,6 +160,29 @@ class HomeViewModel @Inject constructor(
     }
 
 
+    private fun setEpoxyUpComingMovieLoading() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                upComingMovie = mutableListOf(
+                    EpoxyUpComingMovieData.Shimmer(0),
+                    EpoxyUpComingMovieData.Shimmer(1),
+                    EpoxyUpComingMovieData.Shimmer(2),
+                    EpoxyUpComingMovieData.Shimmer(3),
+                    EpoxyUpComingMovieData.Shimmer(4),
+                    EpoxyUpComingMovieData.Shimmer(5),
+                    EpoxyUpComingMovieData.Shimmer(6),
+                )
+            )
+
+        }
+    }
+
+    private fun setEpoxyUpComingMovieError() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(upComingMovie = mutableListOf(EpoxyUpComingMovieData.Error))
+        }
+    }
+
     private fun setEpoxyPopularTelevisionData(televisionData: List<Television>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
@@ -196,29 +220,40 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun setEpoxyUpComingMovieLoading() {
+    private fun setEpoxyTopRatedTelevisionData(televisionData: List<Television>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                upComingMovie = mutableListOf(
-                    EpoxyUpComingMovieData.Shimmer(0),
-                    EpoxyUpComingMovieData.Shimmer(1),
-                    EpoxyUpComingMovieData.Shimmer(2),
-                    EpoxyUpComingMovieData.Shimmer(3),
-                    EpoxyUpComingMovieData.Shimmer(4),
-                    EpoxyUpComingMovieData.Shimmer(5),
-                    EpoxyUpComingMovieData.Shimmer(6),
+                topRatedTelevision = epoxyMapper.epoxyTopRatedTelevisionListMapper(
+                    epoxyMapper.extractTelevisionToEpoxy(
+                        televisionData
+                    )
+                )
+            )
+        }
+    }
+
+    private fun setEpoxyTopRatedTelevisionLoading() {
+        _epoxyMovieData.update { uiState ->
+            uiState.copy(
+                topRatedTelevision = mutableListOf(
+                    EpoxyTopRatedTelevisionData.Shimmer(0),
+                    EpoxyTopRatedTelevisionData.Shimmer(1),
+                    EpoxyTopRatedTelevisionData.Shimmer(2),
+                    EpoxyTopRatedTelevisionData.Shimmer(3),
+                    EpoxyTopRatedTelevisionData.Shimmer(4),
+                    EpoxyTopRatedTelevisionData.Shimmer(5),
+                    EpoxyTopRatedTelevisionData.Shimmer(6),
                 )
             )
 
         }
     }
 
-    private fun setEpoxyUpComingMovieError() {
+    private fun setEpoxyTopRatedTelevisionError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(upComingMovie = mutableListOf(EpoxyUpComingMovieData.Error))
+            uiState.copy(topRatedTelevision = mutableListOf(EpoxyTopRatedTelevisionData.Error))
         }
     }
-
     init {
         viewModelScope.launch {
             movieRepository.fetchPopularMovie().onStart { setEpoxyPopularMovieLoading() }.collect {
@@ -270,6 +305,17 @@ class HomeViewModel @Inject constructor(
                     when (it) {
                         is DomainSource.Error -> setEpoxyPopularTelevisionError()
                         is DomainSource.Success -> setEpoxyPopularTelevisionData(it.data)
+                    }
+                }
+        }
+
+
+        viewModelScope.launch {
+            tvRepository.prefetchTopRatedTv().onStart { setEpoxyTopRatedTelevisionLoading() }
+                .collect {
+                    when (it) {
+                        is DomainSource.Error -> setEpoxyTopRatedTelevisionError()
+                        is DomainSource.Success -> setEpoxyTopRatedTelevisionData(it.data)
                     }
                 }
         }

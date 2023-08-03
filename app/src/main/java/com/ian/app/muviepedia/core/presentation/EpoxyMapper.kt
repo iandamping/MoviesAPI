@@ -4,11 +4,12 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
-import com.ian.app.muviepedia.feature.home.epoxy.nowPlaying.EpoxyNowPlayingMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.popular.EpoxyPopularMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.topRated.EpoxyTopRatedMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.upComing.EpoxyUpComingMovieData
-import com.ian.app.muviepedia.feature.home.television.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
 
 interface EpoxyMapper {
 
@@ -25,6 +26,8 @@ interface EpoxyMapper {
     fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision>
 
     fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
+
+    fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData>
 
 
 }

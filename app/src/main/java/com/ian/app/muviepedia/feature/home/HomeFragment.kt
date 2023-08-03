@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentHomeBinding
 import com.ian.app.muviepedia.di.fragmentComponent
-import com.ian.app.muviepedia.feature.home.epoxy.carousel.EpoxyHomeController
+import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
@@ -18,7 +18,8 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyNowPlayingMovieControllerListener,
     EpoxyHomeController.EpoxyTopRatedMovieControllerListener,
     EpoxyHomeController.EpoxyUpComingMovieControllerListener,
-    EpoxyHomeController.EpoxyPopularTelevisionControllerListener {
+    EpoxyHomeController.EpoxyPopularTelevisionControllerListener,
+    EpoxyHomeController.EpoxyTopRatedTelevisionControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -37,7 +38,8 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
             clickListener2 = this,
             clickListener3 = this,
             clickListener4 = this,
-            clickListener5 = this
+            clickListener5 = this,
+            clickListener6 = this
         )
     }
 
@@ -82,6 +84,10 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
 
     override fun onPopularTelevisionClick(id: Int) {
         Log.e("TAG", "onPopularTelevisionClick: $id")
+    }
+
+    override fun onTopRatedTelevisionClick(id: Int) {
+        Log.e("TAG", "onTopRatedTelevisionClick: $id")
     }
 
 
