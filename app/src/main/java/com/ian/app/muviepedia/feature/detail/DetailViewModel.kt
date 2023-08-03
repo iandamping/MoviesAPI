@@ -11,6 +11,7 @@ import com.ian.app.muviepedia.feature.state.PresentationState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -26,13 +27,17 @@ class DetailViewModel @Inject constructor(
     )
     val detailMovieUiState: StateFlow<DetailMovieUiState> = _detailMovieUiState.asStateFlow()
 
+    fun resetDetailMovieState(){
+        _detailMovieUiState.update { DetailMovieUiState.initialize() }
+    }
+
 
     fun getDetailMovie(movieId: Int) {
         viewModelScope.launch {
             movieRepository.fetchDetailMovie(movieId = movieId)
                 .combine(movieRepository.fetchSimilarMovie(movieId)) { a, b ->
                     GenericPairData(a, b)
-                }.collect { data ->
+                }.collectLatest { data ->
                     when (data.data1) {
                         is DomainSource.Error -> _detailMovieUiState.update { uiState ->
                             uiState.copy(

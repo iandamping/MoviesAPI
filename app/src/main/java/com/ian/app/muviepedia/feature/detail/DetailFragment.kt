@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.feature.detail
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -11,12 +10,12 @@ import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentDetailBinding
 import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.detail.epoxy.EpoxyDetailController
-import com.ian.app.muviepedia.feature.state.PresentationState
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
 class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
-    EpoxyDetailController.EpoxyDetailControllerBackPress {
+    EpoxyDetailController.EpoxyDetailControllerBackPress,
+    EpoxyDetailController.EpoxyDetailControllerSimilarItemListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -30,7 +29,11 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
         viewModelFactory
     }
     private val epoxyDetailController: EpoxyDetailController by lazy {
-        EpoxyDetailController(backPressListener = this, viewHelper = viewHelper)
+        EpoxyDetailController(
+            similarMovieListener = this,
+            backPressListener = this,
+            viewHelper = viewHelper
+        )
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
@@ -50,28 +53,16 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
     override fun viewCreated() {
         consumeSuspend {
             viewModel.detailMovieUiState.collect {
-                when (it.uiState) {
-                    PresentationState.Loading -> {
-                        Log.e("TAG", "viewCreated: loading")
-
-                    }
-
-                    PresentationState.Success -> {
-                        epoxyDetailController.setData(it)
-
-                    }
-
-                    PresentationState.Failed -> {
-                        if (it.errorMessage.isNotEmpty()) {
-                            Log.e("TAG", "viewCreated: ${it.errorMessage}")
-                        }
-                    }
-                }
+                epoxyDetailController.setData(it)
             }
         }
     }
 
     override fun onBackIsPressed() {
         findNavController().popBackStack()
+    }
+
+    override fun onSimilarItemClick(movieId: Int) {
+        viewModel.getDetailMovie(movieId)
     }
 }

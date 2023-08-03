@@ -14,7 +14,11 @@ class EpoxySuccessNowPlayingMovie(
 
     override fun ItemNowPlayingBinding.bind() {
         viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
-        ivMovie.load(data.poster_path)
+        ivMovie.load(data.poster_path){
+            crossfade(true)
+            placeholder(R.drawable.empty_image)
+            error(R.drawable.empty_image)
+        }
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }
