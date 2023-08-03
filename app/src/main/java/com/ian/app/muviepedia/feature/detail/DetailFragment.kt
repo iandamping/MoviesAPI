@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.feature.detail
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -11,7 +10,6 @@ import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentDetailBinding
 import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.detail.epoxy.EpoxyDetailController
-import com.ian.app.muviepedia.feature.state.PresentationState
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
@@ -55,22 +53,7 @@ class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
     override fun viewCreated() {
         consumeSuspend {
             viewModel.detailMovieUiState.collect {
-                when (it.uiState) {
-                    PresentationState.Loading -> {
-                        Log.e("TAG", "viewCreated: loading")
-
-                    }
-
-                    PresentationState.Success -> {
-                        epoxyDetailController.setData(it)
-                    }
-
-                    PresentationState.Failed -> {
-                        if (it.errorMessage.isNotEmpty()) {
-                            Log.e("TAG", "viewCreated: ${it.errorMessage}")
-                        }
-                    }
-                }
+                epoxyDetailController.setData(it)
             }
         }
     }
