@@ -9,17 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:paddingTop="@dimen/spacing_medium"
+            android:layout_height="30dp"
             android:background="@color/placeholder_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/CustomCorner" />
 
-        <TextView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/tvDetailDesc"
+            app:shapeAppearanceOverlay="@style/CustomCorner"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/spacing_large"

@@ -48,7 +48,7 @@ class EpoxyHomeController(
 
     override fun buildModels(data: EpoxyHomeData?) {
         EpoxyCommonTitle("Popular Movie", 18)
-            .id("movie_popular_title")
+            .id("1_movie_popular_title")
             .addTo(this)
         //carousel popular movie
         if (data != null) {
@@ -76,7 +76,7 @@ class EpoxyHomeController(
                     }
                 }
                 HorizontalGridCarouselModel_()
-                    .id("movie_popular")
+                    .id("1_movie_popular")
                     .models(carouselPopularModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
@@ -84,7 +84,7 @@ class EpoxyHomeController(
         }
 
         EpoxyCommonTitle("Now Playing Movie", 16)
-            .id("movie_now_playing_title")
+            .id("2_movie_now_playing_title")
             .addTo(this)
         //carouse now playing movie
         if (data != null) {
@@ -113,7 +113,7 @@ class EpoxyHomeController(
                 }
 
                 CarouselModel_()
-                    .id("movie_now_playing")
+                    .id("2_movie_now_playing")
                     .models(carouselNowPlayingModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
@@ -121,7 +121,7 @@ class EpoxyHomeController(
         }
 
         EpoxyCommonTitle("Top Rated", 16)
-            .id("movie_top_rated_title")
+            .id("3_movie_top_rated_title")
             .addTo(this)
         if (data != null) {
             if (data.nowPlayingMovie.isNotEmpty()) {
@@ -148,8 +148,8 @@ class EpoxyHomeController(
                     }
                 }
 
-                CarouselModel_()
-                    .id("movie_top_rated")
+                HorizontalGridCarouselModel_()
+                    .id("3_movie_top_rated")
                     .models(carouselTopRatedModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
@@ -158,7 +158,7 @@ class EpoxyHomeController(
 
 
         EpoxyCommonTitle("Up Coming", 16)
-            .id("movie_up_coming_title")
+            .id("4_movie_up_coming_title")
             .addTo(this)
         if (data != null) {
             if (data.nowPlayingMovie.isNotEmpty()) {
@@ -186,7 +186,7 @@ class EpoxyHomeController(
                 }
 
                 CarouselModel_()
-                    .id("movie_up_coming")
+                    .id("4_movie_up_coming")
                     .models(carouselUpComingModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
@@ -195,7 +195,7 @@ class EpoxyHomeController(
 
 
         EpoxyCommonTitle("Popular Television", 18)
-            .id("television_popular_title")
+            .id("5_television_popular_title")
             .addTo(this)
         //carousel popular movie
         if (data != null) {
@@ -223,7 +223,7 @@ class EpoxyHomeController(
                     }
                 }
                 CarouselModel_()
-                    .id("television_popular")
+                    .id("5_television_popular")
                     .models(carouselPopularModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
@@ -233,7 +233,7 @@ class EpoxyHomeController(
 
 
         EpoxyCommonTitle("Top Rated Television", 18)
-            .id("television_toprated_title")
+            .id("6_television_toprated_title")
             .addTo(this)
         //carousel popular movie
         if (data != null) {
@@ -260,8 +260,8 @@ class EpoxyHomeController(
                         }
                     }
                 }
-                CarouselModel_()
-                    .id("television_toprated")
+                HorizontalGridCarouselModel_()
+                    .id("6_television_toprated")
                     .models(carouselTopRatedModel)
                     .numViewsToShowOnScreen(2f)
                     .addTo(this)
