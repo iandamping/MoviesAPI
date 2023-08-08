@@ -106,6 +106,7 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2@aar'
     //coroutine
     implementation (libs.bundles.coroutine.bundle)
+    testImplementation(unitTestLibs.coroutine.unit.test)
 
 }
 
