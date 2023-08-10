@@ -1,72 +1,29 @@
 package com.ian.app.muviepedia.ui.activity
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.ian.app.helper.util.fullScreenAnimation
-import com.ian.app.helper.util.switchFragment
-import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.ui.fragment.movie.HomeFragment
-import com.ian.app.muviepedia.ui.fragment.profile.ProfileFragment
-import com.ian.app.muviepedia.ui.fragment.saved.SavedMovieFragment
-import com.ian.app.muviepedia.ui.fragment.tv.TvFragment
-import com.ian.app.muviepedia.util.MovieConstant.switchBackToMain
-import kotlinx.android.synthetic.main.activity_main.*
+import com.ian.app.muviepedia.databinding.ActivityMainBinding
+import com.ian.app.muviepedia.di.activityComponent
 
 /**
  *
 Created by Ian Damping on 05/06/2019.
 Github = https://github.com/iandamping
  */
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        activityComponent()
         super.onCreate(savedInstanceState)
-        fullScreenAnimation()
-        setContentView(R.layout.activity_main)
-        initBottomNav()
-        moveToSpesificFragment(intent?.getStringExtra(switchBackToMain))
-    }
+        window.setBackgroundDrawable(ColorDrawable(Color.BLACK))
 
-    private fun moveToSpesificFragment(dataCallback: String?) {
-        when {
-            dataCallback != null && dataCallback.contentEquals("3") -> {
-                supportFragmentManager.switchFragment(null, R.id.main_container, ProfileFragment())
-                bottom_navigation.selectedItemId = R.id.navigation_profile
-            }
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.navigation_home -> {
-                supportFragmentManager.switchFragment(null, R.id.main_container, HomeFragment())
-                true
-            }
-            R.id.navigation_home_tv -> {
-                supportFragmentManager.switchFragment(null, R.id.main_container, TvFragment())
-                true
-            }
-
-            R.id.navigation_saved -> {
-                supportFragmentManager.switchFragment(null, R.id.main_container, SavedMovieFragment())
-                true
-            }
-            R.id.navigation_profile -> {
-                supportFragmentManager.switchFragment(null, R.id.main_container, ProfileFragment())
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
 
-    private fun initBottomNav() {
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
-        supportFragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment())
-                .commit()
-    }
 }

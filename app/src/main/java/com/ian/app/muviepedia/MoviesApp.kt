@@ -1,32 +1,18 @@
 package com.ian.app.muviepedia
 
 import android.app.Application
-import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
-import com.ian.app.muviepedia.di.*
-import com.ian.app.muviepedia.util.PreferenceHelper
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import com.ian.app.muviepedia.di.component.ApplicationComponent
+import com.ian.app.muviepedia.di.component.ApplicationComponentProvider
+import com.ian.app.muviepedia.di.component.DaggerApplicationComponent
 
 /**
  *
 Created by Ian Damping on 02/06/2019.
 Github = https://github.com/iandamping
  */
-class MoviesApp : Application() {
-    companion object {
-        val gson: Gson = Gson()
-        lateinit var prefHelper: PreferenceHelper
-        lateinit var mFirebaseAuth: FirebaseAuth
-    }
+class MoviesApp : Application(), ApplicationComponentProvider {
 
-    override fun onCreate() {
-        super.onCreate()
-        mFirebaseAuth = FirebaseAuth.getInstance()
-        prefHelper = PreferenceHelper(this)
-        startKoin {
-            androidContext(this@MoviesApp)
-            modules(listOf(networkMod, databaseModule, allVmModule,detailTvPresenter,detailMoviePresenter, repositoryModule))
-        }
+    override fun provideApplicationComponent(): ApplicationComponent {
+        return DaggerApplicationComponent.factory().injectApplication(this)
     }
 }
