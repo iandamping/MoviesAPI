@@ -105,6 +105,31 @@ class MovieRemoteDataSourceImplTest {
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
+    @Test
+    fun `getUpComingMovie return success`() = runTest {
+        //arrange
+        val baseData: List<MovieDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successUpComingMovieDataResponse(mockData)
+        //act
+        val result = sut.getUpComingMovie()
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `getUpComingMovie return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedUpComingMovieDataResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.getUpComingMovie()
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
 
     private suspend fun successDetailMovieResponse(mockData: DetailMovieResponse) = runTest {
         coEvery {
@@ -176,6 +201,31 @@ class MovieRemoteDataSourceImplTest {
         coEvery {
             remoteHelper.remoteWithBaseCall(
                 api.getPopularMovieAsync(
+                    any(),
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+    private suspend fun successUpComingMovieDataResponse(mockData: BaseResponse<MovieDataResponse>) =
+        runTest {
+            coEvery {
+                remoteHelper.remoteWithBaseCall(
+                    api.getUpComingMovieAsync(
+                        any(),
+                    )
+                )
+            } returns RemoteBaseResult.Success(
+                Response.success(mockData)
+            )
+        }
+
+    private suspend fun failedUpComingMovieDataResponse(exception: Exception) = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getUpComingMovieAsync(
                     any(),
                 )
             )
