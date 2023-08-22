@@ -3,9 +3,7 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.source.tv
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
-import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse
-import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.model.RemoteBaseResult
@@ -157,6 +155,32 @@ class TvRemoteDataSourceImplTest {
     }
 
 
+    @Test
+    fun `getOnAirTv return success`() = runTest {
+        //arrange
+        val baseData: List<TvDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successOnAiringTelevisionResponse(mockData)
+        //act
+        val result = sut.getOnAirTv()
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `getOnAirTv return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedOnAiringTelevisionResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.getOnAirTv()
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
+
     private fun successDetailTelevisionResponse(mockData: DetailTvResponse) {
         coEvery {
             remoteHelper.remoteCall(
@@ -276,6 +300,31 @@ class TvRemoteDataSourceImplTest {
         coEvery {
             remoteHelper.remoteWithBaseCall(
                 api.getAiringTodayTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+    private fun successOnAiringTelevisionResponse(mockData: BaseResponse<TvDataResponse>) =
+        runTest {
+            coEvery {
+                remoteHelper.remoteWithBaseCall(
+                    api.getOnAirTvAsync(
+                        any()
+                    )
+                )
+            } returns RemoteBaseResult.Success(
+                Response.success(mockData)
+            )
+        }
+
+    private fun failedOnAiringTelevisionResponse(exception: RuntimeException) = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getOnAirTvAsync(
                     any()
                 )
             )
