@@ -81,6 +81,81 @@ class TvRemoteDataSourceImplTest {
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
+    @Test
+    fun `getPopularTv return success`() = runTest {
+        //arrange
+        val baseData: List<TvDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successPopularTelevisionResponse(mockData)
+        //act
+        val result = sut.getPopularTv()
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `getPopularTv return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedPopularTelevisionResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.getPopularTv()
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
+    @Test
+    fun `getTopRatedTv return success`() = runTest {
+        //arrange
+        val baseData: List<TvDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successTopRatedTelevisionResponse(mockData)
+        //act
+        val result = sut.getTopRatedTv()
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `getTopRatedTv return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedTopRatedTelevisionResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.getTopRatedTv()
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
+    @Test
+    fun `getAiringTodayTv return success`() = runTest {
+        //arrange
+        val baseData: List<TvDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successAiringTelevisionResponse(mockData)
+        //act
+        val result = sut.getAiringTodayTv()
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `getAiringTodayTv return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedAiringTelevisionResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.getAiringTodayTv()
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
 
     private fun successDetailTelevisionResponse(mockData: DetailTvResponse) {
         coEvery {
@@ -127,6 +202,80 @@ class TvRemoteDataSourceImplTest {
             remoteHelper.remoteWithBaseCall(
                 api.getSimilarTvAsync(
                     any(),
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+
+    private fun successPopularTelevisionResponse(mockData: BaseResponse<TvDataResponse>) =  runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getPopularTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Success(
+            Response.success(mockData)
+        )
+    }
+
+    private fun failedPopularTelevisionResponse(exception: RuntimeException)  = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getPopularTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+
+    private fun successTopRatedTelevisionResponse(mockData: BaseResponse<TvDataResponse>) =  runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getTopRatedTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Success(
+            Response.success(mockData)
+        )
+    }
+
+    private fun failedTopRatedTelevisionResponse(exception: RuntimeException)  = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getTopRatedTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+    private fun successAiringTelevisionResponse(mockData: BaseResponse<TvDataResponse>) =  runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getAiringTodayTvAsync(
+                    any()
+                )
+            )
+        } returns RemoteBaseResult.Success(
+            Response.success(mockData)
+        )
+    }
+
+    private fun failedAiringTelevisionResponse(exception: RuntimeException)  = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getAiringTodayTvAsync(
                     any()
                 )
             )
