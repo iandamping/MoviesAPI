@@ -46,3 +46,6 @@ fun MovieDataResponse.mapToDatabase(type: String, timeStamp: Long): LocalMovieEn
         timeStamp = timeStamp
     )
 }
+
+fun List<MovieDataResponse>.mapListToDomain(type: String, timeStamp: Long) =
+    map { it.mapToDatabase(type, timeStamp) }

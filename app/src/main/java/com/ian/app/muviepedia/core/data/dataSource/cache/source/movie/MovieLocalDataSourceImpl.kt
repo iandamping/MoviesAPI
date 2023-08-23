@@ -20,7 +20,7 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
         return movieDao.loadAllMovieDataByType(type)
     }
 
-    override suspend fun insertMovie(vararg inputMovie: LocalMovieEntity) {
+    override suspend fun insertMovie(inputMovie: List<LocalMovieEntity>) {
         movieDao.insertMovieData(inputMovie = inputMovie)
     }
 
