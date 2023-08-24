@@ -628,4 +628,246 @@ class MovieRepositoryImplTest {
     }
 
 
+    @Test
+    fun `fetchTopRatedMovie return Success data from cache`() = runTest {
+        //arrange
+        val mockResponse: List<MovieDataResponse> = mockk()
+        val dataResponse = BaseResponse(1, 1, 1, mockResponse)
+        val domainMockResponse: List<Movie> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+
+        mockkStatic("kotlin.collections.CollectionsKt")
+        mockkStatic("kotlinx.coroutines.flow.FlowKt")
+        mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
+        mockkStatic(List<MovieDataResponse>::mapListToDomain)
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+        //mock setup for createCall()
+        coEvery { remoteDataSource.getTopRatedMovie() } returns DataSource.Success(dataResponse)
+        //mock setup for loadFromDB() & isExpired()
+        every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
+            domainListLocalMockEntity
+        )
+        //mock remote data in saveCallResult()
+        every {
+            mockResponse.mapListToDomain(any(), any())
+        } returns domainListLocalMockEntity
+        //mock firstOrNull to check isExpired()
+        coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock localData to check isExpired()
+        every { domainListLocalMockEntity.isEmpty() } returns false
+        every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
+        //mock extension func to check isExpired()
+        every { isExpireds(any()) } returns false
+        //mock loadFromDB()
+        every {
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        } returns domainMockResponse
+
+        //act
+        val result = sut.fetchTopRatedMovie()
+
+        //assert
+        Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
+        Assert.assertEquals(
+            domainListLocalMockEntity,
+            flowOf(domainListLocalMockEntity).firstOrNull()
+        )
+        Assert.assertEquals(
+            domainMockResponse,
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        )
+        Assert.assertFalse(isExpireds(1L))
+
+        result.test {
+            val state = awaitItem()
+            Assert.assertEquals(
+                DomainSource.Success(domainListLocalMockEntity.mapLocalMovieListToDomain()),
+                state
+            )
+
+            Assert.assertEquals(
+                domainListLocalMockEntity.mapLocalMovieListToDomain(),
+                (state as DomainSource.Success).data
+            )
+
+            awaitComplete()
+        }
+
+    }
+
+
+    @Test
+    fun `fetchTopRatedMovie return Success data from remote`() = runTest {
+        //arrange
+        val mockResponse: List<MovieDataResponse> = mockk()
+        val dataResponse = BaseResponse(1, 1, 1, mockResponse)
+        val domainMockResponse: List<Movie> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+
+        mockkStatic("kotlin.collections.CollectionsKt")
+        mockkStatic("kotlinx.coroutines.flow.FlowKt")
+        mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
+        mockkStatic(List<MovieDataResponse>::mapListToDomain)
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+        //mock setup for createCall()
+        coEvery { remoteDataSource.getTopRatedMovie() } returns DataSource.Success(dataResponse)
+        //mock setup for loadFromDB() & isExpired()
+        every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
+            domainListLocalMockEntity
+        )
+        //mock remote data in saveCallResult()
+        every {
+            mockResponse.mapListToDomain(any(), any())
+        } returns domainListLocalMockEntity
+        //mock firstOrNull to check isExpired()
+        coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock localData to check isExpired()
+        every { domainListLocalMockEntity.isEmpty() } returns false
+        every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
+        //mock extension func to check isExpired()
+        every { isExpireds(any()) } returns true
+        //mock clearFirst()
+        coJustRun { localDataSource.deleteAll() }
+        //mock loadFromDB()
+        every {
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        } returns domainMockResponse
+
+        //mock saveCallResult()
+        coJustRun { localDataSource.insertMovie(any()) }
+
+        //act
+        val result = sut.fetchTopRatedMovie()
+
+        //assert
+        Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
+        Assert.assertEquals(
+            domainListLocalMockEntity,
+            flowOf(domainListLocalMockEntity).firstOrNull()
+        )
+        Assert.assertEquals(
+            domainMockResponse,
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        )
+        Assert.assertTrue(isExpireds(1L))
+
+        result.test {
+            val state = awaitItem()
+            Assert.assertEquals(
+                DomainSource.Success(domainListLocalMockEntity.mapLocalMovieListToDomain()),
+                state
+            )
+
+            Assert.assertEquals(
+                domainListLocalMockEntity.mapLocalMovieListToDomain(),
+                (state as DomainSource.Success).data
+            )
+
+            awaitComplete()
+        }
+
+    }
+
+    @Test
+    fun `fetchTopRatedMovie return Error expired`() = runTest {
+        //arrange
+        val failedMessage = "error"
+        val mock = DataSource.Error(failedMessage)
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+        val domainMockResponse: List<Movie> = mockk()
+
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+        mockkStatic("kotlin.collections.CollectionsKt")
+        mockkStatic("kotlinx.coroutines.flow.FlowKt")
+        mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
+        mockkStatic(List<MovieDataResponse>::mapListToDomain)
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+
+        coEvery { remoteDataSource.getTopRatedMovie() } returns mock
+        //mock setup for loadFromDB() & isExpired()
+        every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
+            domainListLocalMockEntity
+        )
+        //mock loadFromDB()
+        every {
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        } returns emptyList()
+
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock firstOrNull to check isExpired()
+        coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock localData to check isExpired()
+        every { domainListLocalMockEntity.isEmpty() } returns false
+        every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
+        //mock extension func to check isExpired()
+        every { isExpireds(any()) } returns true
+
+        //act
+        val result = sut.fetchTopRatedMovie()
+        //assert
+        result.test {
+            val state = awaitItem()
+            Assert.assertEquals(DomainSource.Error(failedMessage), state)
+            Assert.assertEquals(failedMessage, (state as DomainSource.Error).message)
+            awaitComplete()
+        }
+    }
+
+
+    @Test
+    fun `fetchTopRatedMovie return Error not expired`() = runTest {
+        //arrange
+        val failedMessage = "error"
+        val mock = DataSource.Error(failedMessage)
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+        val domainMockResponse: List<Movie> = mockk()
+
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+        mockkStatic("kotlin.collections.CollectionsKt")
+        mockkStatic("kotlinx.coroutines.flow.FlowKt")
+        mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
+        mockkStatic(List<MovieDataResponse>::mapListToDomain)
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+
+        coEvery { remoteDataSource.getTopRatedMovie() } returns mock
+        //mock setup for loadFromDB() & isExpired()
+        every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
+            domainListLocalMockEntity
+        )
+        //mock loadFromDB()
+        every {
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        } returns emptyList()
+
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock firstOrNull to check isExpired()
+        coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
+        //mock isNullOrEmpty for shouldFetch()
+        every { domainMockResponse.isEmpty() } returns false
+        //mock localData to check isExpired()
+        every { domainListLocalMockEntity.isEmpty() } returns false
+        every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
+        //mock extension func to check isExpired()
+        every { isExpireds(any()) } returns false
+
+        //act
+        val result = sut.fetchTopRatedMovie()
+        //assert
+        result.test {
+            val state = awaitItem()
+            Assert.assertEquals(DomainSource.Error(failedMessage), state)
+            Assert.assertEquals(failedMessage, (state as DomainSource.Error).message)
+            awaitComplete()
+        }
+    }
+
+
 }
