@@ -28,12 +28,11 @@ class DetailViewModel @Inject constructor(
     private val _detailMovieUiState: MutableStateFlow<DetailMovieUiState> = MutableStateFlow(
         DetailMovieUiState.initialize()
     )
-    val detailMovieUiState: StateFlow<DetailMovieUiState> = _detailMovieUiState.asStateFlow()
+    val detailMovieUiState: StateFlow<DetailMovieUiState> get() = _detailMovieUiState.asStateFlow()
 
     fun resetDetailMovieState(){
         _detailMovieUiState.update { DetailMovieUiState.initialize() }
     }
-
 
     fun getDetailMovie(id: Int, flag: DetailFlag) {
         viewModelScope.launch {
