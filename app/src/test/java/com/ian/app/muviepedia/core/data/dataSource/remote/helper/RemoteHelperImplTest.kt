@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.helper
 
+import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
@@ -9,8 +10,10 @@ import com.ian.app.muviepedia.core.data.model.RemoteResult
 import com.ian.app.muviepedia.util.UtilityHelper
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -55,4 +58,32 @@ class RemoteHelperImplTest {
         assertEquals(RemoteBaseResult.Success(expected), result)
         assertEquals(expected, (result as RemoteBaseResult.Success).data)
     }
+
+
+    @Test
+    fun `any remoteCall should only call at least one api and could catch exception`() = runTest {
+        //arrange
+        var exceptionThrown = false
+
+        every { utilityHelper.getString(R.string.default_error_message) } returns "catch"
+        coEvery {
+            api.getDetailMovieAsync(
+                any(),
+                any()
+            )
+        } throws Exception(utilityHelper.getString(R.string.default_error_message))
+
+        try {
+            //act
+            sut.remoteCall(api.getDetailMovieAsync(1, "a"))
+
+        } catch (e: Exception) {
+            assertEquals(e.message, "catch")
+            exceptionThrown = true
+        }
+        //assert
+        coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
+        Assert.assertTrue(exceptionThrown)
+    }
+
 }
