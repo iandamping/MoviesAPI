@@ -1,22 +1,24 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.api
 
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.airingTodayTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.detailMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.detailTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.nowPlayingMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.onAirTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.popularMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.popularTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.searchMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.searchTvShows
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.similarMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.similarTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.topRatedMovie
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.topRatedTv
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.upComingMovie
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
-import com.ian.app.muviepedia.util.MovieConstant.airingTodayTv
-import com.ian.app.muviepedia.util.MovieConstant.detailMovie
-import com.ian.app.muviepedia.util.MovieConstant.detailTv
-import com.ian.app.muviepedia.util.MovieConstant.nowPlayingMovie
-import com.ian.app.muviepedia.util.MovieConstant.onAirTv
-import com.ian.app.muviepedia.util.MovieConstant.popularMovie
-import com.ian.app.muviepedia.util.MovieConstant.popularTv
-import com.ian.app.muviepedia.util.MovieConstant.similarMovie
-import com.ian.app.muviepedia.util.MovieConstant.similarTv
-import com.ian.app.muviepedia.util.MovieConstant.topRatedMovie
-import com.ian.app.muviepedia.util.MovieConstant.topRatedTv
-import com.ian.app.muviepedia.util.MovieConstant.upComingMovie
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -53,6 +55,12 @@ interface ApiInterface {
         @Query("api_key") apiKey: String
     ): Response<BaseResponse<MovieDataResponse>>
 
+    @GET(searchMovie)
+    suspend fun getSearchMovieResponse(
+        @Query("api_key") apiKey: String,
+        @Query("query") searchMovie: String
+    ): Response<BaseResponse<MovieDataResponse>>
+
     /*Movie Paging session*/
     @GET(popularMovie)
     suspend fun pagingGetPopularMovieAsync(
@@ -78,6 +86,7 @@ interface ApiInterface {
         @Query("page") page: Int
     ): Response<BaseResponse<MovieDataResponse>>
 
+
     /*Tv Session*/
     @GET(popularTv)
     suspend fun getPopularTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
@@ -102,6 +111,14 @@ interface ApiInterface {
         @Path("tv_id") tvId: Int,
         @Query("api_key") apiKey: String
     ): Response<BaseResponse<TvDataResponse>>
+
+
+    @GET(searchTvShows)
+    suspend fun getSearchTvResponse(
+        @Query("api_key") apiKey: String,
+        @Query("query") searchMovie: String
+    ): Response<BaseResponse<TvDataResponse>>
+
 
     /*Tv Paging session*/
     @GET(popularTv)

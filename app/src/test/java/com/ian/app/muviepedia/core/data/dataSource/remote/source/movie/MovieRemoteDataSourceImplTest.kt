@@ -180,6 +180,31 @@ class MovieRemoteDataSourceImplTest {
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
+    @Test
+    fun `searchMovie return success`() = runTest {
+        //arrange
+        val baseData: List<MovieDataResponse> = mockk()
+        val mockData = BaseResponse(1, 1, 1, baseData)
+        successSearchMovieDataResponse(mockData)
+        //act
+        val result = sut.searchMovie("a")
+        //assert
+        Assert.assertEquals(DataSource.Success(mockData), result)
+        Assert.assertEquals(mockData, (result as DataSource.Success).data)
+    }
+
+    @Test
+    fun `searchMovie return failed`() = runTest {
+        //arrange
+        val errorMessage = "error"
+        failedSearchMovieDataResponse(RuntimeException(errorMessage))
+        //act
+        val result = sut.searchMovie("a")
+        //assert
+        Assert.assertEquals(DataSource.Error(errorMessage), result)
+        Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
+    }
+
 
     private suspend fun successDetailMovieResponse(mockData: DetailMovieResponse) = runTest {
         coEvery {
@@ -326,6 +351,33 @@ class MovieRemoteDataSourceImplTest {
         coEvery {
             remoteHelper.remoteWithBaseCall(
                 api.getTopRatedMovieAsync(
+                    any(),
+                )
+            )
+        } returns RemoteBaseResult.Error(
+            exception
+        )
+    }
+
+    private suspend fun successSearchMovieDataResponse(mockData: BaseResponse<MovieDataResponse>) =
+        runTest {
+            coEvery {
+                remoteHelper.remoteWithBaseCall(
+                    api.getSearchMovieResponse(
+                        any(),
+                        any(),
+                    )
+                )
+            } returns RemoteBaseResult.Success(
+                Response.success(mockData)
+            )
+        }
+
+    private suspend fun failedSearchMovieDataResponse(exception: Exception) = runTest {
+        coEvery {
+            remoteHelper.remoteWithBaseCall(
+                api.getSearchMovieResponse(
+                    any(),
                     any(),
                 )
             )
