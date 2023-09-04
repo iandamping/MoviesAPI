@@ -1111,5 +1111,131 @@ class MovieRepositoryImplTest {
         }
     }
 
+    @Test
+    fun `fetchSearchMovie return Success data from cache`() = runTest {
+        //arrange
+        val domainMockResponse: List<Movie> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+
+        mockkStatic("kotlin.collections.CollectionsKt")
+        mockkStatic(List<MovieDataResponse>::mapListToDomain)
+        mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
+        //mock setup for loadFromDB()
+        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
+        //mock isNotEmpty
+        every { domainListLocalMockEntity.isNotEmpty() } returns false
+        //mock loadFromDB()
+        every {
+            domainListLocalMockEntity.mapLocalMovieListToDomain()
+        } returns domainMockResponse
+
+        //act
+        val result = sut.fetchSearchMovie("a")
+
+        //assert
+        result.test {
+            //get data from cache
+            val state = awaitItem()
+            Assert.assertEquals(
+                DomainSource.Success(domainListLocalMockEntity.mapLocalMovieListToDomain()),
+                state
+            )
+
+            Assert.assertEquals(
+                domainListLocalMockEntity.mapLocalMovieListToDomain(),
+                (state as DomainSource.Success).data
+            )
+
+            awaitComplete()
+        }
+
+    }
+
+    @Test
+    fun `fetchSearchMovie return Success data from remote`() = runTest {
+        //arrange
+        val mockResponse: List<MovieDataResponse> = mockk()
+        val dataResponse = BaseResponse(1, 1, 1, mockResponse)
+        val domainMockResponse: List<Movie> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+
+        mockkStatic(List<MovieDataResponse>::mapRemoteMovieListToDomain)
+        mockkStatic("kotlin.collections.CollectionsKt")
+        //mock setup for loadFromDB()
+        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
+        //mock isNotEmpty
+        every { domainListLocalMockEntity.isNotEmpty() } returns true
+        //mock remoteResponse
+        coEvery {
+            remoteDataSource.searchMovie(any())
+        } returns DataSource.Success(dataResponse)
+
+        every {
+            mockResponse.mapRemoteMovieListToDomain()
+        } returns domainMockResponse
+
+        //act
+        val result = sut.fetchSearchMovie("a")
+
+        //assert
+        result.test {
+            //get data from remote
+            val state = awaitItem()
+            Assert.assertEquals(
+                DomainSource.Success(mockResponse.mapRemoteMovieListToDomain()),
+                state
+            )
+
+            Assert.assertEquals(
+                mockResponse.mapRemoteMovieListToDomain(),
+                (state as DomainSource.Success).data
+            )
+
+            awaitComplete()
+        }
+
+    }
+
+
+
+    @Test
+    fun `fetchSearchMovie return Error data from remote`() = runTest {
+        //arrange
+        val failedMessage = "error"
+        val failedMock = DataSource.Error(failedMessage)
+        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+
+        mockkStatic("kotlin.collections.CollectionsKt")
+        //mock setup for loadFromDB()
+        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
+        //mock isNotEmpty
+        every { domainListLocalMockEntity.isNotEmpty() } returns true
+        //mock remoteResponse
+        coEvery {
+            remoteDataSource.searchMovie(any())
+        } returns failedMock
+
+        //act
+        val result = sut.fetchSearchMovie("a")
+
+        //assert
+        result.test {
+            //get data from remote
+            val state = awaitItem()
+            Assert.assertEquals(
+                DomainSource.Error(failedMessage),
+                state
+            )
+
+            Assert.assertEquals(
+                failedMessage,
+                (state as DomainSource.Error).message
+            )
+
+            awaitComplete()
+        }
+
+    }
+
 
 }

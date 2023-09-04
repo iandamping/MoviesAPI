@@ -20,6 +20,10 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
         return movieDao.loadAllMovieDataByType(type)
     }
 
+    override fun loadAllMovieDataByTitle(title: String): Flow<List<LocalMovieEntity>> {
+        return movieDao.loadAllMovieDataByTitle(title)
+    }
+
     override suspend fun insertMovie(inputMovie: List<LocalMovieEntity>) {
         movieDao.insertMovieData(inputMovie = inputMovie)
     }

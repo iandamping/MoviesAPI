@@ -11,6 +11,8 @@ interface MovieLocalDataSource {
 
     fun loadAllMovieDataByType(type: String): Flow<List<LocalMovieEntity>>
 
+    fun loadAllMovieDataByTitle(title: String): Flow<List<LocalMovieEntity>>
+
     suspend fun insertMovie(inputMovie: List<LocalMovieEntity>)
 
     suspend fun deleteAll()
