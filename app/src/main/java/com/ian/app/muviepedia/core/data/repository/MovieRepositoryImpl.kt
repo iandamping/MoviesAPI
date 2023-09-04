@@ -223,5 +223,19 @@ class MovieRepositoryImpl @Inject constructor(
         }.asFlow()
     }
 
+    override fun fetchSearchMovie(query: String): Flow<DomainSource<List<Movie>>> {
+        val localData = localDataSource.loadAllMovieDataByTitle(query)
+        return localData.map {
+            if (it.isNotEmpty()){
+                DomainSource.Success(it.mapLocalMovieListToDomain())
+            } else {
+                when(val remoteData = remoteDataSource.searchMovie(query)){
+                    is DataSource.Error -> DomainSource.Error(remoteData.message)
+                    is DataSource.Success -> DomainSource.Success(remoteData.data.results.mapRemoteMovieListToDomain())
+                }
+            }
+        }
+    }
+
 
 }
