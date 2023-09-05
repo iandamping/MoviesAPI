@@ -1,7 +1,6 @@
 package com.ian.app.muviepedia.di.module
 
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.di.scope.ApplicationScoped
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -13,7 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 object NetworkModule {
-
+    private const val BASE_URL = "https://api.themoviedb.org/3/"
 
     @Provides
     fun provideHttpClientForHomeScreen(): OkHttpClient {
@@ -34,7 +33,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .baseUrl(NetworkConstant.BASE_URL)
+            .baseUrl(BASE_URL)
             .build()
             .create(ApiInterface::class.java)
     }

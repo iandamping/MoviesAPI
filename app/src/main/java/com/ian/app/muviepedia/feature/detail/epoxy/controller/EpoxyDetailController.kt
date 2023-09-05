@@ -15,7 +15,7 @@ import com.ian.app.muviepedia.feature.detail.epoxy.television.EpoxyShimmerDetail
 import com.ian.app.muviepedia.feature.home.epoxy.common.EpoxyCommonTitle
 import com.ian.app.muviepedia.feature.state.DetailMovieUiState
 import com.ian.app.muviepedia.feature.state.PresentationState
-import com.ian.app.muviepedia.util.MovieConstant.imageFormatter
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
 import com.ian.app.muviepedia.util.epoxy.ViewBindingHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 

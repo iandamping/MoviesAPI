@@ -2,9 +2,9 @@ package com.ian.app.muviepedia.feature.detail.epoxy.movie
 
 import coil.load
 import com.ian.app.muviepedia.R
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.databinding.ItemDetailSimilarMovieContentBinding
-import com.ian.app.muviepedia.util.MovieConstant
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
@@ -16,7 +16,7 @@ class EpoxyDetailSimilarMovieContent(
     ViewBindingEpoxyModelWithHolder<ItemDetailSimilarMovieContentBinding>() {
     override fun ItemDetailSimilarMovieContentBinding.bind() {
         viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
-        ivMovie.load(MovieConstant.imageFormatter + data.poster_path)
+        ivMovie.load(imageFormatter + data.poster_path)
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }

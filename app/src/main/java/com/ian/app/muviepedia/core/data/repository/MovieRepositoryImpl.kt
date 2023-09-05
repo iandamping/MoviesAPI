@@ -1,6 +1,6 @@
 package com.ian.app.muviepedia.core.data.repository
 
-import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.mapToDatabase
+import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.mapListToDomain
 import com.ian.app.muviepedia.core.data.dataSource.cache.source.movie.MovieLocalDataSource
 import com.ian.app.muviepedia.core.data.dataSource.cache.source.movie.MovieType
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
@@ -16,14 +16,13 @@ import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.helper.NetworkBoundResource
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.di.qualifier.DefaultDispatcher
+import com.ian.app.muviepedia.util.isExpireds
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -31,15 +30,6 @@ class MovieRepositoryImpl @Inject constructor(
     private val localDataSource: MovieLocalDataSource,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : MovieRepository {
-
-    companion object {
-        private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
-    }
-
-    private infix fun <T> List<T>.equalsIgnoreOrder(other: List<T>) =
-        this.size == other.size && this.toSet() == other.toSet()
-
-    private fun Long.isExpired(): Boolean = (System.currentTimeMillis() - this) > CACHE_EXPIRY
 
     override fun fetchDetailMovie(movieId: Int): Flow<DomainSource<MovieDetail>> {
         return flow {
@@ -82,8 +72,7 @@ class MovieRepositoryImpl @Inject constructor(
             override suspend fun isExpired(): Boolean {
                 val data =
                     localDataSource.loadAllMovieDataByType(MovieType.Popular.name).firstOrNull()
-                val isExpired = data?.firstOrNull()?.timeStamp?.isExpired()
-                return isExpired ?: false
+                return isExpireds(data?.firstOrNull()?.timeStamp)
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
@@ -96,14 +85,12 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
-                    data.results.map {
-                        it.mapToDatabase(
-                            type = MovieType.Popular.name,
-                            timeStamp = System.currentTimeMillis()
-                        )
-                    }.toTypedArray()
+                    data.results.mapListToDomain(
+                        type = MovieType.Popular.name,
+                        timeStamp = System.currentTimeMillis()
+                    )
                 }
-                localDataSource.insertMovie(*inputData)
+                localDataSource.insertMovie(inputData)
             }
 
             override fun shouldFetch(data: List<Movie>?): Boolean {
@@ -123,8 +110,9 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun isExpired(): Boolean {
-                val data = localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name).first()
-                return data.first().timeStamp.isExpired()
+                val data =
+                    localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name).firstOrNull()
+                return isExpireds(data?.firstOrNull()?.timeStamp)
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
@@ -138,14 +126,12 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
-                    data.results.map {
-                        it.mapToDatabase(
-                            type = MovieType.NowPlaying.name,
-                            timeStamp = System.currentTimeMillis()
-                        )
-                    }.toTypedArray()
+                    data.results.mapListToDomain(
+                        type = MovieType.NowPlaying.name,
+                        timeStamp = System.currentTimeMillis()
+                    )
                 }
-                localDataSource.insertMovie(*inputData)
+                localDataSource.insertMovie(inputData)
             }
 
             override fun shouldFetch(data: List<Movie>?): Boolean {
@@ -165,8 +151,9 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun isExpired(): Boolean {
-                val data = localDataSource.loadAllMovieDataByType(MovieType.TopRated.name).first()
-                return data.first().timeStamp.isExpired()
+                val data =
+                    localDataSource.loadAllMovieDataByType(MovieType.TopRated.name).firstOrNull()
+                return isExpireds(data?.firstOrNull()?.timeStamp)
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
@@ -180,14 +167,12 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
-                    data.results.map {
-                        it.mapToDatabase(
-                            type = MovieType.TopRated.name,
-                            timeStamp = System.currentTimeMillis()
-                        )
-                    }.toTypedArray()
+                    data.results.mapListToDomain(
+                        type = MovieType.TopRated.name,
+                        timeStamp = System.currentTimeMillis()
+                    )
                 }
-                localDataSource.insertMovie(*inputData)
+                localDataSource.insertMovie(inputData)
             }
 
             override fun shouldFetch(data: List<Movie>?): Boolean {
@@ -207,8 +192,9 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
             override suspend fun isExpired(): Boolean {
-                val data = localDataSource.loadAllMovieDataByType(MovieType.UpComing.name).first()
-                return data.first().timeStamp.isExpired()
+                val data =
+                    localDataSource.loadAllMovieDataByType(MovieType.UpComing.name).firstOrNull()
+                return isExpireds(data?.firstOrNull()?.timeStamp)
             }
 
             override suspend fun createCall(): DataSource<BaseResponse<MovieDataResponse>> {
@@ -222,14 +208,12 @@ class MovieRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
-                    data.results.map {
-                        it.mapToDatabase(
-                            type = MovieType.UpComing.name,
-                            timeStamp = System.currentTimeMillis()
-                        )
-                    }.toTypedArray()
+                    data.results.mapListToDomain(
+                        type = MovieType.UpComing.name,
+                        timeStamp = System.currentTimeMillis()
+                    )
                 }
-                localDataSource.insertMovie(*inputData)
+                localDataSource.insertMovie(inputData)
             }
 
             override fun shouldFetch(data: List<Movie>?): Boolean {
@@ -237,6 +221,20 @@ class MovieRepositoryImpl @Inject constructor(
             }
 
         }.asFlow()
+    }
+
+    override fun fetchSearchMovie(query: String): Flow<DomainSource<List<Movie>>> {
+        val localData = localDataSource.loadAllMovieDataByTitle(query)
+        return localData.map {
+            if (it.isNotEmpty()){
+                DomainSource.Success(it.mapLocalMovieListToDomain())
+            } else {
+                when(val remoteData = remoteDataSource.searchMovie(query)){
+                    is DataSource.Error -> DomainSource.Error(remoteData.message)
+                    is DataSource.Success -> DomainSource.Success(remoteData.data.results.mapRemoteMovieListToDomain())
+                }
+            }
+        }
     }
 
 

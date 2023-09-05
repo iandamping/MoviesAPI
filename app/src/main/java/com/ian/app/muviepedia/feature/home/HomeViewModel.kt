@@ -32,8 +32,8 @@ class HomeViewModel @Inject constructor(
 
     private val _epoxyMovieData: MutableStateFlow<EpoxyHomeData> =
         MutableStateFlow(EpoxyHomeData.init())
-    val epoxyMovieData: StateFlow<EpoxyHomeData> =
-        _epoxyMovieData.asStateFlow()
+    val epoxyMovieData: StateFlow<EpoxyHomeData>
+        get() = _epoxyMovieData.asStateFlow()
 
 
     private fun setEpoxyPopularMovieData(movieData: List<Movie>) {
