@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.source.movie
 
+import com.ian.app.muviepedia.BuildConfig.ACCESS_TOKEN_KEY
 import com.ian.app.muviepedia.BuildConfig.MOVIE_API_KEY
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
@@ -98,7 +99,8 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return when (val data =
             remoteWithBaseCall(
                 api.getSearchMovieResponse(
-                    apiKey = MOVIE_API_KEY,
+//                    apiKey = MOVIE_API_KEY,
+                    token = "Bearer $ACCESS_TOKEN_KEY",
                     searchMovie = userSearch
                 )
             )) {

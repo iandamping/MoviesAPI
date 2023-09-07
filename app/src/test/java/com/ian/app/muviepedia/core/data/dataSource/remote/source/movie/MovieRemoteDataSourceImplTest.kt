@@ -366,6 +366,7 @@ class MovieRemoteDataSourceImplTest {
                     api.getSearchMovieResponse(
                         any(),
                         any(),
+                        any(),
                     )
                 )
             } returns RemoteBaseResult.Success(
@@ -377,6 +378,7 @@ class MovieRemoteDataSourceImplTest {
         coEvery {
             remoteHelper.remoteWithBaseCall(
                 api.getSearchMovieResponse(
+                    any(),
                     any(),
                     any(),
                 )

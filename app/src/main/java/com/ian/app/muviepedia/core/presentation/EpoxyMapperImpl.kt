@@ -194,4 +194,5 @@ class EpoxyMapperImpl @Inject constructor() :
             release_date = release_date
         )
     }
+
 }

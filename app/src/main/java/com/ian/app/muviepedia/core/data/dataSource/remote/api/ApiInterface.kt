@@ -21,6 +21,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDa
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -57,8 +58,13 @@ interface ApiInterface {
 
     @GET(searchMovie)
     suspend fun getSearchMovieResponse(
-        @Query("api_key") apiKey: String,
-        @Query("query") searchMovie: String
+        @Header("Authorization") token: String,
+        @Header("accept") accept: String = "application/json",
+//        @Query("api_key") apiKey: String,
+        @Query("query") searchMovie: String,
+//        @Query("adult") adult: Boolean = false,
+//        @Query("language") language: String = "en-US",
+//        @Query("page") page: Int = 1,
     ): Response<BaseResponse<MovieDataResponse>>
 
     /*Movie Paging session*/
