@@ -1,5 +1,5 @@
 # MoviesAPI
-Moviepedia demonstrates modern Android development built with the Modern Android Application Architecture in reference to this link [Modern Android App Architecture](https://developer.android.com/courses/pathways/android-architecture).<br>
+Moviepedia demonstrates modern Android development built with the [Modern Android App Architecture](https://developer.android.com/courses/pathways/android-architecture).<br>
 
 Several supporting libraries in making Movipedia :
 1. Kotlin Coroutines
