@@ -4,12 +4,20 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyNowPlayingData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularTvData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxySearchMovieData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyTopRatedData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyTopRatedTvData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyUpComingData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
+import com.ian.app.muviepedia.feature.search.epoxy.EpoxySearchMovieData
 import javax.inject.Inject
 
 class EpoxyMapperImpl @Inject constructor() :
@@ -40,19 +48,24 @@ class EpoxyMapperImpl @Inject constructor() :
     }
 
     override fun epoxyPopularMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyPopularMovieData.MovieData> {
-        return data.map { it.toEpoxyPopularData() }
+        return data.toListEpoxyPopularData()
     }
 
     override fun epoxyNowPlayingMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyNowPlayingMovieData.MovieData> {
-        return data.map { it.toEpoxyNowPlayingData() }
+        return data.toListEpoxyNowPlayingData()
     }
 
     override fun epoxyTopRatedMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyTopRatedMovieData.MovieData> {
-        return data.map { it.toEpoxyTopRatedData() }
+        return data.toListEpoxyTopRatedData()
     }
 
     override fun epoxyUpComingMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyUpComingMovieData.MovieData> {
-        return data.map { it.toEpoxyUpComingData() }
+        return data.toListEpoxyUpComingData()
+    }
+
+    override fun epoxySearchMovieListMapper(data: Set<EpoxyMovie>): List<EpoxySearchMovieData.MovieData> {
+        return data.toListEpoxySearchMovieData()
+
     }
 
     override fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision> {
@@ -78,121 +91,13 @@ class EpoxyMapperImpl @Inject constructor() :
     }
 
     override fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData> {
-        return data.map { it.toEpoxyPopularData() }
+        return data.toListEpoxyPopularTvData()
     }
 
     override fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData> {
-        return data.map { it.toEpoxyTopRatedData() }
-    }
-
-    private fun EpoxyTelevision.toEpoxyPopularData(): EpoxyPopularTelevisionData.TelevisionData {
-        return EpoxyPopularTelevisionData.TelevisionData(
-            epoxyId = epoxyId,
-            originalName = originalName,
-            name = name,
-            popularity = popularity,
-            voteCount = voteCount,
-            firstAirDate = firstAirDate,
-            backdropPath = backdropPath,
-            originalLanguage = originalLanguage,
-            id = id,
-            voteAverage = voteAverage,
-            overview = overview,
-            posterPath = posterPath
-        )
-    }
-
-    private fun EpoxyTelevision.toEpoxyTopRatedData(): EpoxyTopRatedTelevisionData.TelevisionData {
-        return EpoxyTopRatedTelevisionData.TelevisionData(
-            epoxyId = epoxyId,
-            originalName = originalName,
-            name = name,
-            popularity = popularity,
-            voteCount = voteCount,
-            firstAirDate = firstAirDate,
-            backdropPath = backdropPath,
-            originalLanguage = originalLanguage,
-            id = id,
-            voteAverage = voteAverage,
-            overview = overview,
-            posterPath = posterPath
-        )
+        return data.toListEpoxyTopRatedTvData()
     }
 
 
-    private fun EpoxyMovie.toEpoxyPopularData(): EpoxyPopularMovieData.MovieData {
-        return EpoxyPopularMovieData.MovieData(
-            epoxyId = epoxyId,
-            vote_count = vote_count,
-            id = id,
-            video = video,
-            vote_average = vote_average,
-            title = title,
-            popularity = popularity,
-            poster_path = poster_path,
-            original_language = original_language,
-            original_title = original_title,
-            backdrop_path = backdrop_path,
-            adult = adult,
-            overview = overview,
-            release_date = release_date
-        )
-    }
-    private fun EpoxyMovie.toEpoxyNowPlayingData(): EpoxyNowPlayingMovieData.MovieData {
-        return EpoxyNowPlayingMovieData.MovieData(
-            epoxyId = epoxyId,
-            vote_count = vote_count,
-            id = id,
-            video = video,
-            vote_average = vote_average,
-            title = title,
-            popularity = popularity,
-            poster_path = poster_path,
-            original_language = original_language,
-            original_title = original_title,
-            backdrop_path = backdrop_path,
-            adult = adult,
-            overview = overview,
-            release_date = release_date
-        )
-    }
-
-    private fun EpoxyMovie.toEpoxyTopRatedData(): EpoxyTopRatedMovieData.MovieData {
-        return EpoxyTopRatedMovieData.MovieData(
-            epoxyId = epoxyId,
-            vote_count = vote_count,
-            id = id,
-            video = video,
-            vote_average = vote_average,
-            title = title,
-            popularity = popularity,
-            poster_path = poster_path,
-            original_language = original_language,
-            original_title = original_title,
-            backdrop_path = backdrop_path,
-            adult = adult,
-            overview = overview,
-            release_date = release_date
-        )
-    }
-
-    private fun EpoxyMovie.toEpoxyUpComingData(): EpoxyUpComingMovieData.MovieData {
-        return EpoxyUpComingMovieData.MovieData(
-            epoxyId = epoxyId,
-            vote_count = vote_count,
-            id = id,
-            video = video,
-            vote_average = vote_average,
-            title = title,
-            popularity = popularity,
-            poster_path = poster_path,
-            original_language = original_language,
-            original_title = original_title,
-            backdrop_path = backdrop_path,
-            adult = adult,
-            overview = overview,
-            release_date = release_date
-        )
-    }
 
 }

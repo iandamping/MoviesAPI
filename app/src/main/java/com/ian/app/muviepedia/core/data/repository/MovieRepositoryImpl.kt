@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.core.data.repository
 
-import android.util.Log
 import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.mapListToDomain
 import com.ian.app.muviepedia.core.data.dataSource.cache.source.movie.MovieLocalDataSource
 import com.ian.app.muviepedia.core.data.dataSource.cache.source.movie.MovieType
@@ -230,12 +229,8 @@ class MovieRepositoryImpl @Inject constructor(
         return localData.map {
             if (it.isNotEmpty()){
                 val filteredData = it.filter { filter ->
-                    checkNotNull(
-                        filter.title.lowercase(Locale.getDefault())
-                            .contains(query)
-                    )
+                    filter.title.lowercase(Locale.getDefault()).contains(query)
                 }
-                Log.e("TAG", "fetchSearchMovie: ${filteredData.size}", )
                 if (filteredData.isNotEmpty()){
                     DomainSource.Success(it.mapLocalMovieListToDomain())
                 } else {

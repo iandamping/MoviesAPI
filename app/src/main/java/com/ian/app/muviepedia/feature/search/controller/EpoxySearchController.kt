@@ -33,7 +33,7 @@ class EpoxySearchController(
                 VerticalGridCarouselModel_()
                     .id("1")
                     .models(carouselSearchModel)
-                    .numViewsToShowOnScreen(2f)
+                    .numViewsToShowOnScreen(5f)
                     .addTo(this)
             }
 
