@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -224,10 +225,20 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override fun fetchSearchMovie(query: String): Flow<DomainSource<List<Movie>>> {
-        val localData = localDataSource.loadAllMovieDataByTitle(query)
+        val localData = localDataSource.loadAllMovie()
         return localData.map {
             if (it.isNotEmpty()){
-                DomainSource.Success(it.mapLocalMovieListToDomain())
+                val filteredData = it.filter { filter ->
+                    filter.title.lowercase(Locale.getDefault()).contains(query)
+                }
+                if (filteredData.isNotEmpty()){
+                    DomainSource.Success(it.mapLocalMovieListToDomain())
+                } else {
+                    when(val remoteData = remoteDataSource.searchMovie(query)){
+                        is DataSource.Error -> DomainSource.Error(remoteData.message)
+                        is DataSource.Success -> DomainSource.Success(remoteData.data.results.mapRemoteMovieListToDomain())
+                    }
+                }
             } else {
                 when(val remoteData = remoteDataSource.searchMovie(query)){
                     is DataSource.Error -> DomainSource.Error(remoteData.message)

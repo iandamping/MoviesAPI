@@ -11,6 +11,8 @@ import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
 import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
@@ -49,9 +51,12 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
 
     override fun viewCreated() {
         consumeSuspend {
-            viewModel.epoxyMovieData.collect { data ->
+            viewModel.epoxyMovieData.onEach { data ->
                 epoxyHomeController.setData(data)
-            }
+            }.launchIn(this)
+        }
+        binding.btnSearch.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
     }
 

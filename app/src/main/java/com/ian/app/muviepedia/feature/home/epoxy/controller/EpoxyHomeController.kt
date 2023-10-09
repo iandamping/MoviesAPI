@@ -115,12 +115,12 @@ class EpoxyHomeController(
                 CarouselModel_()
                     .id("2_movie_now_playing")
                     .models(carouselNowPlayingModel)
-                    .numViewsToShowOnScreen(2f)
+                    .numViewsToShowOnScreen(1f)
                     .addTo(this)
             }
         }
 
-        EpoxyCommonTitle("Top Rated", 16)
+        EpoxyCommonTitle("Top Rated Movie", 16)
             .id("3_movie_top_rated_title")
             .addTo(this)
         if (data != null) {
@@ -157,7 +157,7 @@ class EpoxyHomeController(
         }
 
 
-        EpoxyCommonTitle("Up Coming", 16)
+        EpoxyCommonTitle("Up Coming Movie", 16)
             .id("4_movie_up_coming_title")
             .addTo(this)
         if (data != null) {
@@ -188,7 +188,7 @@ class EpoxyHomeController(
                 CarouselModel_()
                     .id("4_movie_up_coming")
                     .models(carouselUpComingModel)
-                    .numViewsToShowOnScreen(2f)
+                    .numViewsToShowOnScreen(1f)
                     .addTo(this)
             }
         }
@@ -225,7 +225,7 @@ class EpoxyHomeController(
                 CarouselModel_()
                     .id("5_television_popular")
                     .models(carouselPopularModel)
-                    .numViewsToShowOnScreen(2f)
+                    .numViewsToShowOnScreen(1f)
                     .addTo(this)
             }
         }

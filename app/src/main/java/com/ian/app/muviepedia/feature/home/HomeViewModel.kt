@@ -18,6 +18,8 @@ import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRat
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -68,8 +70,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyPopularMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(popularMovie = mutableListOf(EpoxyPopularMovieData.Error))
-
+            uiState.copy(
+                popularMovie = mutableListOf(EpoxyPopularMovieData.Error),
+            )
         }
     }
 
@@ -106,7 +109,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyNowPlayingMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(nowPlayingMovie = mutableListOf(EpoxyNowPlayingMovieData.Error))
+            uiState.copy(
+                nowPlayingMovie = mutableListOf(EpoxyNowPlayingMovieData.Error)
+            )
 
         }
     }
@@ -143,7 +148,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyTopRatedMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(topRatedMovie = mutableListOf(EpoxyTopRatedMovieData.Error))
+            uiState.copy(
+                topRatedMovie = mutableListOf(EpoxyTopRatedMovieData.Error)
+            )
         }
     }
 
@@ -179,7 +186,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyUpComingMovieError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(upComingMovie = mutableListOf(EpoxyUpComingMovieData.Error))
+            uiState.copy(
+                upComingMovie = mutableListOf(EpoxyUpComingMovieData.Error)
+            )
         }
     }
 
@@ -215,7 +224,9 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyPopularTelevisionError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(popularTelevision = mutableListOf(EpoxyPopularTelevisionData.Error))
+            uiState.copy(
+                popularTelevision = mutableListOf(EpoxyPopularTelevisionData.Error)
+            )
 
         }
     }
@@ -251,74 +262,69 @@ class HomeViewModel @Inject constructor(
 
     private fun setEpoxyTopRatedTelevisionError() {
         _epoxyMovieData.update { uiState ->
-            uiState.copy(topRatedTelevision = mutableListOf(EpoxyTopRatedTelevisionData.Error))
+            uiState.copy(
+                topRatedTelevision = mutableListOf(EpoxyTopRatedTelevisionData.Error)
+            )
         }
     }
     init {
         viewModelScope.launch {
-            movieRepository.fetchPopularMovie().onStart { setEpoxyPopularMovieLoading() }.collect {
-                when (it) {
-                    is DomainSource.Error -> setEpoxyPopularMovieError()
-                    is DomainSource.Success -> setEpoxyPopularMovieData(it.data)
+            launch {
+                movieRepository.fetchPopularMovie().onStart { setEpoxyPopularMovieLoading() }.onEach {
+                    when (it) {
+                        is DomainSource.Error -> setEpoxyPopularMovieError()
+                        is DomainSource.Success -> setEpoxyPopularMovieData(it.data)
 
-                }
+                    }
+                }.launchIn(this)
+            }
+            launch {
+                movieRepository.fetchNowPlayingMovie().onStart { setEpoxyNowPlayingMovieLoading() }
+                    .onEach {
+                        when (it) {
+                            is DomainSource.Error -> setEpoxyNowPlayingMovieError()
+                            is DomainSource.Success -> setEpoxyNowPlayingMovieData(it.data)
+                        }
+                    }.launchIn(this)
+            }
+            launch {
+                movieRepository.fetchTopRatedMovie().onStart { setEpoxyTopRatedMovieLoading() }
+                    .onEach {
+                        when (it) {
+                            is DomainSource.Error -> setEpoxyTopRatedMovieError()
+                            is DomainSource.Success -> setEpoxyTopRatedMovieData(it.data)
+
+                        }
+                    }.launchIn(this)
+            }
+            launch {
+                movieRepository.fetchUpComingMovie().onStart { setEpoxyUpComingMovieLoading() }
+                    .onEach {
+                        when (it) {
+                            is DomainSource.Error -> setEpoxyUpComingMovieError()
+                            is DomainSource.Success -> setEpoxyUpComingMovieData(it.data)
+
+                        }
+                    }.launchIn(this)
+            }
+            launch {
+                tvRepository.prefetchPopularTv().onStart { setEpoxyPopularTelevisionLoading() }
+                    .onEach {
+                        when (it) {
+                            is DomainSource.Error -> setEpoxyPopularTelevisionError()
+                            is DomainSource.Success -> setEpoxyPopularTelevisionData(it.data)
+                        }
+                    }.launchIn(this)
+            }
+            launch {
+                tvRepository.prefetchTopRatedTv().onStart { setEpoxyTopRatedTelevisionLoading() }
+                    .onEach {
+                        when (it) {
+                            is DomainSource.Error -> setEpoxyTopRatedTelevisionError()
+                            is DomainSource.Success -> setEpoxyTopRatedTelevisionData(it.data)
+                        }
+                    }.launchIn(this)
             }
         }
-
-        viewModelScope.launch {
-            movieRepository.fetchNowPlayingMovie().onStart { setEpoxyNowPlayingMovieLoading() }
-                .collect {
-                    when (it) {
-                        is DomainSource.Error -> setEpoxyNowPlayingMovieError()
-                        is DomainSource.Success -> setEpoxyNowPlayingMovieData(it.data)
-                    }
-                }
-        }
-
-
-        viewModelScope.launch {
-            movieRepository.fetchTopRatedMovie().onStart { setEpoxyTopRatedMovieLoading() }
-                .collect {
-                    when (it) {
-                        is DomainSource.Error -> setEpoxyTopRatedMovieError()
-                        is DomainSource.Success -> setEpoxyTopRatedMovieData(it.data)
-
-                    }
-                }
-        }
-
-
-        viewModelScope.launch {
-            movieRepository.fetchUpComingMovie().onStart { setEpoxyUpComingMovieLoading() }
-                .collect {
-                    when (it) {
-                        is DomainSource.Error -> setEpoxyUpComingMovieError()
-                        is DomainSource.Success -> setEpoxyUpComingMovieData(it.data)
-
-                    }
-                }
-        }
-
-        viewModelScope.launch {
-            tvRepository.prefetchPopularTv().onStart { setEpoxyPopularTelevisionLoading() }
-                .collect {
-                    when (it) {
-                        is DomainSource.Error -> setEpoxyPopularTelevisionError()
-                        is DomainSource.Success -> setEpoxyPopularTelevisionData(it.data)
-                    }
-                }
-        }
-
-
-        viewModelScope.launch {
-            tvRepository.prefetchTopRatedTv().onStart { setEpoxyTopRatedTelevisionLoading() }
-                .collect {
-                    when (it) {
-                        is DomainSource.Error -> setEpoxyTopRatedTelevisionError()
-                        is DomainSource.Success -> setEpoxyTopRatedTelevisionData(it.data)
-                    }
-                }
-        }
-
     }
 }

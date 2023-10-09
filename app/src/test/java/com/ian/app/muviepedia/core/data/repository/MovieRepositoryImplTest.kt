@@ -1115,15 +1115,31 @@ class MovieRepositoryImplTest {
     fun `fetchSearchMovie return Success data from cache`() = runTest {
         //arrange
         val domainMockResponse: List<Movie> = mockk()
-        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = listOf(
+            LocalMovieEntity(
+                1,
+                1,
+                "a",
+                "a",
+                "a",
+                1,
+                false,
+                1.1,
+                1.1,
+                "a",
+                "a",
+                "a",
+                false,
+                "a",
+                "a",
+                1L
+            )
+        )
 
-        mockkStatic("kotlin.collections.CollectionsKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
         //mock setup for loadFromDB()
-        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
-        //mock isNotEmpty
-        every { domainListLocalMockEntity.isNotEmpty() } returns false
+        every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
         //mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
@@ -1157,14 +1173,12 @@ class MovieRepositoryImplTest {
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
-        val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
+        val domainListLocalMockEntity: List<LocalMovieEntity> = emptyList()
 
         mockkStatic(List<MovieDataResponse>::mapRemoteMovieListToDomain)
         mockkStatic("kotlin.collections.CollectionsKt")
         //mock setup for loadFromDB()
-        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
-        //mock isNotEmpty
-        every { domainListLocalMockEntity.isNotEmpty() } returns true
+        every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
         //mock remoteResponse
         coEvery {
             remoteDataSource.searchMovie(any())
@@ -1207,7 +1221,7 @@ class MovieRepositoryImplTest {
 
         mockkStatic("kotlin.collections.CollectionsKt")
         //mock setup for loadFromDB()
-        every { localDataSource.loadAllMovieDataByTitle(any()) } returns flowOf(domainListLocalMockEntity)
+        every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
         //mock isNotEmpty
         every { domainListLocalMockEntity.isNotEmpty() } returns true
         //mock remoteResponse
