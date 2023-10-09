@@ -25,19 +25,26 @@ class ViewHelperImpl @Inject constructor(@ActivityInflater private val layoutInf
         right: Int,
         bottom: Int
     ) {
-
         if (view.layoutParams is ViewGroup.MarginLayoutParams) {
             val bottomMarginDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, bottom.toFloat(), view.context.resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                bottom.toFloat(),
+                view.context.resources.displayMetrics
             ).toInt()
             val topMarginDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, top.toFloat(), view.context.resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                top.toFloat(),
+                view.context.resources.displayMetrics
             ).toInt()
             val rightMarginDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, right.toFloat(), view.context.resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                right.toFloat(),
+                view.context.resources.displayMetrics
             ).toInt()
             val leftMarginDp = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, left.toFloat(), view.context.resources.displayMetrics
+                TypedValue.COMPLEX_UNIT_DIP,
+                left.toFloat(),
+                view.context.resources.displayMetrics
             ).toInt()
 
             val p = view.layoutParams as ViewGroup.MarginLayoutParams

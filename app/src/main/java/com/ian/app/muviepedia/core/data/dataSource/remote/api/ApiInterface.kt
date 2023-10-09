@@ -92,7 +92,6 @@ interface ApiInterface {
         @Query("page") page: Int
     ): Response<BaseResponse<MovieDataResponse>>
 
-
     /*Tv Session*/
     @GET(popularTv)
     suspend fun getPopularTvAsync(@Query("api_key") apiKey: String): Response<BaseResponse<TvDataResponse>>
@@ -118,13 +117,11 @@ interface ApiInterface {
         @Query("api_key") apiKey: String
     ): Response<BaseResponse<TvDataResponse>>
 
-
     @GET(searchTvShows)
     suspend fun getSearchTvResponse(
         @Query("api_key") apiKey: String,
         @Query("query") searchMovie: String
     ): Response<BaseResponse<TvDataResponse>>
-
 
     /*Tv Paging session*/
     @GET(popularTv)
@@ -150,5 +147,4 @@ interface ApiInterface {
         @Query("api_key") apiKey: String,
         @Query("page") page: Int
     ): Response<BaseResponse<TvDataResponse>>
-
 }

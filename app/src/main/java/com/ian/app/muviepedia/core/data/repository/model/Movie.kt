@@ -3,7 +3,6 @@ package com.ian.app.muviepedia.core.data.repository.model
 import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.LocalMovieEntity
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 
-
 data class Movie(
     val vote_count: Int,
     val id: Int,
@@ -19,7 +18,6 @@ data class Movie(
     val overview: String,
     val release_date: String
 )
-
 
 fun LocalMovieEntity.mapToDomain(): Movie = Movie(
     vote_count = voteCount,
@@ -53,7 +51,6 @@ fun MovieDataResponse.mapToDomain(): Movie = Movie(
     release_date = release_date ?: ""
 )
 
-fun List<LocalMovieEntity>.mapLocalMovieListToDomain():List<Movie> = this.map { it.mapToDomain() }
+fun List<LocalMovieEntity>.mapLocalMovieListToDomain(): List<Movie> = this.map { it.mapToDomain() }
 
-
-fun List<MovieDataResponse>.mapRemoteMovieListToDomain():List<Movie> = this.map { it.mapToDomain() }
+fun List<MovieDataResponse>.mapRemoteMovieListToDomain(): List<Movie> = this.map { it.mapToDomain() }

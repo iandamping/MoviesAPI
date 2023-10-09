@@ -53,5 +53,4 @@ data class DetailMovieResponse(
         @Json(name = "iso31661") val iso31661: String?,
         val name: String?
     )
-
 }

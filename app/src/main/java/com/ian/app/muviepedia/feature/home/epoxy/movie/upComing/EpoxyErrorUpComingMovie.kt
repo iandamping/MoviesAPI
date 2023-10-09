@@ -11,7 +11,6 @@ class EpoxyErrorUpComingMovie : ViewBindingEpoxyModelWithHolder<ErrorItemUpComin
         ivError.load(AppCompatResources.getDrawable(root.context, R.drawable.empty_image))
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.error_item_up_coming_movie
     }

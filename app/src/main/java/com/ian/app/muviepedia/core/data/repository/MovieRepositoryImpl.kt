@@ -60,7 +60,6 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-
     override fun fetchPopularMovie(): Flow<DomainSource<List<Movie>>> {
         return object :
             NetworkBoundResource<List<Movie>, BaseResponse<MovieDataResponse>>() {
@@ -97,7 +96,6 @@ class MovieRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Movie>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -120,7 +118,6 @@ class MovieRepositoryImpl @Inject constructor(
                 return remoteDataSource.getNowPlaying()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAll()
             }
@@ -138,7 +135,6 @@ class MovieRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Movie>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -165,7 +161,6 @@ class MovieRepositoryImpl @Inject constructor(
                 localDataSource.deleteAll()
             }
 
-
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
                     data.results.mapListToDomain(
@@ -179,7 +174,6 @@ class MovieRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Movie>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -206,7 +200,6 @@ class MovieRepositoryImpl @Inject constructor(
                 localDataSource.deleteAll()
             }
 
-
             override suspend fun saveCallResult(data: BaseResponse<MovieDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
                     data.results.mapListToDomain(
@@ -220,33 +213,32 @@ class MovieRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Movie>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
     override fun fetchSearchMovie(query: String): Flow<DomainSource<List<Movie>>> {
         val localData = localDataSource.loadAllMovie()
         return localData.map {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 val filteredData = it.filter { filter ->
                     filter.title.lowercase(Locale.getDefault()).contains(query)
                 }
-                if (filteredData.isNotEmpty()){
+                if (filteredData.isNotEmpty()) {
                     DomainSource.Success(it.mapLocalMovieListToDomain())
                 } else {
-                    when(val remoteData = remoteDataSource.searchMovie(query)){
+                    when (val remoteData = remoteDataSource.searchMovie(query)) {
                         is DataSource.Error -> DomainSource.Error(remoteData.message)
-                        is DataSource.Success -> DomainSource.Success(remoteData.data.results.mapRemoteMovieListToDomain())
+                        is DataSource.Success -> DomainSource.Success(
+                            remoteData.data.results.mapRemoteMovieListToDomain()
+                        )
                     }
                 }
             } else {
-                when(val remoteData = remoteDataSource.searchMovie(query)){
+                when (val remoteData = remoteDataSource.searchMovie(query)) {
                     is DataSource.Error -> DomainSource.Error(remoteData.message)
                     is DataSource.Success -> DomainSource.Success(remoteData.data.results.mapRemoteMovieListToDomain())
                 }
             }
         }
     }
-
-
 }

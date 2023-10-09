@@ -14,7 +14,6 @@ class EpoxyShimmerSearchMovie :
         shimmerProduct.stopShimmer()
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.shimmer_item_search_movie
     }

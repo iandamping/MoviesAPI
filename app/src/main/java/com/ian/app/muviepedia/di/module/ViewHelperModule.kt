@@ -9,5 +9,5 @@ import dagger.Module
 interface ViewHelperModule {
 
     @Binds
-    fun bindsViewHelper(impl: ViewHelperImpl):ViewHelper
+    fun bindsViewHelper(impl: ViewHelperImpl): ViewHelper
 }

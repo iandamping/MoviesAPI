@@ -11,7 +11,6 @@ class EpoxyCommonTitle(private val title: String, private val fontSize: Int) :
         tvTittle.textSize = fontSize.toFloat()
         tvTittle.text = title
         tvTittle.setTextColor(Color.WHITE)
-
     }
 
     override fun getDefaultLayout(): Int {

@@ -13,7 +13,8 @@ import com.ian.app.muviepedia.feature.detail.epoxy.controller.EpoxyDetailControl
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import javax.inject.Inject
 
-class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
+class DetailFragment :
+    BaseFragmentViewBinding<FragmentDetailBinding>(),
     EpoxyDetailController.EpoxyDetailControllerBackPress,
     EpoxyDetailController.EpoxyDetailControllerSimilarItemListener {
 

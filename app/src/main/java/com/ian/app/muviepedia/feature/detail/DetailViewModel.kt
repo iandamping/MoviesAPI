@@ -30,7 +30,7 @@ class DetailViewModel @Inject constructor(
     )
     val detailMovieUiState: StateFlow<DetailMovieUiState> get() = _detailMovieUiState.asStateFlow()
 
-    fun resetDetailMovieState(){
+    fun resetDetailMovieState() {
         _detailMovieUiState.update { DetailMovieUiState.initialize() }
     }
 
@@ -74,7 +74,6 @@ class DetailViewModel @Inject constructor(
                             }
                         }
                     }
-
             } else {
                 televisionRepository.fetchDetailTv(tvID = id)
                     .combine(televisionRepository.fetchSimilarTv(id)) { a, b ->
@@ -113,9 +112,7 @@ class DetailViewModel @Inject constructor(
                             }
                         }
                     }
-
             }
         }
     }
-
 }

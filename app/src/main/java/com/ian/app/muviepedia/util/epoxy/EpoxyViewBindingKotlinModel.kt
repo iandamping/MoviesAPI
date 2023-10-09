@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.util.epoxy
 
-
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
@@ -46,8 +45,6 @@ abstract class ViewBindingKotlinModel<T : ViewBinding>(
     }
 
     override fun getDefaultLayout() = layoutRes
-
-
 }
 
 // Static cache of a method pointer for each type of item used.

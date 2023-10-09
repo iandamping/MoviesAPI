@@ -83,7 +83,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getPopularTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -103,7 +102,6 @@ class TvRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -125,7 +123,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getTopRatedTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -145,7 +142,6 @@ class TvRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -167,7 +163,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getAiringTodayTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -187,7 +182,6 @@ class TvRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
@@ -209,11 +203,9 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getOnAirTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
-
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
@@ -230,7 +222,6 @@ class TvRepositoryImpl @Inject constructor(
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 }

@@ -2,7 +2,6 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.model.response
 
 import com.squareup.moshi.Json
 
-
 data class DetailTvResponse(
     @Json(name = "adult") val adult: Boolean?,
     @Json(name = "backdrop_path") val backdrop_path: String?,

@@ -37,7 +37,6 @@ class HomeViewModel @Inject constructor(
     val epoxyMovieData: StateFlow<EpoxyHomeData>
         get() = _epoxyMovieData.asStateFlow()
 
-
     private fun setEpoxyPopularMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
@@ -49,7 +48,6 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-
 
     private fun setEpoxyPopularMovieLoading() {
         _epoxyMovieData.update { uiState ->
@@ -64,7 +62,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyPopularMovieData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -75,7 +72,6 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-
 
     private fun setEpoxyNowPlayingMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
@@ -88,7 +84,6 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-
 
     private fun setEpoxyNowPlayingMovieLoading() {
         _epoxyMovieData.update { uiState ->
@@ -103,7 +98,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyNowPlayingMovieData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -112,7 +106,6 @@ class HomeViewModel @Inject constructor(
             uiState.copy(
                 nowPlayingMovie = mutableListOf(EpoxyNowPlayingMovieData.Error)
             )
-
         }
     }
 
@@ -128,7 +121,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
     private fun setEpoxyTopRatedMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
@@ -142,7 +134,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyTopRatedMovieData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -166,7 +157,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
     private fun setEpoxyUpComingMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
@@ -180,7 +170,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyUpComingMovieData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -204,7 +193,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
     private fun setEpoxyPopularTelevisionLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
@@ -218,7 +206,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyPopularTelevisionData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -227,7 +214,6 @@ class HomeViewModel @Inject constructor(
             uiState.copy(
                 popularTelevision = mutableListOf(EpoxyPopularTelevisionData.Error)
             )
-
         }
     }
 
@@ -256,7 +242,6 @@ class HomeViewModel @Inject constructor(
                     EpoxyTopRatedTelevisionData.Shimmer(6),
                 )
             )
-
         }
     }
 
@@ -274,7 +259,6 @@ class HomeViewModel @Inject constructor(
                     when (it) {
                         is DomainSource.Error -> setEpoxyPopularMovieError()
                         is DomainSource.Success -> setEpoxyPopularMovieData(it.data)
-
                     }
                 }.launchIn(this)
             }
@@ -293,7 +277,6 @@ class HomeViewModel @Inject constructor(
                         when (it) {
                             is DomainSource.Error -> setEpoxyTopRatedMovieError()
                             is DomainSource.Success -> setEpoxyTopRatedMovieData(it.data)
-
                         }
                     }.launchIn(this)
             }
@@ -303,7 +286,6 @@ class HomeViewModel @Inject constructor(
                         when (it) {
                             is DomainSource.Error -> setEpoxyUpComingMovieError()
                             is DomainSource.Success -> setEpoxyUpComingMovieData(it.data)
-
                         }
                     }.launchIn(this)
             }

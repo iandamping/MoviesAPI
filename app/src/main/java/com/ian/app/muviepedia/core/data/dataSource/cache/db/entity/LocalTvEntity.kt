@@ -24,7 +24,6 @@ data class LocalTvEntity(
     val timeStamp: Long,
 )
 
-
 fun TvDataResponse.mapToDatabase(type: String, timeStamp: Long): LocalTvEntity {
     return LocalTvEntity(
         localID = null,
@@ -43,4 +42,3 @@ fun TvDataResponse.mapToDatabase(type: String, timeStamp: Long): LocalTvEntity {
         firstAirDate = this.first_air_date ?: "No data"
     )
 }
-

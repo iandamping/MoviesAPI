@@ -55,7 +55,6 @@ data class TelevisionDetail(
     )
 }
 
-
 fun DetailTvResponse.BelongsToCollectionResponse?.mapToDomain(): TelevisionDetail.BelongsToCollection {
     return TelevisionDetail.BelongsToCollection(
         this?.id ?: 0,

@@ -7,7 +7,7 @@ import retrofit2.Response
 
 interface RemoteHelper {
 
-    suspend fun  <T> remoteWithBaseCall(call: Response<BaseResponse<T>>): RemoteBaseResult<T>
+    suspend fun <T> remoteWithBaseCall(call: Response<BaseResponse<T>>): RemoteBaseResult<T>
 
-    suspend fun  <T> remoteCall(call: Response<T>): RemoteResult<T>
+    suspend fun <T> remoteCall(call: Response<T>): RemoteResult<T>
 }

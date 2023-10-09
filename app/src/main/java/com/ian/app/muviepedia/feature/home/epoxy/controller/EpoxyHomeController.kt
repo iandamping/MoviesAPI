@@ -36,7 +36,6 @@ class EpoxyHomeController(
     private val televisionClickListener: EpoxyTelevisionControllerListener,
 ) : TypedEpoxyController<EpoxyHomeData>() {
 
-
     interface EpoxyMovieControllerListener {
         fun onMovieClick(id: Int)
     }
@@ -45,34 +44,30 @@ class EpoxyHomeController(
         fun onTelevisionClick(id: Int)
     }
 
-
     override fun buildModels(data: EpoxyHomeData?) {
         EpoxyCommonTitle("Popular Movie", 18)
             .id("1_movie_popular_title")
             .addTo(this)
-        //carousel popular movie
+        // carousel popular movie
         if (data != null) {
             if (data.popularMovie.isNotEmpty()) {
                 val carouselPopularModel = data.popularMovie.map { multiData ->
                     when (multiData) {
-                        is EpoxyPopularMovieData.Shimmer -> {
+                        is EpoxyPopularMovieData.Shimmer ->
                             EpoxyShimmerPopularMovie()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyPopularMovieData.MovieData -> {
+                        is EpoxyPopularMovieData.MovieData ->
                             EpoxySuccessPopularMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyPopularMovieData.Error -> {
+                        EpoxyPopularMovieData.Error ->
                             EpoxyErrorPopularMovie()
                                 .id("error")
-                        }
                     }
                 }
                 HorizontalGridCarouselModel_()
@@ -86,29 +81,26 @@ class EpoxyHomeController(
         EpoxyCommonTitle("Now Playing Movie", 16)
             .id("2_movie_now_playing_title")
             .addTo(this)
-        //carouse now playing movie
+        // carouse now playing movie
         if (data != null) {
             if (data.nowPlayingMovie.isNotEmpty()) {
                 val carouselNowPlayingModel = data.nowPlayingMovie.map { multiData ->
                     when (multiData) {
-                        is EpoxyNowPlayingMovieData.Shimmer -> {
+                        is EpoxyNowPlayingMovieData.Shimmer ->
                             EpoxyShimmerNowPlayingMovie()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyNowPlayingMovieData.MovieData -> {
+                        is EpoxyNowPlayingMovieData.MovieData ->
                             EpoxySuccessNowPlayingMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyNowPlayingMovieData.Error -> {
+                        EpoxyNowPlayingMovieData.Error ->
                             EpoxyErrorNowPlayingMovie()
                                 .id("error")
-                        }
                     }
                 }
 
@@ -127,24 +119,21 @@ class EpoxyHomeController(
             if (data.nowPlayingMovie.isNotEmpty()) {
                 val carouselTopRatedModel = data.topRatedMovie.map { multiData ->
                     when (multiData) {
-                        is EpoxyTopRatedMovieData.Shimmer -> {
+                        is EpoxyTopRatedMovieData.Shimmer ->
                             EpoxyShimmerTopRatedMovie()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyTopRatedMovieData.MovieData -> {
+                        is EpoxyTopRatedMovieData.MovieData ->
                             EpoxySuccessTopRatedMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyTopRatedMovieData.Error -> {
+                        EpoxyTopRatedMovieData.Error ->
                             EpoxyErrorTopRatedMovie()
                                 .id("error")
-                        }
                     }
                 }
 
@@ -156,7 +145,6 @@ class EpoxyHomeController(
             }
         }
 
-
         EpoxyCommonTitle("Up Coming Movie", 16)
             .id("4_movie_up_coming_title")
             .addTo(this)
@@ -164,24 +152,21 @@ class EpoxyHomeController(
             if (data.nowPlayingMovie.isNotEmpty()) {
                 val carouselUpComingModel = data.upComingMovie.map { multiData ->
                     when (multiData) {
-                        is EpoxyUpComingMovieData.Shimmer -> {
+                        is EpoxyUpComingMovieData.Shimmer ->
                             EpoxyShimmerUpComingMovie()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyUpComingMovieData.MovieData -> {
+                        is EpoxyUpComingMovieData.MovieData ->
                             EpoxySuccessUpComingMovie(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = movieClickListener::onMovieClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyUpComingMovieData.Error -> {
+                        EpoxyUpComingMovieData.Error ->
                             EpoxyErrorUpComingMovie()
                                 .id("error")
-                        }
                     }
                 }
 
@@ -193,33 +178,29 @@ class EpoxyHomeController(
             }
         }
 
-
         EpoxyCommonTitle("Popular Television", 18)
             .id("5_television_popular_title")
             .addTo(this)
-        //carousel popular movie
+        // carousel popular movie
         if (data != null) {
             if (data.popularTelevision.isNotEmpty()) {
                 val carouselPopularModel = data.popularTelevision.map { multiData ->
                     when (multiData) {
-                        is EpoxyPopularTelevisionData.Shimmer -> {
+                        is EpoxyPopularTelevisionData.Shimmer ->
                             EpoxyShimmerPopularTelevision()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyPopularTelevisionData.TelevisionData -> {
+                        is EpoxyPopularTelevisionData.TelevisionData ->
                             EpoxySuccessPopularTelevision(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = televisionClickListener::onTelevisionClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyPopularTelevisionData.Error -> {
+                        EpoxyPopularTelevisionData.Error ->
                             EpoxyErrorPopularTelevision()
                                 .id("error")
-                        }
                     }
                 }
                 CarouselModel_()
@@ -230,34 +211,29 @@ class EpoxyHomeController(
             }
         }
 
-
-
         EpoxyCommonTitle("Top Rated Television", 18)
             .id("6_television_toprated_title")
             .addTo(this)
-        //carousel popular movie
+        // carousel popular movie
         if (data != null) {
             if (data.topRatedTelevision.isNotEmpty()) {
                 val carouselTopRatedModel = data.topRatedTelevision.map { multiData ->
                     when (multiData) {
-                        is EpoxyTopRatedTelevisionData.Shimmer -> {
+                        is EpoxyTopRatedTelevisionData.Shimmer ->
                             EpoxyShimmerTopRatedTelevision()
                                 .id(multiData.epoxyId)
-                        }
 
-                        is EpoxyTopRatedTelevisionData.TelevisionData -> {
+                        is EpoxyTopRatedTelevisionData.TelevisionData ->
                             EpoxySuccessTopRatedTelevision(
                                 viewHelper = viewHelper,
                                 data = multiData,
                                 clickListener = televisionClickListener::onTelevisionClick
                             )
                                 .id(multiData.epoxyId)
-                        }
 
-                        EpoxyTopRatedTelevisionData.Error -> {
+                        EpoxyTopRatedTelevisionData.Error ->
                             EpoxyErrorTopRatedTelevision()
                                 .id("error")
-                        }
                     }
                 }
                 HorizontalGridCarouselModel_()
@@ -267,6 +243,5 @@ class EpoxyHomeController(
                     .addTo(this)
             }
         }
-
     }
 }

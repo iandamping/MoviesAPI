@@ -18,31 +18,39 @@ class MovieRemoteDataSourceImpl @Inject constructor(
 ) : RemoteHelper by injectedRemoteHelper, MovieRemoteDataSource {
 
     override suspend fun getDetailMovie(movieId: Int): DataSource<DetailMovieResponse> {
-        return when (val data =
-            remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = MOVIE_API_KEY))) {
+        return when (
+            val data =
+                remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = MOVIE_API_KEY))
+        ) {
             is RemoteResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun getSimilarMovie(movieId: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(
-            api.getSimilarMovieAsync(
-                movieId = movieId,
-                apiKey = MOVIE_API_KEY
+        return when (
+            val data = remoteWithBaseCall(
+                api.getSimilarMovieAsync(
+                    movieId = movieId,
+                    apiKey = MOVIE_API_KEY
+                )
             )
-        )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
@@ -54,7 +62,9 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
@@ -66,7 +76,9 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
@@ -78,7 +90,9 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
@@ -90,94 +104,116 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun searchMovie(userSearch: String): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data =
-            remoteWithBaseCall(
-                api.getSearchMovieResponse(
+        return when (
+            val data =
+                remoteWithBaseCall(
+                    api.getSearchMovieResponse(
 //                    apiKey = MOVIE_API_KEY,
-                    token = "Bearer $ACCESS_TOKEN_KEY",
-                    searchMovie = userSearch
+                        token = "Bearer $ACCESS_TOKEN_KEY",
+                        searchMovie = userSearch
+                    )
                 )
-            )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(
-            api.pagingGetNowPlayingMovieMovieAsync(
-                apiKey = MOVIE_API_KEY,
-                page = pageMovie
+        return when (
+            val data = remoteWithBaseCall(
+                api.pagingGetNowPlayingMovieMovieAsync(
+                    apiKey = MOVIE_API_KEY,
+                    page = pageMovie
+                )
             )
-        )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(
-            api.pagingGetPopularMovieAsync(
-                apiKey = MOVIE_API_KEY,
-                page = pageMovie
+        return when (
+            val data = remoteWithBaseCall(
+                api.pagingGetPopularMovieAsync(
+                    apiKey = MOVIE_API_KEY,
+                    page = pageMovie
+                )
             )
-        )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(
-            api.pagingGetTopRatedMovieAsync(
-                apiKey = MOVIE_API_KEY,
-                page = pageMovie
+        return when (
+            val data = remoteWithBaseCall(
+                api.pagingGetTopRatedMovieAsync(
+                    apiKey = MOVIE_API_KEY,
+                    page = pageMovie
+                )
             )
-        )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }
 
     override suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (val data = remoteWithBaseCall(
-            api.pagingGetUpComingMovieAsync(
-                apiKey = MOVIE_API_KEY,
-                page = pageMovie
+        return when (
+            val data = remoteWithBaseCall(
+                api.pagingGetUpComingMovieAsync(
+                    apiKey = MOVIE_API_KEY,
+                    page = pageMovie
+                )
             )
-        )) {
+        ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
                 val result = data.data.body()
                 if (result != null) {
                     DataSource.Success(result)
-                } else DataSource.Error("null body")
+                } else {
+                    DataSource.Error("null body")
+                }
             }
         }
     }

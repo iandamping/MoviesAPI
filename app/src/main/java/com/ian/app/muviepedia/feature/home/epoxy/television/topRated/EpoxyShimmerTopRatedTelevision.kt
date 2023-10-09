@@ -7,7 +7,7 @@ import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 class EpoxyShimmerTopRatedTelevision : ViewBindingEpoxyModelWithHolder<ShimmerItemTopRatedTelevisionBinding>() {
 
     override fun ShimmerItemTopRatedTelevisionBinding.bind() {
-       shimmerProduct.startShimmer()
+        shimmerProduct.startShimmer()
     }
 
     override fun ShimmerItemTopRatedTelevisionBinding.unbind() {

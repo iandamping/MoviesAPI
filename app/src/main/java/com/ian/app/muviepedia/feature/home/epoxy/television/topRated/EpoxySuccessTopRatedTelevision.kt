@@ -24,7 +24,6 @@ class EpoxySuccessTopRatedTelevision(
         }
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.item_top_rated_television
     }

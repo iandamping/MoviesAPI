@@ -25,7 +25,6 @@ class EpoxySuccessSearchMovie(
         }
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.item_search_movie
     }

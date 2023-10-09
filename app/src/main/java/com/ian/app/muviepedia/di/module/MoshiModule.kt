@@ -12,5 +12,4 @@ object MoshiModule {
     fun provideMoshi(): Moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
-
 }

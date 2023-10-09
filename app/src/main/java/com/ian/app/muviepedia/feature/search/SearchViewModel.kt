@@ -22,7 +22,6 @@ class SearchViewModel @Inject constructor(
 
 //    private var job: Job? = null
 
-
     private val _epoxyMovieData: MutableStateFlow<EpoxySearchData> =
         MutableStateFlow(EpoxySearchData.init())
     val epoxyMovieData: StateFlow<EpoxySearchData>
@@ -36,13 +35,11 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-
     private fun setEpoxySearchMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 loading = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
             )
-
         }
     }
 
@@ -51,7 +48,6 @@ class SearchViewModel @Inject constructor(
             uiState.copy(
                 error = listOf(message),
             )
-
         }
     }
 

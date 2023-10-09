@@ -2,7 +2,6 @@ package com.ian.app.muviepedia.core.data.repository.model
 
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 
-
 data class MovieDetail(
     val adult: Boolean,
     val backdrop_path: String,

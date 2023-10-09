@@ -13,13 +13,12 @@ class EpoxySearchController(
     private val movieClickListener: EpoxySearchMovieControllerListener,
 ) : TypedEpoxyController<EpoxySearchData>() {
 
-
     interface EpoxySearchMovieControllerListener {
         fun onMovieClick(id: Int)
     }
 
     override fun buildModels(data: EpoxySearchData?) {
-        //carousel search movie
+        // carousel search movie
         if (data != null) {
             if (data.searchMovie.isNotEmpty()) {
                 val carouselSearchModel = data.searchMovie.map { multiData ->
@@ -37,7 +36,7 @@ class EpoxySearchController(
                     .addTo(this)
             }
 
-            if (data.loading.isNotEmpty()){
+            if (data.loading.isNotEmpty()) {
                 val loadingModel = data.loading.map { loadingData ->
                     EpoxyShimmerSearchMovie()
                         .id(loadingData)
@@ -49,7 +48,7 @@ class EpoxySearchController(
                     .addTo(this)
             }
 
-            if (data.error.isNotEmpty()){
+            if (data.error.isNotEmpty()) {
                 val errorModel = data.error.map { loadingData ->
                     EpoxyErrorSearchMovie()
                         .id(loadingData)

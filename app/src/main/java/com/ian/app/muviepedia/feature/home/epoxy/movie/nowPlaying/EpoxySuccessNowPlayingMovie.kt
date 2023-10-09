@@ -24,7 +24,6 @@ class EpoxySuccessNowPlayingMovie(
         }
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.item_now_playing_movie
     }

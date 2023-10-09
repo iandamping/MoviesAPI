@@ -14,7 +14,6 @@ class EpoxyShimmerNowPlayingMovie :
         shimmerProduct.stopShimmer()
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.shimmer_item_now_playing_movie
     }

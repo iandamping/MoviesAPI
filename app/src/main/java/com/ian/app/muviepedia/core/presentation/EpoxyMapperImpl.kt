@@ -65,7 +65,6 @@ class EpoxyMapperImpl @Inject constructor() :
 
     override fun epoxySearchMovieListMapper(data: Set<EpoxyMovie>): List<EpoxySearchMovieData.MovieData> {
         return data.toListEpoxySearchMovieData()
-
     }
 
     override fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision> {
@@ -97,7 +96,4 @@ class EpoxyMapperImpl @Inject constructor() :
     override fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData> {
         return data.toListEpoxyTopRatedTvData()
     }
-
-
-
 }
