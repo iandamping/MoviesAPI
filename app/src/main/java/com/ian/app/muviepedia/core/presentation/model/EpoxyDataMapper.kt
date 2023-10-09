@@ -25,8 +25,9 @@ fun EpoxyTelevision.toEpoxyPopularData(): EpoxyPopularTelevisionData.TelevisionD
     )
 }
 
-fun Set<EpoxyTelevision>.toListEpoxyPopularTvData():List<EpoxyPopularTelevisionData.TelevisionData> = map { it.toEpoxyPopularData() }
-
+fun Set<EpoxyTelevision>.toListEpoxyPopularTvData(): List<EpoxyPopularTelevisionData.TelevisionData> = map {
+    it.toEpoxyPopularData()
+}
 
 fun EpoxyTelevision.toEpoxyTopRatedData(): EpoxyTopRatedTelevisionData.TelevisionData {
     return EpoxyTopRatedTelevisionData.TelevisionData(
@@ -45,9 +46,9 @@ fun EpoxyTelevision.toEpoxyTopRatedData(): EpoxyTopRatedTelevisionData.Televisio
     )
 }
 
-fun Set<EpoxyTelevision>.toListEpoxyTopRatedTvData():List<EpoxyTopRatedTelevisionData.TelevisionData> = map { it.toEpoxyTopRatedData() }
-
-
+fun Set<EpoxyTelevision>.toListEpoxyTopRatedTvData(): List<EpoxyTopRatedTelevisionData.TelevisionData> = map {
+    it.toEpoxyTopRatedData()
+}
 
 fun EpoxyMovie.toEpoxyPopularData(): EpoxyPopularMovieData.MovieData {
     return EpoxyPopularMovieData.MovieData(
@@ -68,8 +69,7 @@ fun EpoxyMovie.toEpoxyPopularData(): EpoxyPopularMovieData.MovieData {
     )
 }
 
-fun Set<EpoxyMovie>.toListEpoxyPopularData():List<EpoxyPopularMovieData.MovieData> = map { it.toEpoxyPopularData() }
-
+fun Set<EpoxyMovie>.toListEpoxyPopularData(): List<EpoxyPopularMovieData.MovieData> = map { it.toEpoxyPopularData() }
 
 fun EpoxyMovie.toEpoxyNowPlayingData(): EpoxyNowPlayingMovieData.MovieData {
     return EpoxyNowPlayingMovieData.MovieData(
@@ -90,8 +90,9 @@ fun EpoxyMovie.toEpoxyNowPlayingData(): EpoxyNowPlayingMovieData.MovieData {
     )
 }
 
-fun Set<EpoxyMovie>.toListEpoxyNowPlayingData():List<EpoxyNowPlayingMovieData.MovieData> = map { it.toEpoxyNowPlayingData() }
-
+fun Set<EpoxyMovie>.toListEpoxyNowPlayingData(): List<EpoxyNowPlayingMovieData.MovieData> = map {
+    it.toEpoxyNowPlayingData()
+}
 
 fun EpoxyMovie.toEpoxyTopRatedData(): EpoxyTopRatedMovieData.MovieData {
     return EpoxyTopRatedMovieData.MovieData(
@@ -112,8 +113,7 @@ fun EpoxyMovie.toEpoxyTopRatedData(): EpoxyTopRatedMovieData.MovieData {
     )
 }
 
-fun Set<EpoxyMovie>.toListEpoxyTopRatedData():List<EpoxyTopRatedMovieData.MovieData> = map { it.toEpoxyTopRatedData() }
-
+fun Set<EpoxyMovie>.toListEpoxyTopRatedData(): List<EpoxyTopRatedMovieData.MovieData> = map { it.toEpoxyTopRatedData() }
 
 fun EpoxyMovie.toEpoxyUpComingData(): EpoxyUpComingMovieData.MovieData {
     return EpoxyUpComingMovieData.MovieData(
@@ -134,8 +134,7 @@ fun EpoxyMovie.toEpoxyUpComingData(): EpoxyUpComingMovieData.MovieData {
     )
 }
 
-fun Set<EpoxyMovie>.toListEpoxyUpComingData():List<EpoxyUpComingMovieData.MovieData> = map { it.toEpoxyUpComingData() }
-
+fun Set<EpoxyMovie>.toListEpoxyUpComingData(): List<EpoxyUpComingMovieData.MovieData> = map { it.toEpoxyUpComingData() }
 
 fun EpoxyMovie.toEpoxySearchMovieData(): EpoxySearchMovieData.MovieData {
     return EpoxySearchMovieData.MovieData(
@@ -156,4 +155,6 @@ fun EpoxyMovie.toEpoxySearchMovieData(): EpoxySearchMovieData.MovieData {
     )
 }
 
-fun Set<EpoxyMovie>.toListEpoxySearchMovieData():List<EpoxySearchMovieData.MovieData> = map { it.toEpoxySearchMovieData() }
+fun Set<EpoxyMovie>.toListEpoxySearchMovieData(): List<EpoxySearchMovieData.MovieData> = map {
+    it.toEpoxySearchMovieData()
+}

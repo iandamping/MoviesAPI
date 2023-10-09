@@ -35,7 +35,7 @@ class EpoxyMapperImplTest {
 
     @Test
     fun extractMovieToEpoxy() {
-        //arrange
+        // arrange
         val movies: List<Movie> =
             listOf(Movie(1, 1, false, 1.1, "a", 1.1, "a", "a", "a", "a", false, "a", "a"))
         val expected: Set<EpoxyMovie> =

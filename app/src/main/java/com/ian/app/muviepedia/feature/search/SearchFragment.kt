@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class SearchFragment : BaseFragmentViewBinding<FragmentSearchBinding>(),
+class SearchFragment :
+    BaseFragmentViewBinding<FragmentSearchBinding>(),
     EpoxySearchController.EpoxySearchMovieControllerListener {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -51,7 +52,8 @@ class SearchFragment : BaseFragmentViewBinding<FragmentSearchBinding>(),
             }.launchIn(this)
         }
 
-        binding.searchViews.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+        binding.searchViews.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!binding.searchViews.isIconified) {
@@ -70,6 +72,5 @@ class SearchFragment : BaseFragmentViewBinding<FragmentSearchBinding>(),
     }
 
     override fun onMovieClick(id: Int) {
-
     }
 }

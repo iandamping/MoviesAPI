@@ -50,7 +50,7 @@ class MovieRepositoryImplTest {
 
     @Test
     fun `fetchDetailMovie return Success`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: DetailMovieResponse = mockk()
         val mock = DataSource.Success(mockResponse)
         val domainMock: MovieDetail = mockk()
@@ -60,9 +60,9 @@ class MovieRepositoryImplTest {
             mockResponse.mapToDomain()
         } returns domainMock
 
-        //act
+        // act
         val result = sut.fetchDetailMovie(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Success(mockResponse.mapToDomain()), state)
@@ -73,14 +73,14 @@ class MovieRepositoryImplTest {
 
     @Test
     fun `fetchDetailMovie return Error`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         coEvery { remoteDataSource.getDetailMovie(any()) } returns mock
 
-        //act
+        // act
         val result = sut.fetchDetailMovie(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -89,10 +89,9 @@ class MovieRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchSimilarMovie return Success`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -102,10 +101,10 @@ class MovieRepositoryImplTest {
             mockResponse.mapRemoteMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchSimilarMovie(1)
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteMovieListToDomain())
 
         result.test {
@@ -122,18 +121,16 @@ class MovieRepositoryImplTest {
         }
     }
 
-
-
     @Test
     fun `fetchSimilarMovie return Error`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         coEvery { remoteDataSource.getSimilarMovie(any()) } returns mock
 
-        //act
+        // act
         val result = sut.fetchSimilarMovie(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -144,7 +141,7 @@ class MovieRepositoryImplTest {
 
     @Test
     fun `fetchPopularMovie return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -155,34 +152,34 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getPopularMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchPopularMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -208,13 +205,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `fetchPopularMovie return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -225,39 +220,39 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getPopularMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
-        //mock clearFirst()
+        // mock clearFirst()
         coJustRun { localDataSource.deleteAll() }
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //mock saveCallResult()
+        // mock saveCallResult()
         coJustRun { localDataSource.insertMovie(any()) }
 
-        //act
+        // act
         val result = sut.fetchPopularMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -283,13 +278,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `fetchPopularMovie return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -303,30 +296,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getPopularMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.fetchPopularMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -334,11 +327,10 @@ class MovieRepositoryImplTest {
             awaitComplete()
         }
     }
-
 
     @Test
     fun `fetchPopularMovie return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -352,30 +344,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getPopularMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.fetchPopularMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -384,11 +376,9 @@ class MovieRepositoryImplTest {
         }
     }
 
-
-
     @Test
     fun `fetchNowPlayingMovie return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -399,34 +389,34 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getNowPlaying() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchNowPlayingMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -452,13 +442,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `fetchNowPlayingMovie return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -469,39 +457,39 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getNowPlaying() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
-        //mock clearFirst()
+        // mock clearFirst()
         coJustRun { localDataSource.deleteAll() }
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //mock saveCallResult()
+        // mock saveCallResult()
         coJustRun { localDataSource.insertMovie(any()) }
 
-        //act
+        // act
         val result = sut.fetchNowPlayingMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -527,12 +515,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `fetchNowPlayingMovie return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -546,30 +533,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getNowPlaying() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.fetchNowPlayingMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -577,11 +564,10 @@ class MovieRepositoryImplTest {
             awaitComplete()
         }
     }
-
 
     @Test
     fun `fetchNowPlayingMovie return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -595,30 +581,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getNowPlaying() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.NowPlaying.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.fetchNowPlayingMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -627,10 +613,9 @@ class MovieRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchTopRatedMovie return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -641,34 +626,34 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getTopRatedMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchTopRatedMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -694,13 +679,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `fetchTopRatedMovie return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -711,39 +694,39 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getTopRatedMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
-        //mock clearFirst()
+        // mock clearFirst()
         coJustRun { localDataSource.deleteAll() }
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //mock saveCallResult()
+        // mock saveCallResult()
         coJustRun { localDataSource.insertMovie(any()) }
 
-        //act
+        // act
         val result = sut.fetchTopRatedMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -769,12 +752,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `fetchTopRatedMovie return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -788,30 +770,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getTopRatedMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.fetchTopRatedMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -819,11 +801,10 @@ class MovieRepositoryImplTest {
             awaitComplete()
         }
     }
-
 
     @Test
     fun `fetchTopRatedMovie return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -837,30 +818,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getTopRatedMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.fetchTopRatedMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -869,10 +850,9 @@ class MovieRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchUpComingMovie return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -883,34 +863,34 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getUpComingMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.UpComing.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchUpComingMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -936,13 +916,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `fetchUpComingMovie return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -953,39 +931,39 @@ class MovieRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getUpComingMovie() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.UpComing.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapListToDomain(any(), any())
         } returns domainListLocalMockEntity
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
-        //mock clearFirst()
+        // mock clearFirst()
         coJustRun { localDataSource.deleteAll() }
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //mock saveCallResult()
+        // mock saveCallResult()
         coJustRun { localDataSource.insertMovie(any()) }
 
-        //act
+        // act
         val result = sut.fetchUpComingMovie()
 
-        //assert
+        // assert
         Assert.assertEquals(domainListLocalMockEntity, mockResponse.mapListToDomain("a", 1L))
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -1011,12 +989,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `fetchUpComingMovie return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -1030,30 +1007,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getUpComingMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.UpComing.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.fetchUpComingMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -1062,10 +1039,9 @@ class MovieRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchUpComingMovie return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
@@ -1079,30 +1055,30 @@ class MovieRepositoryImplTest {
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
 
         coEvery { remoteDataSource.getUpComingMovie() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllMovieDataByType(MovieType.UpComing.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns emptyList()
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock firstOrNull to check isExpired()
+        // mock firstOrNull to check isExpired()
         coEvery { flowOf(domainListLocalMockEntity).firstOrNull() } returns domainListLocalMockEntity
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { domainMockResponse.isEmpty() } returns false
-        //mock localData to check isExpired()
+        // mock localData to check isExpired()
         every { domainListLocalMockEntity.isEmpty() } returns false
         every { domainListLocalMockEntity.firstOrNull()?.timeStamp } returns 1L
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.fetchUpComingMovie()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -1113,7 +1089,7 @@ class MovieRepositoryImplTest {
 
     @Test
     fun `fetchSearchMovie return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val domainMockResponse: List<Movie> = mockk()
         val domainListLocalMockEntity: List<LocalMovieEntity> = listOf(
             LocalMovieEntity(
@@ -1138,19 +1114,19 @@ class MovieRepositoryImplTest {
 
         mockkStatic(List<MovieDataResponse>::mapListToDomain)
         mockkStatic(List<LocalMovieEntity>::mapLocalMovieListToDomain)
-        //mock setup for loadFromDB()
+        // mock setup for loadFromDB()
         every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchSearchMovie("a")
 
-        //assert
+        // assert
         result.test {
-            //get data from cache
+            // get data from cache
             val state = awaitItem()
             Assert.assertEquals(
                 DomainSource.Success(domainListLocalMockEntity.mapLocalMovieListToDomain()),
@@ -1164,12 +1140,11 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `fetchSearchMovie return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<MovieDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Movie> = mockk()
@@ -1177,9 +1152,9 @@ class MovieRepositoryImplTest {
 
         mockkStatic(List<MovieDataResponse>::mapRemoteMovieListToDomain)
         mockkStatic("kotlin.collections.CollectionsKt")
-        //mock setup for loadFromDB()
+        // mock setup for loadFromDB()
         every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
-        //mock remoteResponse
+        // mock remoteResponse
         coEvery {
             remoteDataSource.searchMovie(any())
         } returns DataSource.Success(dataResponse)
@@ -1188,12 +1163,12 @@ class MovieRepositoryImplTest {
             mockResponse.mapRemoteMovieListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchSearchMovie("a")
 
-        //assert
+        // assert
         result.test {
-            //get data from remote
+            // get data from remote
             val state = awaitItem()
             Assert.assertEquals(
                 DomainSource.Success(mockResponse.mapRemoteMovieListToDomain()),
@@ -1207,34 +1182,31 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
-
 
     @Test
     fun `fetchSearchMovie return Error data from remote`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val failedMock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalMovieEntity> = mockk()
 
         mockkStatic("kotlin.collections.CollectionsKt")
-        //mock setup for loadFromDB()
+        // mock setup for loadFromDB()
         every { localDataSource.loadAllMovie() } returns flowOf(domainListLocalMockEntity)
-        //mock isNotEmpty
+        // mock isNotEmpty
         every { domainListLocalMockEntity.isNotEmpty() } returns true
-        //mock remoteResponse
+        // mock remoteResponse
         coEvery {
             remoteDataSource.searchMovie(any())
         } returns failedMock
 
-        //act
+        // act
         val result = sut.fetchSearchMovie("a")
 
-        //assert
+        // assert
         result.test {
-            //get data from remote
+            // get data from remote
             val state = awaitItem()
             Assert.assertEquals(
                 DomainSource.Error(failedMessage),
@@ -1248,8 +1220,5 @@ class MovieRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
-
 }

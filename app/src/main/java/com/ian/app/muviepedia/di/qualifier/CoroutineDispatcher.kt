@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.di.qualifier
 
-
 import javax.inject.Qualifier
 
 @Retention(AnnotationRetention.BINARY)
@@ -15,8 +14,6 @@ annotation class IoDispatcher
 @Qualifier
 annotation class MainDispatcher
 
-
-
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class CustomIOScope
@@ -25,13 +22,10 @@ annotation class CustomIOScope
 @Qualifier
 annotation class CustomDefaultScope
 
-
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class CustomMainScope
 
-
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
 annotation class CustomNonDispatcherScope
-

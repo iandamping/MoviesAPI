@@ -10,4 +10,4 @@ import javax.inject.Qualifier
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.FIELD
 )
-annotation class ApplicationContext 
+annotation class ApplicationContext

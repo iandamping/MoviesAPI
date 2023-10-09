@@ -46,7 +46,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `fetchDetailTv return Success`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: DetailTvResponse = mockk()
         val mock = DataSource.Success(mockResponse)
         val domainMock: TelevisionDetail = mockk()
@@ -56,9 +56,9 @@ class TvRepositoryImplTest {
             mockResponse.mapToDomain()
         } returns domainMock
 
-        //act
+        // act
         val result = sut.fetchDetailTv(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Success(mockResponse.mapToDomain()), state)
@@ -69,14 +69,14 @@ class TvRepositoryImplTest {
 
     @Test
     fun `fetchDetailTv return Error`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         coEvery { remoteDataSource.getDetailTv(any()) } returns mock
 
-        //act
+        // act
         val result = sut.fetchDetailTv(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -85,10 +85,9 @@ class TvRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchSimilarTv return Success`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> = mockk()
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
         val domainMockResponse: List<Television> = mockk()
@@ -98,10 +97,10 @@ class TvRepositoryImplTest {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.fetchSimilarTv(1)
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
 
         result.test {
@@ -118,17 +117,16 @@ class TvRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `fetchSimilarTv return Error`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         coEvery { remoteDataSource.getSimilarTv(any()) } returns mock
 
-        //act
+        // act
         val result = sut.fetchSimilarTv(1)
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -139,7 +137,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchPopularTv return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -151,9 +149,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getPopularTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -162,20 +160,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns false
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchPopularTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
 
         Assert.assertEquals(
@@ -201,13 +198,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `prefetchPopularTv return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -219,9 +214,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getPopularTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -230,20 +225,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns true
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchPopularTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -269,12 +263,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `prefetchPopularTv return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -283,16 +276,16 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
 
         coEvery { remoteDataSource.getPopularTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.prefetchPopularTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -303,7 +296,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchPopularTv return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -315,21 +308,21 @@ class TvRepositoryImplTest {
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
 
         coEvery { remoteDataSource.getPopularTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.Popular.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns emptyList()
 
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.prefetchPopularTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -338,10 +331,9 @@ class TvRepositoryImplTest {
         }
     }
 
-
     @Test
     fun `prefetchOnAirTv return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -353,9 +345,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getOnAirTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.OnAir.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -364,20 +356,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns false
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchOnAirTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
 
         Assert.assertEquals(
@@ -403,13 +394,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `prefetchOnAirTv return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -421,9 +410,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getOnAirTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.OnAir.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -432,20 +421,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns true
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchOnAirTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -471,12 +459,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `prefetchOnAirTv return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -485,16 +472,16 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
 
         coEvery { remoteDataSource.getOnAirTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.OnAir.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.prefetchOnAirTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -505,7 +492,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchOnAirTv return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -517,21 +504,21 @@ class TvRepositoryImplTest {
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
 
         coEvery { remoteDataSource.getOnAirTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.OnAir.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns emptyList()
 
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.prefetchOnAirTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -542,7 +529,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchAiringTodayTv return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -554,9 +541,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getAiringTodayTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.AiringToday.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -565,20 +552,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns false
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchAiringTodayTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
 
         Assert.assertEquals(
@@ -604,13 +590,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `prefetchAiringTodayTv return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -622,9 +606,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getAiringTodayTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.AiringToday.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -633,20 +617,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns true
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchAiringTodayTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -672,12 +655,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `prefetchAiringTodayTv return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -686,17 +668,17 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
 
         coEvery { remoteDataSource.getAiringTodayTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.AiringToday.name) } returns flowOf(
             domainListLocalMockEntity
         )
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.prefetchAiringTodayTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -707,7 +689,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchAiringTodayTv return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -719,21 +701,21 @@ class TvRepositoryImplTest {
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
 
         coEvery { remoteDataSource.getAiringTodayTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.AiringToday.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns emptyList()
 
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.prefetchAiringTodayTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -744,7 +726,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchTopRatedTv return Success data from cache`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -756,9 +738,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getTopRatedTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -767,20 +749,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns false
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchTopRatedTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
 
         Assert.assertEquals(
@@ -806,13 +787,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
-
 
     @Test
     fun `prefetchTopRatedTv return Success data from remote`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> =
             listOf(TvDataResponse("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val dataResponse = BaseResponse(1, 1, 1, mockResponse)
@@ -824,9 +803,9 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         mockkStatic(List<TvDataResponse>::mapRemoteTelevisionListToDomain)
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
-        //mock setup for createCall()
+        // mock setup for createCall()
         coEvery { remoteDataSource.getTopRatedTv() } returns DataSource.Success(dataResponse)
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
@@ -835,20 +814,19 @@ class TvRepositoryImplTest {
 
         every { isExpireds(any()) } returns true
 
-
-        //mock remote data in saveCallResult()
+        // mock remote data in saveCallResult()
         every {
             mockResponse.mapRemoteTelevisionListToDomain()
         } returns domainMockResponse
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns domainMockResponse
 
-        //act
+        // act
         val result = sut.prefetchTopRatedTv()
 
-        //assert
+        // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
         Assert.assertEquals(
             domainListLocalMockEntity,
@@ -874,12 +852,11 @@ class TvRepositoryImplTest {
 
             awaitComplete()
         }
-
     }
 
     @Test
     fun `prefetchTopRatedTv return Error expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -888,17 +865,17 @@ class TvRepositoryImplTest {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
 
         coEvery { remoteDataSource.getTopRatedTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
 
-        //mock isNullOrEmpty for shouldFetch()
+        // mock isNullOrEmpty for shouldFetch()
         every { isExpireds(any()) } returns true
 
-        //act
+        // act
         val result = sut.prefetchTopRatedTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -909,7 +886,7 @@ class TvRepositoryImplTest {
 
     @Test
     fun `prefetchTopRatedTv return Error not expired`() = runTest {
-        //arrange
+        // arrange
         val failedMessage = "error"
         val mock = DataSource.Error(failedMessage)
         val domainListLocalMockEntity: List<LocalTvEntity> =
@@ -921,21 +898,21 @@ class TvRepositoryImplTest {
         mockkStatic(List<LocalTvEntity>::mapLocalTelevisionListToDomain)
 
         coEvery { remoteDataSource.getTopRatedTv() } returns mock
-        //mock setup for loadFromDB() & isExpired()
+        // mock setup for loadFromDB() & isExpired()
         every { localDataSource.loadAllTvDataByType(TvType.TopRated.name) } returns flowOf(
             domainListLocalMockEntity
         )
-        //mock loadFromDB()
+        // mock loadFromDB()
         every {
             domainListLocalMockEntity.mapLocalTelevisionListToDomain()
         } returns emptyList()
 
-        //mock extension func to check isExpired()
+        // mock extension func to check isExpired()
         every { isExpireds(any()) } returns false
 
-        //act
+        // act
         val result = sut.prefetchTopRatedTv()
-        //assert
+        // assert
         result.test {
             val state = awaitItem()
             Assert.assertEquals(DomainSource.Error(failedMessage), state)
@@ -943,6 +920,4 @@ class TvRepositoryImplTest {
             awaitComplete()
         }
     }
-
-
 }

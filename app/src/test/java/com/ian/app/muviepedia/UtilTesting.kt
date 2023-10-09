@@ -9,7 +9,7 @@ import org.junit.Test
 class UtilTesting {
 
     @Test
-    fun isExpiredTest(){
+    fun isExpiredTest() {
         mockkStatic("com.ian.app.muviepedia.util.ExpiresUtilKt")
         every { isExpireds(any()) } returns false
 

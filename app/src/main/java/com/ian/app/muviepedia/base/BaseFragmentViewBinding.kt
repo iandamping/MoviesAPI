@@ -58,7 +58,6 @@ abstract class BaseFragmentViewBinding<out VB : ViewBinding> : Fragment() {
         super.onAttach(context)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,6 +77,4 @@ abstract class BaseFragmentViewBinding<out VB : ViewBinding> : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

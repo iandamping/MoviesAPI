@@ -15,7 +15,7 @@ data class EpoxyHomeData(
     val popularTelevision: List<EpoxyPopularTelevisionData>,
     val topRatedTelevision: List<EpoxyTopRatedTelevisionData>,
 
-    ) {
+) {
     companion object {
         fun init(): EpoxyHomeData {
             return EpoxyHomeData(

@@ -2,7 +2,6 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.model.response
 
 import com.squareup.moshi.Json
 
-
 /**
  *
 Created by Ian Damping on 18/06/2019.
@@ -20,4 +19,4 @@ data class TvDataResponse(
     @Json(name = "vote_average") val vote_average: Double?,
     @Json(name = "overview") val overview: String?,
     @Json(name = "poster_path") val poster_path: String?
-) 
+)

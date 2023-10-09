@@ -18,10 +18,9 @@ data class EpoxySearchData(
     }
 }
 
-
-//data class EpoxySearchData(
+// data class EpoxySearchData(
 //    val searchMovie: List<EpoxySearchMovieData>
-//) {
+// ) {
 //    companion object {
 //        fun init(): EpoxySearchData {
 //            return EpoxySearchData(
@@ -29,4 +28,4 @@ data class EpoxySearchData(
 //            )
 //        }
 //    }
-//}
+// }

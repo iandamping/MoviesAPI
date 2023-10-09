@@ -6,7 +6,6 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'org.jetbrains.kotlinx.kover'
 }
 
 android {
@@ -55,43 +54,7 @@ android {
         it.buildConfigField 'String', 'ACCESS_TOKEN_KEY', ACCESS_TOKEN_KEY
     }
 
-    koverReport {
-        // filters for all report types of all build variants
-        filters {
-            excludes {
-                classes(
-                        "*Fragment",
-                        "*Fragment\$*",
-                        "*Activity",
-                        "*Activity\$*",
-                        "*.databinding.*",
-                        "*Factory*",
-                        "*Hilt*",
-                        "*_HiltModules_.*",
-                        "*HiltModules*",
-                        "*GeneratedInjector*",
-                        "*.BuildConfig",
-                        "dagger\\.hilt\\..*",
-                        "**.hilt_aggregated_deps",
-                        "*Provide*",
-                        "Provide*",
-                        "*_MembersInjector*",
-                        "com.ian.app.muviepedia.MoviesApp",
-                        "com.ian.app.muviepedia.base.*",
-                        "com.ian.app.muviepedia.feature.*",
-                        "com.ian.app.muviepedia.di.*",
-                        "com.ian.app.muviepedia.util.*",
-                        "com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant",
-                        "com.ian.app.muviepedia.core.data.dataSource.remote.model.response.*",
-                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.*",
-                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.dao.*",
-                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.*",
-                        "com.ian.app.muviepedia.core.data.repository.model.*",
-                        "com.ian.app.muviepedia.core.presentation.model.*",
-                )
-            }
-        }
-    }
+
 
 
 }

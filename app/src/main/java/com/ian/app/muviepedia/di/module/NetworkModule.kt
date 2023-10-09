@@ -28,7 +28,8 @@ object NetworkModule {
     @Provides
     @ApplicationScoped
     fun provideApiInterfaceForHomeScreen(
-        okHttpClient: OkHttpClient, moshi: Moshi
+        okHttpClient: OkHttpClient,
+        moshi: Moshi
     ): ApiInterface {
         return Retrofit.Builder()
             .client(okHttpClient)
@@ -37,5 +38,4 @@ object NetworkModule {
             .build()
             .create(ApiInterface::class.java)
     }
-
 }

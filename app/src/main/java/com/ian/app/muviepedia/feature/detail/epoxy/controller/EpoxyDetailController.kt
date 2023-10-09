@@ -3,6 +3,7 @@ package com.ian.app.muviepedia.feature.detail.epoxy.controller
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.TypedEpoxyController
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailDescriptionContent
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailImageContent
@@ -15,7 +16,6 @@ import com.ian.app.muviepedia.feature.detail.epoxy.television.EpoxyShimmerDetail
 import com.ian.app.muviepedia.feature.home.epoxy.common.EpoxyCommonTitle
 import com.ian.app.muviepedia.feature.state.DetailMovieUiState
 import com.ian.app.muviepedia.feature.state.PresentationState
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
 import com.ian.app.muviepedia.util.epoxy.ViewBindingHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
@@ -82,7 +82,6 @@ class EpoxyDetailController(
                 }
 
                 if (data.similarMovieData.isNotEmpty()) {
-
                     EpoxyCommonTitle("Similar Movie", 24)
                         .id("detail_similar_movie_title")
                         .addTo(this)
@@ -101,7 +100,6 @@ class EpoxyDetailController(
                         .numViewsToShowOnScreen(2f)
                         .addTo(this)
                 }
-
             } else {
                 if (data.uiState == PresentationState.Loading) {
                     EpoxyShimmerDetailImageContent()
@@ -127,7 +125,6 @@ class EpoxyDetailController(
                         .addTo(this)
                 }
 
-
                 if (data.uiState == PresentationState.Loading) {
                     val shimmerModel: MutableList<EpoxyModel<ViewBindingHolder>> =
                         mutableListOf()
@@ -147,7 +144,6 @@ class EpoxyDetailController(
                 }
 
                 if (data.similarTelevisionData.isNotEmpty()) {
-
                     EpoxyCommonTitle("Similar Television", 24)
                         .id("detail_similar_television_title")
                         .addTo(this)
@@ -166,7 +162,6 @@ class EpoxyDetailController(
                         .numViewsToShowOnScreen(2f)
                         .addTo(this)
                 }
-
             }
         }
     }

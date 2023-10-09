@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-
 @Module
 object CoroutineScopeModule {
 
@@ -32,7 +31,6 @@ object CoroutineScopeModule {
     fun providesIoApplicationScope(
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CoroutineScope = CoroutineScope(SupervisorJob() + ioDispatcher)
-
 
     @Provides
     @CustomMainScope

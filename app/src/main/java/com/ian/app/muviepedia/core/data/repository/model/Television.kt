@@ -17,7 +17,6 @@ data class Television(
     val posterPath: String
 )
 
-
 fun LocalTvEntity.mapToDomain(): Television = Television(
     originalName = this.originalName,
     name = this.name,
@@ -47,6 +46,5 @@ fun TvDataResponse.mapToDomain(): Television = Television(
 )
 
 fun List<LocalTvEntity>.mapLocalTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }
-
 
 fun List<TvDataResponse>.mapRemoteTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }

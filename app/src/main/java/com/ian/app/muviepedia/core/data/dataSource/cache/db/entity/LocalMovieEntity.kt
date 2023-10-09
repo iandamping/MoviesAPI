@@ -2,8 +2,8 @@ package com.ian.app.muviepedia.core.data.dataSource.cache.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
+import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 
 @Entity(tableName = "movie_entity")
 data class LocalMovieEntity(

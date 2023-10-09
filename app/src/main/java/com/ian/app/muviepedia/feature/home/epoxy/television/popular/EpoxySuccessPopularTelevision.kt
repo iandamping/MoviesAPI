@@ -23,7 +23,6 @@ class EpoxySuccessPopularTelevision(
         }
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.item_popular_television
     }

@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
+class HomeFragment :
+    BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyMovieControllerListener,
     EpoxyHomeController.EpoxyTelevisionControllerListener {
 
@@ -36,7 +37,6 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
             televisionClickListener = this
         )
     }
-
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
@@ -67,7 +67,6 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
                 DetailFlag.MOVIE
             )
         )
-
     }
 
     override fun onTelevisionClick(id: Int) {
@@ -78,6 +77,4 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
             )
         )
     }
-
-
 }

@@ -32,13 +32,13 @@ class RemoteHelperImplTest {
 
     @Test
     fun `any remoteCall should only call at least one api`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: DetailMovieResponse = mockk()
         val expected = Response.success(mockResponse)
         coEvery { api.getDetailMovieAsync(any(), any()) } returns expected
-        //act
+        // act
         val result = sut.remoteCall(api.getDetailMovieAsync(1, "a"))
-        //assert
+        // assert
         coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
         assertEquals(RemoteResult.Success(expected), result)
         assertEquals(expected, (result as RemoteResult.Success).data)
@@ -46,23 +46,22 @@ class RemoteHelperImplTest {
 
     @Test
     fun `any remoteWithBaseCall should only call at least one api`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> = mockk()
         val baseMockResponse: BaseResponse<TvDataResponse> = BaseResponse(1, 1, 1, mockResponse)
         val expected = Response.success(baseMockResponse)
         coEvery { api.getPopularTvAsync(any()) } returns expected
-        //act
+        // act
         val result = sut.remoteWithBaseCall(api.getPopularTvAsync("1"))
-        //assert
+        // assert
         coVerify(atLeast = 1) { api.getPopularTvAsync(any()) }
         assertEquals(RemoteBaseResult.Success(expected), result)
         assertEquals(expected, (result as RemoteBaseResult.Success).data)
     }
 
-
     @Test
     fun `any remoteCall should only call at least one api and could catch exception`() = runTest {
-        //arrange
+        // arrange
         var exceptionThrown = false
 
         every { utilityHelper.getString(R.string.default_error_message) } returns "catch"
@@ -74,16 +73,14 @@ class RemoteHelperImplTest {
         } throws Exception(utilityHelper.getString(R.string.default_error_message))
 
         try {
-            //act
+            // act
             sut.remoteCall(api.getDetailMovieAsync(1, "a"))
-
         } catch (e: Exception) {
             assertEquals(e.message, "catch")
             exceptionThrown = true
         }
-        //assert
+        // assert
         coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
         Assert.assertTrue(exceptionThrown)
     }
-
 }

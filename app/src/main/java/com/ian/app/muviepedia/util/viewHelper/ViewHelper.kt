@@ -6,7 +6,6 @@ import android.widget.EditText
 
 interface ViewHelper {
 
-
     fun inflates(viewGroup: ViewGroup, layout: Int): View
 
     fun setMarginProgrammatically(

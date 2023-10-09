@@ -19,11 +19,13 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     is DataSource.Success -> {
                         saveCallResult(apiResponse.data)
 
-                        emitAll(loadFromDB().map {
-                            DomainSource.Success(
-                                it
-                            )
-                        })
+                        emitAll(
+                            loadFromDB().map {
+                                DomainSource.Success(
+                                    it
+                                )
+                            }
+                        )
                     }
 
                     is DataSource.Error -> {
@@ -44,12 +46,13 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                         clearFirst()
                         saveCallResult(apiResponse.data)
 
-
-                        emitAll(loadFromDB().map {
-                            DomainSource.Success(
-                                it
-                            )
-                        })
+                        emitAll(
+                            loadFromDB().map {
+                                DomainSource.Success(
+                                    it
+                                )
+                            }
+                        )
                     }
 
                     is DataSource.Error -> {
@@ -64,11 +67,13 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             }
 
             else -> {
-                emitAll(loadFromDB().map {
-                    DomainSource.Success(
-                        it
-                    )
-                })
+                emitAll(
+                    loadFromDB().map {
+                        DomainSource.Success(
+                            it
+                        )
+                    }
+                )
             }
         }
     }

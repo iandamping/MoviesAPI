@@ -79,5 +79,4 @@ class MovieLocalDataSourceImplTest {
         sut.deleteSelectedId(1)
         coVerify { dao.deleteSelectedId(any()) }
     }
-
 }
