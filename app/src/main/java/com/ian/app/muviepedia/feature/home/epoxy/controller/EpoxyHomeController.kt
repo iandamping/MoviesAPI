@@ -45,203 +45,219 @@ class EpoxyHomeController(
     }
 
     override fun buildModels(data: EpoxyHomeData?) {
-        EpoxyCommonTitle("Popular Movie", 18)
-            .id("1_movie_popular_title")
-            .addTo(this)
-        // carousel popular movie
         if (data != null) {
-            if (data.popularMovie.isNotEmpty()) {
-                val carouselPopularModel = data.popularMovie.map { multiData ->
-                    when (multiData) {
-                        is EpoxyPopularMovieData.Shimmer ->
-                            EpoxyShimmerPopularMovie()
-                                .id(multiData.epoxyId)
+            EpoxyCommonTitle("Popular Movie", 18)
+                .id("1_movie_popular_title")
+                .addTo(this)
+            // carousel popular movie
+            implementEpoxyPopularMovie(data)
 
-                        is EpoxyPopularMovieData.MovieData ->
-                            EpoxySuccessPopularMovie(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = movieClickListener::onMovieClick
-                            )
-                                .id(multiData.epoxyId)
+            EpoxyCommonTitle("Now Playing Movie", 16)
+                .id("2_movie_now_playing_title")
+                .addTo(this)
+            // carouse now playing movie
+            implementEpoxyNowPlayingMovie(data)
 
-                        EpoxyPopularMovieData.Error ->
-                            EpoxyErrorPopularMovie()
-                                .id("error")
-                    }
-                }
-                HorizontalGridCarouselModel_()
-                    .id("1_movie_popular")
-                    .models(carouselPopularModel)
-                    .numViewsToShowOnScreen(2f)
-                    .addTo(this)
-            }
+            EpoxyCommonTitle("Top Rated Movie", 16)
+                .id("3_movie_top_rated_title")
+                .addTo(this)
+            // carousel top rated movie
+            implementEpoxyTopRatedMovie(data)
+
+            EpoxyCommonTitle("Up Coming Movie", 16)
+                .id("4_movie_up_coming_title")
+                .addTo(this)
+            // carousel up coming movie
+            implementEpoxyUpComingMovie(data)
+
+            EpoxyCommonTitle("Popular Television", 18)
+                .id("5_television_popular_title")
+                .addTo(this)
+            // carousel popular television
+            implementEpoxyPopularTelevision(data)
+
+            EpoxyCommonTitle("Top Rated Television", 18)
+                .id("6_television_toprated_title")
+                .addTo(this)
+            // carousel top rated television
+            implementEpoxyTopRatedTelevision(data)
         }
+    }
 
-        EpoxyCommonTitle("Now Playing Movie", 16)
-            .id("2_movie_now_playing_title")
-            .addTo(this)
-        // carouse now playing movie
-        if (data != null) {
-            if (data.nowPlayingMovie.isNotEmpty()) {
-                val carouselNowPlayingModel = data.nowPlayingMovie.map { multiData ->
-                    when (multiData) {
-                        is EpoxyNowPlayingMovieData.Shimmer ->
-                            EpoxyShimmerNowPlayingMovie()
-                                .id(multiData.epoxyId)
+    private fun implementEpoxyTopRatedTelevision(data: EpoxyHomeData) {
+        if (data.topRatedTelevision.isNotEmpty()) {
+            val carouselTopRatedModel = data.topRatedTelevision.map { multiData ->
+                when (multiData) {
+                    is EpoxyTopRatedTelevisionData.Shimmer ->
+                        EpoxyShimmerTopRatedTelevision()
+                            .id(multiData.epoxyId)
 
-                        is EpoxyNowPlayingMovieData.MovieData ->
-                            EpoxySuccessNowPlayingMovie(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = movieClickListener::onMovieClick
-                            )
-                                .id(multiData.epoxyId)
+                    is EpoxyTopRatedTelevisionData.TelevisionData ->
+                        EpoxySuccessTopRatedTelevision(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = televisionClickListener::onTelevisionClick
+                        )
+                            .id(multiData.epoxyId)
 
-                        EpoxyNowPlayingMovieData.Error ->
-                            EpoxyErrorNowPlayingMovie()
-                                .id("error")
-                    }
+                    EpoxyTopRatedTelevisionData.Error ->
+                        EpoxyErrorTopRatedTelevision()
+                            .id("error")
                 }
-
-                CarouselModel_()
-                    .id("2_movie_now_playing")
-                    .models(carouselNowPlayingModel)
-                    .numViewsToShowOnScreen(1f)
-                    .addTo(this)
             }
+            HorizontalGridCarouselModel_()
+                .id("6_television_toprated")
+                .models(carouselTopRatedModel)
+                .numViewsToShowOnScreen(2f)
+                .addTo(this)
         }
+    }
 
-        EpoxyCommonTitle("Top Rated Movie", 16)
-            .id("3_movie_top_rated_title")
-            .addTo(this)
-        if (data != null) {
-            if (data.nowPlayingMovie.isNotEmpty()) {
-                val carouselTopRatedModel = data.topRatedMovie.map { multiData ->
-                    when (multiData) {
-                        is EpoxyTopRatedMovieData.Shimmer ->
-                            EpoxyShimmerTopRatedMovie()
-                                .id(multiData.epoxyId)
+    private fun implementEpoxyPopularTelevision(data: EpoxyHomeData) {
+        if (data.popularTelevision.isNotEmpty()) {
+            val carouselPopularModel = data.popularTelevision.map { multiData ->
+                when (multiData) {
+                    is EpoxyPopularTelevisionData.Shimmer ->
+                        EpoxyShimmerPopularTelevision()
+                            .id(multiData.epoxyId)
 
-                        is EpoxyTopRatedMovieData.MovieData ->
-                            EpoxySuccessTopRatedMovie(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = movieClickListener::onMovieClick
-                            )
-                                .id(multiData.epoxyId)
+                    is EpoxyPopularTelevisionData.TelevisionData ->
+                        EpoxySuccessPopularTelevision(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = televisionClickListener::onTelevisionClick
+                        )
+                            .id(multiData.epoxyId)
 
-                        EpoxyTopRatedMovieData.Error ->
-                            EpoxyErrorTopRatedMovie()
-                                .id("error")
-                    }
+                    EpoxyPopularTelevisionData.Error ->
+                        EpoxyErrorPopularTelevision()
+                            .id("error")
                 }
-
-                HorizontalGridCarouselModel_()
-                    .id("3_movie_top_rated")
-                    .models(carouselTopRatedModel)
-                    .numViewsToShowOnScreen(2f)
-                    .addTo(this)
             }
+            CarouselModel_()
+                .id("5_television_popular")
+                .models(carouselPopularModel)
+                .numViewsToShowOnScreen(1f)
+                .addTo(this)
         }
+    }
 
-        EpoxyCommonTitle("Up Coming Movie", 16)
-            .id("4_movie_up_coming_title")
-            .addTo(this)
-        if (data != null) {
-            if (data.nowPlayingMovie.isNotEmpty()) {
-                val carouselUpComingModel = data.upComingMovie.map { multiData ->
-                    when (multiData) {
-                        is EpoxyUpComingMovieData.Shimmer ->
-                            EpoxyShimmerUpComingMovie()
-                                .id(multiData.epoxyId)
+    private fun implementEpoxyUpComingMovie(data: EpoxyHomeData) {
+        if (data.upComingMovie.isNotEmpty()) {
+            val carouselUpComingModel = data.upComingMovie.map { multiData ->
+                when (multiData) {
+                    is EpoxyUpComingMovieData.Shimmer ->
+                        EpoxyShimmerUpComingMovie()
+                            .id(multiData.epoxyId)
 
-                        is EpoxyUpComingMovieData.MovieData ->
-                            EpoxySuccessUpComingMovie(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = movieClickListener::onMovieClick
-                            )
-                                .id(multiData.epoxyId)
+                    is EpoxyUpComingMovieData.MovieData ->
+                        EpoxySuccessUpComingMovie(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = movieClickListener::onMovieClick
+                        )
+                            .id(multiData.epoxyId)
 
-                        EpoxyUpComingMovieData.Error ->
-                            EpoxyErrorUpComingMovie()
-                                .id("error")
-                    }
+                    EpoxyUpComingMovieData.Error ->
+                        EpoxyErrorUpComingMovie()
+                            .id("error")
                 }
-
-                CarouselModel_()
-                    .id("4_movie_up_coming")
-                    .models(carouselUpComingModel)
-                    .numViewsToShowOnScreen(1f)
-                    .addTo(this)
             }
+
+            CarouselModel_()
+                .id("4_movie_up_coming")
+                .models(carouselUpComingModel)
+                .numViewsToShowOnScreen(1f)
+                .addTo(this)
         }
+    }
 
-        EpoxyCommonTitle("Popular Television", 18)
-            .id("5_television_popular_title")
-            .addTo(this)
-        // carousel popular movie
-        if (data != null) {
-            if (data.popularTelevision.isNotEmpty()) {
-                val carouselPopularModel = data.popularTelevision.map { multiData ->
-                    when (multiData) {
-                        is EpoxyPopularTelevisionData.Shimmer ->
-                            EpoxyShimmerPopularTelevision()
-                                .id(multiData.epoxyId)
+    private fun implementEpoxyTopRatedMovie(data: EpoxyHomeData) {
+        if (data.topRatedMovie.isNotEmpty()) {
+            val carouselTopRatedModel = data.topRatedMovie.map { multiData ->
+                when (multiData) {
+                    is EpoxyTopRatedMovieData.Shimmer ->
+                        EpoxyShimmerTopRatedMovie()
+                            .id(multiData.epoxyId)
 
-                        is EpoxyPopularTelevisionData.TelevisionData ->
-                            EpoxySuccessPopularTelevision(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = televisionClickListener::onTelevisionClick
-                            )
-                                .id(multiData.epoxyId)
+                    is EpoxyTopRatedMovieData.MovieData ->
+                        EpoxySuccessTopRatedMovie(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = movieClickListener::onMovieClick
+                        )
+                            .id(multiData.epoxyId)
 
-                        EpoxyPopularTelevisionData.Error ->
-                            EpoxyErrorPopularTelevision()
-                                .id("error")
-                    }
+                    EpoxyTopRatedMovieData.Error ->
+                        EpoxyErrorTopRatedMovie()
+                            .id("error")
                 }
-                CarouselModel_()
-                    .id("5_television_popular")
-                    .models(carouselPopularModel)
-                    .numViewsToShowOnScreen(1f)
-                    .addTo(this)
             }
+
+            HorizontalGridCarouselModel_()
+                .id("3_movie_top_rated")
+                .models(carouselTopRatedModel)
+                .numViewsToShowOnScreen(2f)
+                .addTo(this)
         }
+    }
 
-        EpoxyCommonTitle("Top Rated Television", 18)
-            .id("6_television_toprated_title")
-            .addTo(this)
-        // carousel popular movie
-        if (data != null) {
-            if (data.topRatedTelevision.isNotEmpty()) {
-                val carouselTopRatedModel = data.topRatedTelevision.map { multiData ->
-                    when (multiData) {
-                        is EpoxyTopRatedTelevisionData.Shimmer ->
-                            EpoxyShimmerTopRatedTelevision()
-                                .id(multiData.epoxyId)
+    private fun implementEpoxyNowPlayingMovie(data: EpoxyHomeData) {
+        if (data.nowPlayingMovie.isNotEmpty()) {
+            val carouselNowPlayingModel = data.nowPlayingMovie.map { multiData ->
+                when (multiData) {
+                    is EpoxyNowPlayingMovieData.Shimmer ->
+                        EpoxyShimmerNowPlayingMovie()
+                            .id(multiData.epoxyId)
 
-                        is EpoxyTopRatedTelevisionData.TelevisionData ->
-                            EpoxySuccessTopRatedTelevision(
-                                viewHelper = viewHelper,
-                                data = multiData,
-                                clickListener = televisionClickListener::onTelevisionClick
-                            )
-                                .id(multiData.epoxyId)
+                    is EpoxyNowPlayingMovieData.MovieData ->
+                        EpoxySuccessNowPlayingMovie(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = movieClickListener::onMovieClick
+                        )
+                            .id(multiData.epoxyId)
 
-                        EpoxyTopRatedTelevisionData.Error ->
-                            EpoxyErrorTopRatedTelevision()
-                                .id("error")
-                    }
+                    EpoxyNowPlayingMovieData.Error ->
+                        EpoxyErrorNowPlayingMovie()
+                            .id("error")
                 }
-                HorizontalGridCarouselModel_()
-                    .id("6_television_toprated")
-                    .models(carouselTopRatedModel)
-                    .numViewsToShowOnScreen(2f)
-                    .addTo(this)
             }
+
+            CarouselModel_()
+                .id("2_movie_now_playing")
+                .models(carouselNowPlayingModel)
+                .numViewsToShowOnScreen(1f)
+                .addTo(this)
+        }
+    }
+
+    private fun implementEpoxyPopularMovie(data: EpoxyHomeData) {
+        if (data.popularMovie.isNotEmpty()) {
+            val carouselPopularModel = data.popularMovie.map { multiData ->
+                when (multiData) {
+                    is EpoxyPopularMovieData.Shimmer ->
+                        EpoxyShimmerPopularMovie()
+                            .id(multiData.epoxyId)
+
+                    is EpoxyPopularMovieData.MovieData ->
+                        EpoxySuccessPopularMovie(
+                            viewHelper = viewHelper,
+                            data = multiData,
+                            clickListener = movieClickListener::onMovieClick
+                        )
+                            .id(multiData.epoxyId)
+
+                    EpoxyPopularMovieData.Error ->
+                        EpoxyErrorPopularMovie()
+                            .id("error")
+                }
+            }
+            HorizontalGridCarouselModel_()
+                .id("1_movie_popular")
+                .models(carouselPopularModel)
+                .numViewsToShowOnScreen(2f)
+                .addTo(this)
         }
     }
 }
