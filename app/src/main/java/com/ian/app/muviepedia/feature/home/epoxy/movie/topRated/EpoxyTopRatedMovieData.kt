@@ -6,19 +6,19 @@ sealed class EpoxyTopRatedMovieData {
 
     data class MovieData(
         val epoxyId: Int,
-        val vote_count: Int,
+        val voteCount: Int,
         val id: Int,
         val video: Boolean,
-        val vote_average: Double,
+        val voteAverage: Double,
         val title: String,
         val popularity: Double,
-        val poster_path: String,
-        val original_language: String,
-        val original_title: String,
-        val backdrop_path: String,
+        val posterPath: String,
+        val originalLanguage: String,
+        val originalTitle: String,
+        val backdropPath: String,
         val adult: Boolean,
         val overview: String,
-        val release_date: String
+        val releaseDate: String
     ) : EpoxyTopRatedMovieData()
 
     object Error : EpoxyTopRatedMovieData()

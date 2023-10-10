@@ -61,9 +61,9 @@ class EpoxyDetailController(
                     when (data.flag) {
                         DetailFlag.MOVIE -> {
                             if (data.movieData != null) {
-                                EpoxyDetailImageContent(imageUrl = imageFormatter + data.movieData.backdrop_path) {
+                                EpoxyDetailImageContent(imageUrl = imageFormatter + data.movieData.backdropPath) {
                                     backPressListener.onBackIsPressed()
-                                }.id(data.movieData.backdrop_path).addTo(this)
+                                }.id(data.movieData.backdropPath).addTo(this)
 
                                 EpoxyDetailDescriptionContent(
                                     description = data.movieData.overview,
@@ -93,9 +93,9 @@ class EpoxyDetailController(
 
                         DetailFlag.TELEVISION -> {
                             if (data.televisionData != null) {
-                                EpoxyDetailImageContent(imageUrl = imageFormatter + data.televisionData.backdrop_path) {
+                                EpoxyDetailImageContent(imageUrl = imageFormatter + data.televisionData.backdropPath) {
                                     backPressListener.onBackIsPressed()
-                                }.id(data.televisionData.backdrop_path).addTo(this)
+                                }.id(data.televisionData.backdropPath).addTo(this)
 
                                 EpoxyDetailDescriptionContent(
                                     description = data.televisionData.overview,

@@ -22,7 +22,7 @@ class EpoxyDetailSimilarMovieContent(
             right = 8,
             bottom = 8
         )
-        ivMovie.load(imageFormatter + data.poster_path)
+        ivMovie.load(imageFormatter + data.posterPath)
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }

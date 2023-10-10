@@ -28,19 +28,19 @@ class EpoxyMapperImpl @Inject constructor() :
         val result = movieData.zip(listOfId).map {
             EpoxyMovie(
                 epoxyId = it.second,
-                vote_count = it.first.vote_count,
+                voteCount = it.first.voteCount,
                 id = it.first.id,
                 video = it.first.video,
-                vote_average = it.first.vote_average,
+                voteAverage = it.first.voteAverage,
                 title = it.first.title,
                 popularity = it.first.popularity,
-                poster_path = it.first.poster_path,
-                original_language = it.first.original_language,
-                original_title = it.first.original_title,
-                backdrop_path = it.first.backdrop_path,
+                posterPath = it.first.posterPath,
+                originalLanguage = it.first.originalLanguage,
+                originalTitle = it.first.originalTitle,
+                backdropPath = it.first.backdropPath,
                 adult = it.first.adult,
                 overview = it.first.overview,
-                release_date = it.first.release_date
+                releaseDate = it.first.releaseDate
             )
         }.toSet()
 
