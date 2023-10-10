@@ -13,7 +13,7 @@ class EpoxySuccessUpComingMovie(
 ) : ViewBindingEpoxyModelWithHolder<ItemUpComingMovieBinding>() {
     override fun ItemUpComingMovieBinding.bind() {
         viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
-        ivMovie.load(data.poster_path) {
+        ivMovie.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)
             error(R.drawable.empty_image)

@@ -53,19 +53,19 @@ fun Set<EpoxyTelevision>.toListEpoxyTopRatedTvData(): List<EpoxyTopRatedTelevisi
 fun EpoxyMovie.toEpoxyPopularData(): EpoxyPopularMovieData.MovieData {
     return EpoxyPopularMovieData.MovieData(
         epoxyId = epoxyId,
-        vote_count = vote_count,
+        voteCount = voteCount,
         id = id,
         video = video,
-        vote_average = vote_average,
+        voteAverage = voteAverage,
         title = title,
         popularity = popularity,
-        poster_path = poster_path,
-        original_language = original_language,
-        original_title = original_title,
-        backdrop_path = backdrop_path,
+        posterPath = posterPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        backdropPath = backdropPath,
         adult = adult,
         overview = overview,
-        release_date = release_date
+        releaseDate = releaseDate
     )
 }
 
@@ -74,19 +74,19 @@ fun Set<EpoxyMovie>.toListEpoxyPopularData(): List<EpoxyPopularMovieData.MovieDa
 fun EpoxyMovie.toEpoxyNowPlayingData(): EpoxyNowPlayingMovieData.MovieData {
     return EpoxyNowPlayingMovieData.MovieData(
         epoxyId = epoxyId,
-        vote_count = vote_count,
+        voteCount = voteCount,
         id = id,
         video = video,
-        vote_average = vote_average,
+        voteAverage = voteAverage,
         title = title,
         popularity = popularity,
-        poster_path = poster_path,
-        original_language = original_language,
-        original_title = original_title,
-        backdrop_path = backdrop_path,
+        posterPath = posterPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        backdropPath = backdropPath,
         adult = adult,
         overview = overview,
-        release_date = release_date
+        releaseDate = releaseDate
     )
 }
 
@@ -97,19 +97,19 @@ fun Set<EpoxyMovie>.toListEpoxyNowPlayingData(): List<EpoxyNowPlayingMovieData.M
 fun EpoxyMovie.toEpoxyTopRatedData(): EpoxyTopRatedMovieData.MovieData {
     return EpoxyTopRatedMovieData.MovieData(
         epoxyId = epoxyId,
-        vote_count = vote_count,
+        voteCount = voteCount,
         id = id,
         video = video,
-        vote_average = vote_average,
+        voteAverage = voteAverage,
         title = title,
         popularity = popularity,
-        poster_path = poster_path,
-        original_language = original_language,
-        original_title = original_title,
-        backdrop_path = backdrop_path,
+        posterPath = posterPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        backdropPath = backdropPath,
         adult = adult,
         overview = overview,
-        release_date = release_date
+        releaseDate = releaseDate
     )
 }
 
@@ -118,19 +118,19 @@ fun Set<EpoxyMovie>.toListEpoxyTopRatedData(): List<EpoxyTopRatedMovieData.Movie
 fun EpoxyMovie.toEpoxyUpComingData(): EpoxyUpComingMovieData.MovieData {
     return EpoxyUpComingMovieData.MovieData(
         epoxyId = epoxyId,
-        vote_count = vote_count,
+        voteCount = voteCount,
         id = id,
         video = video,
-        vote_average = vote_average,
+        voteAverage = voteAverage,
         title = title,
         popularity = popularity,
-        poster_path = poster_path,
-        original_language = original_language,
-        original_title = original_title,
-        backdrop_path = backdrop_path,
+        posterPath = posterPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        backdropPath = backdropPath,
         adult = adult,
         overview = overview,
-        release_date = release_date
+        releaseDate = releaseDate
     )
 }
 
@@ -139,19 +139,19 @@ fun Set<EpoxyMovie>.toListEpoxyUpComingData(): List<EpoxyUpComingMovieData.Movie
 fun EpoxyMovie.toEpoxySearchMovieData(): EpoxySearchMovieData.MovieData {
     return EpoxySearchMovieData.MovieData(
         epoxyId = epoxyId,
-        vote_count = vote_count,
+        voteCount = voteCount,
         id = id,
         video = video,
-        vote_average = vote_average,
+        voteAverage = voteAverage,
         title = title,
         popularity = popularity,
-        poster_path = poster_path,
-        original_language = original_language,
-        original_title = original_title,
-        backdrop_path = backdrop_path,
+        posterPath = posterPath,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        backdropPath = backdropPath,
         adult = adult,
         overview = overview,
-        release_date = release_date
+        releaseDate = releaseDate
     )
 }
 

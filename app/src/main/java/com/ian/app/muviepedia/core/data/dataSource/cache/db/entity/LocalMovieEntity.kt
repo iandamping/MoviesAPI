@@ -22,7 +22,7 @@ data class LocalMovieEntity(
     val backdropPath: String,
     val adult: Boolean,
     val overview: String,
-    val release_date: String,
+    val releaseDate: String,
     val timeStamp: Long
 )
 
@@ -32,17 +32,17 @@ fun MovieDataResponse.mapToDatabase(type: String, timeStamp: Long): LocalMovieEn
         remoteId = this.id ?: 0,
         movieType = type,
         title = this.title ?: "No tittle",
-        posterPath = imageFormatter + this.poster_path,
-        voteCount = this.vote_count,
+        posterPath = imageFormatter + this.posterPath,
+        voteCount = this.voteCount,
         video = this.video ?: false,
-        voteAverage = this.vote_average ?: 0.0,
+        voteAverage = this.voteAverage ?: 0.0,
         popularity = this.popularity ?: 0.0,
-        originalLanguage = this.original_language ?: "No language",
-        originalTitle = this.original_title ?: "No title",
-        backdropPath = imageFormatter + this.backdrop_path,
+        originalLanguage = this.originalLanguage ?: "No language",
+        originalTitle = this.originalTitle ?: "No title",
+        backdropPath = imageFormatter + this.backdropPath,
         adult = this.video ?: false,
         overview = this.overview ?: "No overview",
-        release_date = this.release_date ?: "No release date",
+        releaseDate = this.releaseDate ?: "No release date",
         timeStamp = timeStamp
     )
 }

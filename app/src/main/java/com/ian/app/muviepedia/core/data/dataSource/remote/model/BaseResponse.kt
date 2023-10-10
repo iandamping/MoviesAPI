@@ -9,7 +9,7 @@ Github = https://github.com/iandamping
  */
 data class BaseResponse<out T>(
     @Json(name = "page") val page: Int?,
-    @Json(name = "total_results") val total_results: Int?,
-    @Json(name = "total_pages") var total_pages: Int?,
+    @Json(name = "total_results") val totalResults: Int?,
+    @Json(name = "total_pages") var totalPages: Int?,
     @Json(name = "results") val results: List<T>
 )

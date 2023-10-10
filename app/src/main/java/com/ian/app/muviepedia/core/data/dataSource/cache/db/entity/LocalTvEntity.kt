@@ -29,16 +29,16 @@ fun TvDataResponse.mapToDatabase(type: String, timeStamp: Long): LocalTvEntity {
         localID = null,
         remoteId = this.id ?: 0,
         tvType = type,
-        originalName = this.original_name ?: "No original name",
-        posterPath = imageFormatter + this.poster_path,
-        voteCount = this.vote_count ?: 0,
-        voteAverage = this.vote_average ?: 0.0,
+        originalName = this.originalName ?: "No original name",
+        posterPath = imageFormatter + this.posterPath,
+        voteCount = this.voteCount ?: 0,
+        voteAverage = this.voteAverage ?: 0.0,
         popularity = this.popularity ?: 0.0,
-        originalLanguage = this.original_language ?: "No language",
-        backdropPath = imageFormatter + this.backdrop_path,
+        originalLanguage = this.originalLanguage ?: "No language",
+        backdropPath = imageFormatter + this.backdropPath,
         overview = this.overview ?: "No overview",
         timeStamp = timeStamp,
         name = this.name ?: "No name",
-        firstAirDate = this.first_air_date ?: "No data"
+        firstAirDate = this.firstAirDate ?: "No data"
     )
 }

@@ -32,17 +32,17 @@ fun LocalTvEntity.mapToDomain(): Television = Television(
 )
 
 fun TvDataResponse.mapToDomain(): Television = Television(
-    originalName = this.original_name ?: "",
+    originalName = this.originalName ?: "",
     name = this.name ?: "",
     popularity = this.popularity ?: 0.0,
-    voteCount = this.vote_count ?: 0,
-    firstAirDate = this.first_air_date ?: "",
-    backdropPath = this.backdrop_path ?: "",
-    originalLanguage = this.original_language ?: "",
+    voteCount = this.voteCount ?: 0,
+    firstAirDate = this.firstAirDate ?: "",
+    backdropPath = this.backdropPath ?: "",
+    originalLanguage = this.originalLanguage ?: "",
     id = this.id ?: 0,
-    voteAverage = this.vote_average ?: 0.0,
+    voteAverage = this.voteAverage ?: 0.0,
     overview = this.overview ?: "",
-    posterPath = this.poster_path ?: ""
+    posterPath = this.posterPath ?: ""
 )
 
 fun List<LocalTvEntity>.mapLocalTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }
