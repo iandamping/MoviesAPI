@@ -15,7 +15,13 @@ class EpoxyDetailSimilarMovieContent(
 ) :
     ViewBindingEpoxyModelWithHolder<ItemDetailSimilarMovieContentBinding>() {
     override fun ItemDetailSimilarMovieContentBinding.bind() {
-        viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
+        viewHelper.setMarginProgrammatically(
+            view = viewGroupItem,
+            left = 8,
+            top = 8,
+            right = 8,
+            bottom = 8
+        )
         ivMovie.load(imageFormatter + data.poster_path)
         root.setOnClickListener {
             clickListener.invoke(data.id)

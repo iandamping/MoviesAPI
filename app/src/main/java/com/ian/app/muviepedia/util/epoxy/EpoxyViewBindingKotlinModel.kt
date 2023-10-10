@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
  *    public static *** bind(android.view.View);
  * }
  */
-abstract class ViewBindingKotlinModel<T : ViewBinding>(
+abstract class EpoxyViewBindingKotlinModel<T : ViewBinding>(
     @LayoutRes private val layoutRes: Int
 ) : EpoxyModel<View>() {
     // Using reflection to get the static binding method.
