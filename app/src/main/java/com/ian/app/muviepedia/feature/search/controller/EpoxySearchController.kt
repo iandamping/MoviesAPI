@@ -13,6 +13,12 @@ class EpoxySearchController(
     private val movieClickListener: EpoxySearchMovieControllerListener,
 ) : TypedEpoxyController<EpoxySearchData>() {
 
+    companion object {
+        private const val verticalGridDataToShow = 5f
+        private const val verticalGridLoadingToShow = 2f
+        private const val verticalGridErrorToShow = 1f
+    }
+
     interface EpoxySearchMovieControllerListener {
         fun onMovieClick(id: Int)
     }
@@ -32,7 +38,7 @@ class EpoxySearchController(
                 VerticalGridCarouselModel_()
                     .id("1")
                     .models(carouselSearchModel)
-                    .numViewsToShowOnScreen(5f)
+                    .numViewsToShowOnScreen(verticalGridDataToShow)
                     .addTo(this)
             }
 
@@ -44,7 +50,7 @@ class EpoxySearchController(
                 VerticalGridCarouselModel_()
                     .id("1")
                     .models(loadingModel)
-                    .numViewsToShowOnScreen(2f)
+                    .numViewsToShowOnScreen(verticalGridLoadingToShow)
                     .addTo(this)
             }
 
@@ -56,7 +62,7 @@ class EpoxySearchController(
                 HorizontalGridCarouselModel_()
                     .id("1")
                     .models(errorModel)
-                    .numViewsToShowOnScreen(1f)
+                    .numViewsToShowOnScreen(verticalGridErrorToShow)
                     .addTo(this)
             }
         }

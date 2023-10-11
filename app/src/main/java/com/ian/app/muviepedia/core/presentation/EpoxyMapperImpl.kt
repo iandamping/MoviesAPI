@@ -89,11 +89,11 @@ class EpoxyMapperImpl @Inject constructor() :
         return result
     }
 
-    override fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData> {
+    override fun epoxyPopularTVListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData> {
         return data.toListEpoxyPopularTvData()
     }
 
-    override fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData> {
+    override fun epoxyTopRatedTvListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData> {
         return data.toListEpoxyTopRatedTvData()
     }
 }

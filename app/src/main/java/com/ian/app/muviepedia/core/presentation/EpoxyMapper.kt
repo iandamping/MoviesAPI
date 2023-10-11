@@ -28,7 +28,7 @@ interface EpoxyMapper {
 
     fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision>
 
-    fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
+    fun epoxyPopularTVListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
 
-    fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData>
+    fun epoxyTopRatedTvListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData>
 }

@@ -13,7 +13,13 @@ class EpoxySuccessTopRatedTelevision(
 ) : ViewBindingEpoxyModelWithHolder<ItemTopRatedTelevisionBinding>() {
 
     override fun ItemTopRatedTelevisionBinding.bind() {
-        viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
+        viewHelper.setMarginProgrammatically(
+            view = viewGroupItem,
+            left = 8,
+            top = 8,
+            right = 8,
+            bottom = 8
+        )
         ivTelevision.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)

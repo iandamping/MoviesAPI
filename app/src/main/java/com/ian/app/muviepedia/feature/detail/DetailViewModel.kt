@@ -30,88 +30,84 @@ class DetailViewModel @Inject constructor(
     )
     val detailMovieUiState: StateFlow<DetailMovieUiState> get() = _detailMovieUiState.asStateFlow()
 
-    fun resetDetailMovieState() {
-        _detailMovieUiState.update { DetailMovieUiState.initialize() }
+    private suspend fun fetchMovie(id: Int, flag: DetailFlag) {
+        movieRepository.fetchDetailMovie(movieId = id)
+            .combine(movieRepository.fetchSimilarMovie(id)) { a, b ->
+                GenericPairData(a, b)
+            }.collectLatest { data ->
+                when (data.data1) {
+                    is DomainSource.Error -> _detailMovieUiState.update { uiState ->
+                        uiState.copy(
+                            uiState = PresentationState.Failed,
+                            errorMessage = data.data1.message
+                        )
+                    }
+
+                    is DomainSource.Success -> when (data.data2) {
+                        is DomainSource.Error -> _detailMovieUiState.update { uiState ->
+                            uiState.copy(
+                                uiState = PresentationState.Failed,
+                                errorMessage = data.data2.message
+                            )
+                        }
+
+                        is DomainSource.Success -> _detailMovieUiState.update { uiState ->
+                            uiState.copy(
+                                flag = flag,
+                                uiState = PresentationState.Success,
+                                movieData = data.data1.data,
+                                similarMovieData = epoxyMapper.extractMovieToEpoxy(
+                                    data.data2.data
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+    }
+
+    private suspend fun fetchTelevision(id: Int, flag: DetailFlag) {
+        televisionRepository.fetchDetailTv(tvID = id)
+            .combine(televisionRepository.fetchSimilarTv(id)) { a, b ->
+                GenericPairData(a, b)
+            }.collectLatest { data ->
+                when (data.data1) {
+                    is DomainSource.Error -> _detailMovieUiState.update { uiState ->
+                        uiState.copy(
+                            uiState = PresentationState.Failed,
+                            errorMessage = data.data1.message
+                        )
+                    }
+
+                    is DomainSource.Success -> when (data.data2) {
+                        is DomainSource.Error -> _detailMovieUiState.update { uiState ->
+                            uiState.copy(
+                                uiState = PresentationState.Failed,
+                                errorMessage = data.data2.message
+                            )
+                        }
+
+                        is DomainSource.Success -> _detailMovieUiState.update { uiState ->
+                            uiState.copy(
+                                flag = flag,
+                                uiState = PresentationState.Success,
+                                televisionData = data.data1.data,
+                                similarTelevisionData = epoxyMapper.extractTelevisionToEpoxy(
+                                    data.data2.data
+                                )
+                            )
+                        }
+                    }
+                }
+            }
     }
 
     fun getDetailMovie(id: Int, flag: DetailFlag) {
         viewModelScope.launch {
             if (flag == DetailFlag.MOVIE) {
-                movieRepository.fetchDetailMovie(movieId = id)
-                    .combine(movieRepository.fetchSimilarMovie(id)) { a, b ->
-                        GenericPairData(a, b)
-                    }.collectLatest { data ->
-                        when (data.data1) {
-                            is DomainSource.Error -> _detailMovieUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.data1.message
-                                )
-                            }
-
-                            is DomainSource.Success -> {
-                                when (data.data2) {
-                                    is DomainSource.Error -> _detailMovieUiState.update { uiState ->
-                                        uiState.copy(
-                                            uiState = PresentationState.Failed,
-                                            errorMessage = data.data2.message
-                                        )
-                                    }
-
-                                    is DomainSource.Success -> {
-                                        _detailMovieUiState.update { uiState ->
-                                            uiState.copy(
-                                                flag = flag,
-                                                uiState = PresentationState.Success,
-                                                movieData = data.data1.data,
-                                                similarMovieData = epoxyMapper.extractMovieToEpoxy(
-                                                    data.data2.data
-                                                )
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                fetchMovie(id = id, flag = flag)
             } else {
-                televisionRepository.fetchDetailTv(tvID = id)
-                    .combine(televisionRepository.fetchSimilarTv(id)) { a, b ->
-                        GenericPairData(a, b)
-                    }.collectLatest { data ->
-                        when (data.data1) {
-                            is DomainSource.Error -> _detailMovieUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.data1.message
-                                )
-                            }
-
-                            is DomainSource.Success -> {
-                                when (data.data2) {
-                                    is DomainSource.Error -> _detailMovieUiState.update { uiState ->
-                                        uiState.copy(
-                                            uiState = PresentationState.Failed,
-                                            errorMessage = data.data2.message
-                                        )
-                                    }
-
-                                    is DomainSource.Success -> {
-                                        _detailMovieUiState.update { uiState ->
-                                            uiState.copy(
-                                                flag = flag,
-                                                uiState = PresentationState.Success,
-                                                televisionData = data.data1.data,
-                                                similarTelevisionData = epoxyMapper.extractTelevisionToEpoxy(
-                                                    data.data2.data
-                                                )
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                fetchTelevision(id = id, flag = flag)
             }
         }
     }
