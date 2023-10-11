@@ -1,5 +1,6 @@
 package com.ian.app.muviepedia.feature.search
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
@@ -72,5 +73,6 @@ class SearchFragment :
     }
 
     override fun onMovieClick(id: Int) {
+        Log.e("TAG", "onMovieClick: $id",)
     }
 }

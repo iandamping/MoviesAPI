@@ -53,13 +53,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 popularMovie = mutableListOf(
-                    EpoxyPopularMovieData.Shimmer(0),
-                    EpoxyPopularMovieData.Shimmer(1),
-                    EpoxyPopularMovieData.Shimmer(2),
-                    EpoxyPopularMovieData.Shimmer(3),
-                    EpoxyPopularMovieData.Shimmer(4),
-                    EpoxyPopularMovieData.Shimmer(5),
-                    EpoxyPopularMovieData.Shimmer(6),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 0),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 1),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 2),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 3),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 4),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 5),
+                    EpoxyPopularMovieData.Shimmer(epoxyId = 6),
                 )
             )
         }
@@ -89,13 +89,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 nowPlayingMovie = mutableListOf(
-                    EpoxyNowPlayingMovieData.Shimmer(0),
-                    EpoxyNowPlayingMovieData.Shimmer(1),
-                    EpoxyNowPlayingMovieData.Shimmer(2),
-                    EpoxyNowPlayingMovieData.Shimmer(3),
-                    EpoxyNowPlayingMovieData.Shimmer(4),
-                    EpoxyNowPlayingMovieData.Shimmer(5),
-                    EpoxyNowPlayingMovieData.Shimmer(6),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 0),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 1),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 2),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 3),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 4),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 5),
+                    EpoxyNowPlayingMovieData.Shimmer(epoxyId = 6),
                 )
             )
         }
@@ -125,13 +125,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 topRatedMovie = mutableListOf(
-                    EpoxyTopRatedMovieData.Shimmer(0),
-                    EpoxyTopRatedMovieData.Shimmer(1),
-                    EpoxyTopRatedMovieData.Shimmer(2),
-                    EpoxyTopRatedMovieData.Shimmer(3),
-                    EpoxyTopRatedMovieData.Shimmer(4),
-                    EpoxyTopRatedMovieData.Shimmer(5),
-                    EpoxyTopRatedMovieData.Shimmer(6),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 0),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 1),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 2),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 3),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 4),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 5),
+                    EpoxyTopRatedMovieData.Shimmer(epoxyId = 6),
                 )
             )
         }
@@ -161,13 +161,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 upComingMovie = mutableListOf(
-                    EpoxyUpComingMovieData.Shimmer(0),
-                    EpoxyUpComingMovieData.Shimmer(1),
-                    EpoxyUpComingMovieData.Shimmer(2),
-                    EpoxyUpComingMovieData.Shimmer(3),
-                    EpoxyUpComingMovieData.Shimmer(4),
-                    EpoxyUpComingMovieData.Shimmer(5),
-                    EpoxyUpComingMovieData.Shimmer(6),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 0),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 1),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 2),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 3),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 4),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 5),
+                    EpoxyUpComingMovieData.Shimmer(epoxyId = 6),
                 )
             )
         }
@@ -184,7 +184,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyPopularTelevisionData(televisionData: List<Television>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                popularTelevision = epoxyMapper.epoxyPopularTelevisionListMapper(
+                popularTelevision = epoxyMapper.epoxyPopularTVListMapper(
                     epoxyMapper.extractTelevisionToEpoxy(
                         televisionData
                     )
@@ -197,13 +197,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 popularTelevision = mutableListOf(
-                    EpoxyPopularTelevisionData.Shimmer(0),
-                    EpoxyPopularTelevisionData.Shimmer(1),
-                    EpoxyPopularTelevisionData.Shimmer(2),
-                    EpoxyPopularTelevisionData.Shimmer(3),
-                    EpoxyPopularTelevisionData.Shimmer(4),
-                    EpoxyPopularTelevisionData.Shimmer(5),
-                    EpoxyPopularTelevisionData.Shimmer(6),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 0),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 1),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 2),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 3),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 4),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 5),
+                    EpoxyPopularTelevisionData.Shimmer(epoxyId = 6),
                 )
             )
         }
@@ -220,7 +220,7 @@ class HomeViewModel @Inject constructor(
     private fun setEpoxyTopRatedTelevisionData(televisionData: List<Television>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                topRatedTelevision = epoxyMapper.epoxyTopRatedTelevisionListMapper(
+                topRatedTelevision = epoxyMapper.epoxyTopRatedTvListMapper(
                     epoxyMapper.extractTelevisionToEpoxy(
                         televisionData
                     )
@@ -233,13 +233,13 @@ class HomeViewModel @Inject constructor(
         _epoxyMovieData.update { uiState ->
             uiState.copy(
                 topRatedTelevision = mutableListOf(
-                    EpoxyTopRatedTelevisionData.Shimmer(0),
-                    EpoxyTopRatedTelevisionData.Shimmer(1),
-                    EpoxyTopRatedTelevisionData.Shimmer(2),
-                    EpoxyTopRatedTelevisionData.Shimmer(3),
-                    EpoxyTopRatedTelevisionData.Shimmer(4),
-                    EpoxyTopRatedTelevisionData.Shimmer(5),
-                    EpoxyTopRatedTelevisionData.Shimmer(6),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 0),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 1),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 2),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 3),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 4),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 5),
+                    EpoxyTopRatedTelevisionData.Shimmer(epoxyId = 6),
                 )
             )
         }

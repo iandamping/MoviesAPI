@@ -19,7 +19,7 @@ class ViewModelFactory @Inject constructor(
         try {
             @Suppress("UNCHECKED_CAST")
             return creator.get() as T
-        } catch (e: Exception) {
+        } catch (e: IllegalArgumentException) {
             throw RuntimeException(e)
         }
     }

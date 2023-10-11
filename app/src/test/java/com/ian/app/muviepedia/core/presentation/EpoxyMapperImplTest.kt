@@ -243,7 +243,7 @@ class EpoxyMapperImplTest {
             data.toListEpoxyPopularTvData()
         } returns expected
 
-        val result = sut.epoxyPopularTelevisionListMapper(data)
+        val result = sut.epoxyPopularTVListMapper(data)
 
         Assert.assertEquals(expected, result)
     }
@@ -264,7 +264,7 @@ class EpoxyMapperImplTest {
             data.toListEpoxyTopRatedTvData()
         } returns expected
 
-        val result = sut.epoxyTopRatedTelevisionListMapper(data)
+        val result = sut.epoxyTopRatedTvListMapper(data)
 
         Assert.assertEquals(expected, result)
     }
