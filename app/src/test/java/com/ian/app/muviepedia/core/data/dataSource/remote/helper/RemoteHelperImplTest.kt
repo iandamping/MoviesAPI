@@ -1,7 +1,8 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.helper
 
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.TelevisionApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
@@ -23,7 +24,8 @@ class RemoteHelperImplTest {
 
     private lateinit var sut: RemoteHelper
     private val utilityHelper: UtilityHelper = mockk()
-    private val api: ApiInterface = mockk()
+    private val movieApi: MovieApiInterface = mockk()
+    private val tvApi: TelevisionApiInterface = mockk()
 
     @Before
     fun setUp() {
@@ -35,11 +37,11 @@ class RemoteHelperImplTest {
         // arrange
         val mockResponse: DetailMovieResponse = mockk()
         val expected = Response.success(mockResponse)
-        coEvery { api.getDetailMovieAsync(any(), any()) } returns expected
+        coEvery { movieApi.getDetailMovieAsync(any(), any()) } returns expected
         // act
-        val result = sut.remoteCall(api.getDetailMovieAsync(1, "a"))
+        val result = sut.remoteCall(movieApi.getDetailMovieAsync(1, "a"))
         // assert
-        coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
+        coVerify(atLeast = 1) { movieApi.getDetailMovieAsync(any(), any()) }
         assertEquals(RemoteResult.Success(expected), result)
         assertEquals(expected, (result as RemoteResult.Success).data)
     }
@@ -50,11 +52,11 @@ class RemoteHelperImplTest {
         val mockResponse: List<TvDataResponse> = mockk()
         val baseMockResponse: BaseResponse<TvDataResponse> = BaseResponse(1, 1, 1, mockResponse)
         val expected = Response.success(baseMockResponse)
-        coEvery { api.getPopularTvAsync(any()) } returns expected
+        coEvery { tvApi.getPopularTvAsync(any()) } returns expected
         // act
-        val result = sut.remoteWithBaseCall(api.getPopularTvAsync("1"))
+        val result = sut.remoteWithBaseCall(tvApi.getPopularTvAsync("1"))
         // assert
-        coVerify(atLeast = 1) { api.getPopularTvAsync(any()) }
+        coVerify(atLeast = 1) { tvApi.getPopularTvAsync(any()) }
         assertEquals(RemoteBaseResult.Success(expected), result)
         assertEquals(expected, (result as RemoteBaseResult.Success).data)
     }
@@ -66,7 +68,7 @@ class RemoteHelperImplTest {
 
         every { utilityHelper.getString(R.string.default_error_message) } returns "catch"
         coEvery {
-            api.getDetailMovieAsync(
+            movieApi.getDetailMovieAsync(
                 any(),
                 any()
             )
@@ -74,13 +76,13 @@ class RemoteHelperImplTest {
 
         try {
             // act
-            sut.remoteCall(api.getDetailMovieAsync(1, "a"))
+            sut.remoteCall(movieApi.getDetailMovieAsync(1, "a"))
         } catch (e: Exception) {
             assertEquals(e.message, "catch")
             exceptionThrown = true
         }
         // assert
-        coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
+        coVerify(atLeast = 1) { movieApi.getDetailMovieAsync(any(), any()) }
         Assert.assertTrue(exceptionThrown)
     }
 }

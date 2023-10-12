@@ -51,7 +51,7 @@ class TvLocalDataSourceImplTest {
 
     @Test
     fun insertTvData() = runTest {
-        val data: LocalTvEntity = mockk()
+        val data: List<LocalTvEntity> = mockk()
         coJustRun { dao.insertTvData(any()) }
         sut.insertTvData(data)
         coVerify { dao.insertTvData(any()) }

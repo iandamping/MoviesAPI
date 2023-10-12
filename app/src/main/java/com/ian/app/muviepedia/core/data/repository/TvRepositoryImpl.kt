@@ -94,9 +94,9 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.Popular.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
@@ -134,9 +134,9 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.TopRated.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
@@ -174,9 +174,9 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.AiringToday.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
@@ -214,9 +214,9 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.OnAir.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {

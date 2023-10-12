@@ -18,7 +18,7 @@ class TvLocalDataSourceImpl @Inject constructor(private val tvDao: TvDao) : TvLo
         return tvDao.loadAllTvDataByType(type)
     }
 
-    override suspend fun insertTvData(vararg inputTv: LocalTvEntity) {
+    override suspend fun insertTvData(inputTv: List<LocalTvEntity>) {
         tvDao.insertTvData(inputTv = inputTv)
     }
 

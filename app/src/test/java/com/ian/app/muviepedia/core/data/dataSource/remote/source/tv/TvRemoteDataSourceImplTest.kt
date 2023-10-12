@@ -1,6 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.source.tv
 
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.TelevisionApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse
@@ -21,7 +21,7 @@ import retrofit2.Response
 class TvRemoteDataSourceImplTest {
 
     private lateinit var sut: TvRemoteDataSource
-    private val api: ApiInterface = mockk()
+    private val api: TelevisionApiInterface = mockk()
     private val remoteHelper: RemoteHelper = mockk()
 
     @Before
