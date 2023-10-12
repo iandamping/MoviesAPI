@@ -17,6 +17,8 @@ import com.ian.app.muviepedia.di.module.data.remote.MovieRemoteDataSourceModule
 import com.ian.app.muviepedia.di.module.data.remote.TvRemoteDataSourceModule
 import com.ian.app.muviepedia.di.module.data.repository.MovieRepositoryModule
 import com.ian.app.muviepedia.di.module.data.repository.TvRepositoryModule
+import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeMovieSetterModule
+import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeTelevisionSetterModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyMapperModule
 import com.ian.app.muviepedia.di.module.sub.ActivitySubComponentModule
 import com.ian.app.muviepedia.di.scope.ApplicationScoped
@@ -41,6 +43,8 @@ import dagger.Component
         MovieRepositoryModule::class,
         TvRepositoryModule::class,
         EpoxyMapperModule::class,
+        EpoxyHomeMovieSetterModule::class,
+        EpoxyHomeTelevisionSetterModule::class,
         ViewModelFactoryModule::class,
         ViewModelModule::class,
         ActivitySubComponentModule::class

@@ -1,6 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.source.movie
 
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
@@ -21,7 +21,7 @@ import retrofit2.Response
 class MovieRemoteDataSourceImplTest {
 
     private lateinit var sut: MovieRemoteDataSource
-    private val api: ApiInterface = mockk()
+    private val api: MovieApiInterface = mockk()
     private val remoteHelper: RemoteHelper = mockk()
 
     @Before

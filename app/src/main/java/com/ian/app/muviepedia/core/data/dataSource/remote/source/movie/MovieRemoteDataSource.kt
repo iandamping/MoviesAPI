@@ -20,12 +20,4 @@ interface MovieRemoteDataSource {
     suspend fun getUpComingMovie(): DataSource<BaseResponse<MovieDataResponse>>
 
     suspend fun searchMovie(userSearch: String): DataSource<BaseResponse<MovieDataResponse>>
-
-    suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>>
-
-    suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>>
-
-    suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>>
-
-    suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>>
 }

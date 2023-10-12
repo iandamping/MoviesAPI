@@ -2,7 +2,7 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.source.movie
 
 import com.ian.app.muviepedia.BuildConfig.ACCESS_TOKEN_KEY
 import com.ian.app.muviepedia.BuildConfig.MOVIE_API_KEY
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
@@ -10,10 +10,11 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDa
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.model.RemoteBaseResult
 import com.ian.app.muviepedia.core.data.model.RemoteResult
+import com.ian.app.muviepedia.di.qualifier.MovieApiInterfaceQualifier
 import javax.inject.Inject
 
 class MovieRemoteDataSourceImpl @Inject constructor(
-    private val api: ApiInterface,
+    @MovieApiInterfaceQualifier private val api: MovieApiInterface,
     injectedRemoteHelper: RemoteHelper
 ) : RemoteHelper by injectedRemoteHelper, MovieRemoteDataSource {
 
@@ -121,90 +122,6 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                         searchMovie = userSearch
                     )
                 )
-        ) {
-            is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
-            is RemoteBaseResult.Success -> {
-                val result = data.data.body()
-                if (result != null) {
-                    DataSource.Success(result)
-                } else {
-                    DataSource.Error("null body")
-                }
-            }
-        }
-    }
-
-    override suspend fun getNowPlayingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (
-            val data = remoteWithBaseCall(
-                api.pagingGetNowPlayingMovieMovieAsync(
-                    apiKey = MOVIE_API_KEY,
-                    page = pageMovie
-                )
-            )
-        ) {
-            is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
-            is RemoteBaseResult.Success -> {
-                val result = data.data.body()
-                if (result != null) {
-                    DataSource.Success(result)
-                } else {
-                    DataSource.Error("null body")
-                }
-            }
-        }
-    }
-
-    override suspend fun getPopularMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (
-            val data = remoteWithBaseCall(
-                api.pagingGetPopularMovieAsync(
-                    apiKey = MOVIE_API_KEY,
-                    page = pageMovie
-                )
-            )
-        ) {
-            is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
-            is RemoteBaseResult.Success -> {
-                val result = data.data.body()
-                if (result != null) {
-                    DataSource.Success(result)
-                } else {
-                    DataSource.Error("null body")
-                }
-            }
-        }
-    }
-
-    override suspend fun getTopRatedMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (
-            val data = remoteWithBaseCall(
-                api.pagingGetTopRatedMovieAsync(
-                    apiKey = MOVIE_API_KEY,
-                    page = pageMovie
-                )
-            )
-        ) {
-            is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
-            is RemoteBaseResult.Success -> {
-                val result = data.data.body()
-                if (result != null) {
-                    DataSource.Success(result)
-                } else {
-                    DataSource.Error("null body")
-                }
-            }
-        }
-    }
-
-    override suspend fun getUpComingMoviePaging(pageMovie: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return when (
-            val data = remoteWithBaseCall(
-                api.pagingGetUpComingMovieAsync(
-                    apiKey = MOVIE_API_KEY,
-                    page = pageMovie
-                )
-            )
         ) {
             is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
             is RemoteBaseResult.Success -> {
