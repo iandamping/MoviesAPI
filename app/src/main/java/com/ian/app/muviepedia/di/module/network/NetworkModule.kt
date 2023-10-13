@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.network
 
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.MoviePaginationApiInterface

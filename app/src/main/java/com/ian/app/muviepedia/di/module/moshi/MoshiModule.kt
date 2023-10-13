@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.moshi
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

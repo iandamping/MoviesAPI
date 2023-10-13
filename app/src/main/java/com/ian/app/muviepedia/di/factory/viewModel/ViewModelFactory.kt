@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module.viewModel
+package com.ian.app.muviepedia.di.factory.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

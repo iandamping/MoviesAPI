@@ -112,6 +112,8 @@ dependencies {
     testImplementation(unitTestLibs.coroutine.unit.test)
     //flow test
     testImplementation 'app.cash.turbine:turbine:1.0.0'
+    //konsist
+    testImplementation "com.lemonappdev:konsist:0.13.0"
 
 }
 

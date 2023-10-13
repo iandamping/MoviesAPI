@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.context
 
 import android.content.Context
 import androidx.fragment.app.FragmentActivity

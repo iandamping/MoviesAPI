@@ -12,6 +12,7 @@ fun FragmentActivity.activityComponent() =
         .provideActivityComponentFactory()
         .injectActivity(this)
 
+
 fun Fragment.fragmentComponent(): FragmentComponent =
     requireActivity().activityComponent()
         .provideFragmentComponent()

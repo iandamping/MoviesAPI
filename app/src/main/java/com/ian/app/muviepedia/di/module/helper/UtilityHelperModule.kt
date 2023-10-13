@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.helper
 
 import com.ian.app.muviepedia.util.UtilityHelper
 import com.ian.app.muviepedia.util.UtilityHelperImpl
