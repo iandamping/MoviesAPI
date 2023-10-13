@@ -31,10 +31,6 @@ class TvRepositoryImpl @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : TvRepository {
 
-    companion object {
-        private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
-    }
-
     private fun Long.isExpired(): Boolean = (System.currentTimeMillis() - this) > CACHE_EXPIRY
 
     override fun fetchDetailTv(tvID: Int): Flow<DomainSource<TelevisionDetail>> {
@@ -223,5 +219,9 @@ class TvRepositoryImpl @Inject constructor(
                 return data.isNullOrEmpty()
             }
         }.asFlow()
+    }
+
+    companion object {
+        private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
     }
 }

@@ -1,4 +1,4 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.database
 
 import android.content.Context
 import androidx.room.Room

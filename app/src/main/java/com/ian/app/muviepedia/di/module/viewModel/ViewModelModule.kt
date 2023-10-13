@@ -1,7 +1,7 @@
-package com.ian.app.muviepedia.di.module
+package com.ian.app.muviepedia.di.module.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.ian.app.muviepedia.di.module.viewModel.ViewModelKey
+import com.ian.app.muviepedia.di.factory.viewModel.ViewModelKey
 import com.ian.app.muviepedia.feature.detail.DetailViewModel
 import com.ian.app.muviepedia.feature.home.HomeViewModel
 import com.ian.app.muviepedia.feature.search.SearchViewModel

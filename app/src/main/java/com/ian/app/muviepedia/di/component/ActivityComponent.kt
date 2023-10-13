@@ -1,7 +1,7 @@
 package com.ian.app.muviepedia.di.component
 
 import androidx.fragment.app.FragmentActivity
-import com.ian.app.muviepedia.di.module.ActivityContextModule
+import com.ian.app.muviepedia.di.module.context.ActivityContextModule
 import com.ian.app.muviepedia.di.module.ActivityModule
 import com.ian.app.muviepedia.di.module.sub.FragmentSubComponentModule
 import dagger.BindsInstance

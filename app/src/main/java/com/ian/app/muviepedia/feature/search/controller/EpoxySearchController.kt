@@ -13,12 +13,6 @@ class EpoxySearchController(
     private val movieClickListener: EpoxySearchMovieControllerListener,
 ) : TypedEpoxyController<EpoxySearchData>() {
 
-    companion object {
-        private const val verticalGridDataToShow = 5f
-        private const val verticalGridLoadingToShow = 2f
-        private const val verticalGridErrorToShow = 1f
-    }
-
     interface EpoxySearchMovieControllerListener {
         fun onMovieClick(id: Int)
     }
@@ -66,5 +60,11 @@ class EpoxySearchController(
                     .addTo(this)
             }
         }
+    }
+
+    companion object {
+        private const val verticalGridDataToShow = 5f
+        private const val verticalGridLoadingToShow = 2f
+        private const val verticalGridErrorToShow = 1f
     }
 }

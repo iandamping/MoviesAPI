@@ -28,11 +28,6 @@ class EpoxyDetailController(
 ) :
     TypedEpoxyController<DetailMovieUiState>() {
 
-    companion object {
-        private const val startLoop = 4
-        private const val endLoop = 12
-    }
-
     interface EpoxyDetailControllerBackPress {
         fun onBackIsPressed()
     }
@@ -156,5 +151,10 @@ class EpoxyDetailController(
 
         CarouselModel_().id("3").models(shimmerModel).numViewsToShowOnScreen(2f)
             .addTo(this)
+    }
+
+    companion object {
+        private const val startLoop = 4
+        private const val endLoop = 12
     }
 }
