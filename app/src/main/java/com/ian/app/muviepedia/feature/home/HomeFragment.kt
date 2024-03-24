@@ -55,6 +55,7 @@ class HomeFragment :
                 epoxyHomeController.setData(data)
             }.launchIn(this)
         }
+
         binding.btnSearch.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }

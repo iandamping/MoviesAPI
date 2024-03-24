@@ -3,8 +3,7 @@ package com.ian.app.muviepedia
 import com.ian.app.muviepedia.util.isExpireds
 import io.mockk.every
 import io.mockk.mockkStatic
-import org.junit.Assert
-import org.junit.Test
+import org.junit.*
 
 class UtilTesting {
 

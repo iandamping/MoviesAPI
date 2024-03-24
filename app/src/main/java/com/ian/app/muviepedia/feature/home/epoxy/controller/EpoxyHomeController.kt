@@ -46,37 +46,31 @@ class EpoxyHomeController(
 
     override fun buildModels(data: EpoxyHomeData?) {
         if (data != null) {
-            EpoxyCommonTitle(title = "Popular Movie", fontSize = 18)
+            EpoxyCommonTitle(title = "Popular Movie", fontSize = 18, viewHelper = viewHelper)
                 .id("1_movie_popular_title")
                 .addTo(this)
             // carousel popular movie
             implementEpoxyPopularMovie(data)
 
-            EpoxyCommonTitle(title = "Now Playing Movie", fontSize = 16)
-                .id("2_movie_now_playing_title")
-                .addTo(this)
-            // carouse now playing movie
-            implementEpoxyNowPlayingMovie(data)
-
-            EpoxyCommonTitle(title = "Top Rated Movie", fontSize = 16)
+            EpoxyCommonTitle(title = "Top Rated Movie", fontSize = 16, viewHelper = viewHelper)
                 .id("3_movie_top_rated_title")
                 .addTo(this)
             // carousel top rated movie
             implementEpoxyTopRatedMovie(data)
 
-            EpoxyCommonTitle(title = "Up Coming Movie", fontSize = 16)
+            EpoxyCommonTitle(title = "Up Coming Movie", fontSize = 16, viewHelper = viewHelper)
                 .id("4_movie_up_coming_title")
                 .addTo(this)
             // carousel up coming movie
             implementEpoxyUpComingMovie(data)
 
-            EpoxyCommonTitle(title = "Popular Television", fontSize = 18)
+            EpoxyCommonTitle(title = "Popular Television", fontSize = 18, viewHelper = viewHelper)
                 .id("5_television_popular_title")
                 .addTo(this)
             // carousel popular television
             implementEpoxyPopularTelevision(data)
 
-            EpoxyCommonTitle(title = "Top Rated Television", fontSize = 18)
+            EpoxyCommonTitle(title = "Top Rated Television", fontSize = 18, viewHelper = viewHelper)
                 .id("6_television_toprated_title")
                 .addTo(this)
             // carousel top rated television

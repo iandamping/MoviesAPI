@@ -8,6 +8,7 @@ import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.core.presentation.EpoxyHomeMovieSetter
 import com.ian.app.muviepedia.core.presentation.EpoxyHomeTelevisionSetter
 import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,156 +33,189 @@ class HomeViewModel @Inject constructor(
         get() = _epoxyMovieData.asStateFlow()
 
     init {
+        getAllMovieTelevisionData()
+    }
+
+    private fun getAllMovieTelevisionData() {
         viewModelScope.launch {
-            launch {
-                movieRepository.fetchPopularMovie().onStart {
-                    _epoxyMovieData.update { uiState ->
-                        uiState.copy(
-                            popularMovie = epoxyMovieSetter.setEpoxyPopularMovieLoading()
-                        )
-                    }
-                }.onEach {
+            fetchPopularMovie()
+
+            fetchNowPlayingMovie()
+
+            fetchTopRatedMovie()
+
+            fetchUpComingMovie()
+
+            fetchPopularTv()
+
+            fetchTopRatedTv()
+        }
+    }
+
+    private fun CoroutineScope.fetchTopRatedTv() {
+        launch {
+            tvRepository.prefetchTopRatedTv().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionLoading()
+                    )
+                }
+            }
+                .onEach {
                     when (it) {
                         is DomainSource.Error -> _epoxyMovieData.update { uiState ->
                             uiState.copy(
-                                popularMovie = epoxyMovieSetter.setEpoxyPopularMovieError(),
+                                topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionError()
                             )
                         }
 
                         is DomainSource.Success -> _epoxyMovieData.update { uiState ->
                             uiState.copy(
-                                popularMovie = epoxyMovieSetter.setEpoxyPopularMovieData(it.data)
+                                topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionData(
+                                    it.data
+                                )
                             )
                         }
                     }
                 }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchPopularTv() {
+        launch {
+            tvRepository.prefetchPopularTv().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionLoading()
+                    )
+                }
             }
-            launch {
-                movieRepository.fetchNowPlayingMovie().onStart {
-                    _epoxyMovieData.update { uiState ->
+                .onEach {
+                    when (it) {
+                        is DomainSource.Error -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionError()
+                            )
+                        }
+
+                        is DomainSource.Success -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionData(
+                                    it.data
+                                )
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchUpComingMovie() {
+        launch {
+            movieRepository.fetchUpComingMovie().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieLoading()
+                    )
+                }
+            }
+                .onEach {
+                    when (it) {
+                        is DomainSource.Error -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieError()
+                            )
+                        }
+
+                        is DomainSource.Success -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieData(it.data)
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchTopRatedMovie() {
+        launch {
+            movieRepository.fetchTopRatedMovie().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieLoading()
+                    )
+                }
+            }
+                .onEach {
+                    when (it) {
+                        is DomainSource.Error -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieError()
+                            )
+                        }
+
+                        is DomainSource.Success -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieData(it.data)
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchNowPlayingMovie() {
+        launch {
+            movieRepository.fetchNowPlayingMovie().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieLoading()
+                    )
+                }
+            }
+                .onEach {
+                    when (it) {
+                        is DomainSource.Error -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieError()
+                            )
+                        }
+
+                        is DomainSource.Success -> _epoxyMovieData.update { uiState ->
+                            uiState.copy(
+                                nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieData(
+                                    it.data
+                                )
+                            )
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchPopularMovie() {
+        launch {
+            movieRepository.fetchPopularMovie().onStart {
+                _epoxyMovieData.update { uiState ->
+                    uiState.copy(
+                        popularMovie = epoxyMovieSetter.setEpoxyPopularMovieLoading()
+                    )
+                }
+            }.onEach {
+                when (it) {
+                    is DomainSource.Error -> _epoxyMovieData.update { uiState ->
                         uiState.copy(
-                            nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieLoading()
+                            popularMovie = epoxyMovieSetter.setEpoxyPopularMovieError(),
+                        )
+                    }
+
+                    is DomainSource.Success -> _epoxyMovieData.update { uiState ->
+                        uiState.copy(
+                            popularMovie = epoxyMovieSetter.setEpoxyPopularMovieData(it.data)
                         )
                     }
                 }
-                    .onEach {
-                        when (it) {
-                            is DomainSource.Error -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieError()
-                                )
-                            }
-
-                            is DomainSource.Success -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    nowPlayingMovie = epoxyMovieSetter.setEpoxyNowPlayingMovieData(
-                                        it.data
-                                    )
-                                )
-                            }
-                        }
-                    }.launchIn(this)
-            }
-            launch {
-                movieRepository.fetchTopRatedMovie().onStart {
-                    _epoxyMovieData.update { uiState ->
-                        uiState.copy(
-                            topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieLoading()
-                        )
-                    }
-                }
-                    .onEach {
-                        when (it) {
-                            is DomainSource.Error -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieError()
-                                )
-                            }
-
-                            is DomainSource.Success -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    topRatedMovie = epoxyMovieSetter.setEpoxyTopRatedMovieData(it.data)
-                                )
-                            }
-                        }
-                    }.launchIn(this)
-            }
-            launch {
-                movieRepository.fetchUpComingMovie().onStart {
-                    _epoxyMovieData.update { uiState ->
-                        uiState.copy(
-                            upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieLoading()
-                        )
-                    }
-                }
-                    .onEach {
-                        when (it) {
-                            is DomainSource.Error -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieError()
-                                )
-                            }
-
-                            is DomainSource.Success -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    upComingMovie = epoxyMovieSetter.setEpoxyUpComingMovieData(it.data)
-                                )
-                            }
-                        }
-                    }.launchIn(this)
-            }
-            launch {
-                tvRepository.prefetchPopularTv().onStart {
-                    _epoxyMovieData.update { uiState ->
-                        uiState.copy(
-                            popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionLoading()
-                        )
-                    }
-                }
-                    .onEach {
-                        when (it) {
-                            is DomainSource.Error -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionError()
-                                )
-                            }
-
-                            is DomainSource.Success -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionData(
-                                        it.data
-                                    )
-                                )
-                            }
-                        }
-                    }.launchIn(this)
-            }
-            launch {
-                tvRepository.prefetchTopRatedTv().onStart {
-                    _epoxyMovieData.update { uiState ->
-                        uiState.copy(
-                            topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionLoading()
-                        )
-                    }
-                }
-                    .onEach {
-                        when (it) {
-                            is DomainSource.Error -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionError()
-                                )
-                            }
-
-                            is DomainSource.Success -> _epoxyMovieData.update { uiState ->
-                                uiState.copy(
-                                    topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionData(
-                                        it.data
-                                    )
-                                )
-                            }
-                        }
-                    }.launchIn(this)
-            }
+            }.launchIn(this)
         }
     }
 }
