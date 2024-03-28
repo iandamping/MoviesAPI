@@ -2,7 +2,6 @@ package com.ian.app.muviepedia.feature.detail.epoxy.movie
 
 import coil.load
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.databinding.ItemDetailSimilarMovieContentBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
@@ -22,7 +21,7 @@ class EpoxyDetailSimilarMovieContent(
             right = 8,
             bottom = 8
         )
-        ivMovie.load(imageFormatter + data.posterPath)
+        ivMovie.load(data.posterPath)
         root.setOnClickListener {
             clickListener.invoke(data.id)
         }

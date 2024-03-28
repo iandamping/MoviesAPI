@@ -14,6 +14,7 @@ import com.ian.app.muviepedia.di.module.database.DatabaseModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeMovieSetterModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeTelevisionSetterModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyMapperModule
+import com.ian.app.muviepedia.di.module.helper.MoshiParserModule
 import com.ian.app.muviepedia.di.module.helper.RemoteHelperModule
 import com.ian.app.muviepedia.di.module.helper.UtilityHelperModule
 import com.ian.app.muviepedia.di.module.moshi.MoshiModule
@@ -36,6 +37,7 @@ import dagger.Component
         MoshiModule::class,
         RemoteHelperModule::class,
         UtilityHelperModule::class,
+        MoshiParserModule::class,
         MovieRemoteDataSourceModule::class,
         MovieLocalDataSourceModule::class,
         TvLocalDataSourceModule::class,

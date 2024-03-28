@@ -7,11 +7,11 @@ import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 class EpoxyShimmerSearchMovie :
     ViewBindingEpoxyModelWithHolder<ShimmerItemSearchMovieBinding>() {
     override fun ShimmerItemSearchMovieBinding.bind() {
-        shimmerProduct.startShimmer()
+        shimmerSearch.startShimmer()
     }
 
     override fun ShimmerItemSearchMovieBinding.unbind() {
-        shimmerProduct.stopShimmer()
+        shimmerSearch.stopShimmer()
     }
 
     override fun getDefaultLayout(): Int {

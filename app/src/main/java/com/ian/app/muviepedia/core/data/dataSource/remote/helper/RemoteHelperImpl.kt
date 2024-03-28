@@ -17,46 +17,43 @@ class RemoteHelperImpl @Inject constructor(private val utilityHelper: UtilityHel
     override suspend fun <T> remoteWithBaseCall(call: Response<BaseResponse<T>>): RemoteBaseResult<T> {
         return try {
             if (call.isSuccessful) {
-                RemoteBaseResult.Success(call)
+                RemoteBaseResult.Success(call.body())
             } else {
                 RemoteBaseResult.Error(
-                    Exception(
-                        call.errorBody()?.string()
+                    call.errorBody()?.string()
                             ?: utilityHelper.getString(R.string.default_error_message)
-                    )
+
                 )
             }
         } catch (e: SocketException) {
-            RemoteBaseResult.Error(e)
+            RemoteBaseResult.Error(e.message.toString())
         } catch (e: UnknownHostException) {
-            RemoteBaseResult.Error(e)
+            RemoteBaseResult.Error(e.message.toString())
         } catch (e: SocketTimeoutException) {
-            RemoteBaseResult.Error(e)
+            RemoteBaseResult.Error(e.message.toString())
         } catch (e: IllegalArgumentException) {
-            RemoteBaseResult.Error(e)
+            RemoteBaseResult.Error(e.message.toString())
         }
     }
 
     override suspend fun <T> remoteCall(call: Response<T>): RemoteResult<T> {
         return try {
             if (call.isSuccessful) {
-                RemoteResult.Success(call)
+                RemoteResult.Success(call.body())
             } else {
                 RemoteResult.Error(
-                    Exception(
                         call.errorBody()?.string()
                             ?: utilityHelper.getString(R.string.default_error_message)
-                    )
                 )
             }
         } catch (e: SocketException) {
-            RemoteResult.Error(e)
+            RemoteResult.Error(e.message.toString())
         } catch (e: UnknownHostException) {
-            RemoteResult.Error(e)
+            RemoteResult.Error(e.message.toString())
         } catch (e: SocketTimeoutException) {
-            RemoteResult.Error(e)
+            RemoteResult.Error(e.message.toString())
         } catch (e: IllegalArgumentException) {
-            RemoteResult.Error(e)
+            RemoteResult.Error(e.message.toString())
         }
     }
 }

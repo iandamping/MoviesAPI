@@ -64,14 +64,20 @@ class EpoxyHomeController(
             // carousel up coming movie
             implementEpoxyUpComingMovie(data)
 
+            EpoxyCommonTitle(title = "Now Playing Movie", fontSize = 16, viewHelper = viewHelper)
+                .id("5_movie_now_playing_title")
+                .addTo(this)
+            // carousel up coming movie
+            implementEpoxyNowPlayingMovie(data)
+
             EpoxyCommonTitle(title = "Popular Television", fontSize = 18, viewHelper = viewHelper)
-                .id("5_television_popular_title")
+                .id("6_television_popular_title")
                 .addTo(this)
             // carousel popular television
             implementEpoxyPopularTelevision(data)
 
             EpoxyCommonTitle(title = "Top Rated Television", fontSize = 18, viewHelper = viewHelper)
-                .id("6_television_toprated_title")
+                .id("7_television_toprated_title")
                 .addTo(this)
             // carousel top rated television
             implementEpoxyTopRatedTelevision(data)
@@ -218,10 +224,10 @@ class EpoxyHomeController(
                 }
             }
 
-            CarouselModel_()
+            HorizontalGridCarouselModel_()
                 .id("2_movie_now_playing")
                 .models(carouselNowPlayingModel)
-                .numViewsToShowOnScreen(1f)
+                .numViewsToShowOnScreen(2f)
                 .addTo(this)
         }
     }

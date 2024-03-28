@@ -30,9 +30,9 @@ class TvPaginationRemoteDataSourceImpl @Inject constructor(
                         )
                     )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -49,9 +49,9 @@ class TvPaginationRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.pagingGetOnAirTvAsync(page = pageTv, apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -73,9 +73,9 @@ class TvPaginationRemoteDataSourceImpl @Inject constructor(
                         )
                     )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -97,9 +97,9 @@ class TvPaginationRemoteDataSourceImpl @Inject constructor(
                         )
                     )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {

@@ -41,8 +41,8 @@ interface MovieApiInterface {
         @Header("accept") accept: String = "application/json",
 //        @Query("api_key") apiKey: String,
         @Query("query") searchMovie: String,
-//        @Query("adult") adult: Boolean = false,
-//        @Query("language") language: String = "en-US",
-//        @Query("page") page: Int = 1,
+        @Query("include_adult") adult: Boolean = false,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1,
     ): Response<BaseResponse<MovieDataResponse>>
 }

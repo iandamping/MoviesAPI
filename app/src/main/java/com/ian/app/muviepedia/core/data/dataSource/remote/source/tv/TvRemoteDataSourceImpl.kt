@@ -26,9 +26,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteCall(api.getDetailTvAsync(tvId = tvID, apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteResult.Error -> DataSource.Error(data.message)
                 is RemoteResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -45,9 +45,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.getSimilarTvAsync(tvId = tvID, apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -64,9 +64,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.getPopularTvAsync(apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -83,9 +83,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.getTopRatedTvAsync(apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -102,9 +102,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.getAiringTodayTvAsync(apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -121,9 +121,9 @@ class TvRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(api.getOnAirTvAsync(apiKey = MOVIE_API_KEY))
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {

@@ -10,7 +10,6 @@ import com.ian.app.muviepedia.core.data.model.RemoteBaseResult
 import com.ian.app.muviepedia.di.qualifier.IoDispatcher
 import com.ian.app.muviepedia.di.qualifier.MoviePagingApiInterfaceQualifier
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -30,9 +29,9 @@ class MoviePaginationRemoteDataSourceImpl @Inject constructor(
                     )
                 )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -53,9 +52,9 @@ class MoviePaginationRemoteDataSourceImpl @Inject constructor(
                     )
                 )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -76,9 +75,9 @@ class MoviePaginationRemoteDataSourceImpl @Inject constructor(
                     )
                 )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
@@ -99,9 +98,9 @@ class MoviePaginationRemoteDataSourceImpl @Inject constructor(
                     )
                 )
             ) {
-                is RemoteBaseResult.Error -> DataSource.Error(data.exception.message ?: "")
+                is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
-                    val result = data.data.body()
+                    val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
                     } else {
