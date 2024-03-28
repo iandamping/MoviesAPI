@@ -33,7 +33,7 @@ object NetworkConstant {
     const val upComingMovie = "movie/upcoming"
     const val detailMovie = "movie/"
     const val similarMovie = "movie/"
-    const val searchMovie = "search/movie/"
+    const val searchMovie = "search/movie"
 
     const val detailTv = "tv/"
     const val similarTv = "tv/"

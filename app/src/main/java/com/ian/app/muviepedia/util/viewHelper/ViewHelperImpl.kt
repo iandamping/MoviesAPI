@@ -1,7 +1,6 @@
 package com.ian.app.muviepedia.util.viewHelper
 
 import android.content.Context
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +59,7 @@ class ViewHelperImpl @Inject constructor(@ActivityInflater private val layoutInf
                 view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         } catch (ignored: RuntimeException) {
-            Log.e("TAG", "showKeyboard: ${ignored.message}")
+
         }
     }
 
@@ -71,7 +70,7 @@ class ViewHelperImpl @Inject constructor(@ActivityInflater private val layoutInf
                 view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         } catch (e: RuntimeException) {
-            Log.e("TAG", "hideKeyboard: ${e.message}")
+
         }
     }
 }

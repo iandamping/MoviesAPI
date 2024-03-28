@@ -1,18 +1,18 @@
 package com.ian.app.muviepedia.core.data.model
 
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
-import retrofit2.Response
 
+//todo : add new data class for receiving error from exception
 sealed class RemoteBaseResult<out T> {
 
-    data class Success<T>(val data: Response<BaseResponse<T>>) : RemoteBaseResult<T>()
+    data class Success<T>(val data: BaseResponse<T>?) : RemoteBaseResult<T>()
 
-    data class Error(val exception: Exception) : RemoteBaseResult<Nothing>()
+    data class Error(val message: String) : RemoteBaseResult<Nothing>()
 }
 
 sealed class RemoteResult<out T> {
 
-    data class Success<T>(val data: Response<T>) : RemoteResult<T>()
+    data class Success<T>(val data: T?) : RemoteResult<T>()
 
-    data class Error(val exception: Exception) : RemoteResult<Nothing>()
+    data class Error(val message: String) : RemoteResult<Nothing>()
 }

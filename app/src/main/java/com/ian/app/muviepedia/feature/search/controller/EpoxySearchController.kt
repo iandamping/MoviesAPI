@@ -1,11 +1,11 @@
 package com.ian.app.muviepedia.feature.search.controller
 
 import com.airbnb.epoxy.TypedEpoxyController
+import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxyErrorSearchMovie
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxyShimmerSearchMovie
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxySuccessSearchMovie
-import com.ian.app.muviepedia.util.epoxy.HorizontalGridCarouselModel_
-import com.ian.app.muviepedia.util.epoxy.VerticalGridCarouselModel_
+import com.ian.app.muviepedia.feature.state.PresentationInputState
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySearchController(
@@ -20,51 +20,48 @@ class EpoxySearchController(
     override fun buildModels(data: EpoxySearchData?) {
         // carousel search movie
         if (data != null) {
-            if (data.searchMovie.isNotEmpty()) {
-                val carouselSearchModel = data.searchMovie.map { multiData ->
-                    EpoxySuccessSearchMovie(
-                        viewHelper = viewHelper,
-                        data = multiData,
-                        clickListener = movieClickListener::onMovieClick
-                    ).id(multiData.id)
-                }
-
-                VerticalGridCarouselModel_()
-                    .id("1")
-                    .models(carouselSearchModel)
-                    .numViewsToShowOnScreen(verticalGridDataToShow)
-                    .addTo(this)
-            }
-
-            if (data.loading.isNotEmpty()) {
-                val loadingModel = data.loading.map { loadingData ->
-                    EpoxyShimmerSearchMovie()
-                        .id(loadingData)
-                }
-                VerticalGridCarouselModel_()
-                    .id("1")
-                    .models(loadingModel)
-                    .numViewsToShowOnScreen(verticalGridLoadingToShow)
-                    .addTo(this)
-            }
-
-            if (data.error.isNotEmpty()) {
-                val errorModel = data.error.map { loadingData ->
-                    EpoxyErrorSearchMovie()
-                        .id(loadingData)
-                }
-                HorizontalGridCarouselModel_()
-                    .id("1")
-                    .models(errorModel)
-                    .numViewsToShowOnScreen(verticalGridErrorToShow)
-                    .addTo(this)
+            when (data.uiState) {
+                PresentationInputState.Loading -> loadingSearchMovie()
+                PresentationInputState.Success -> successSearchMovie(data.searchMovie)
+                PresentationInputState.Failed -> errorSearchMovie()
+                PresentationInputState.Init -> initSearchMovie()
             }
         }
     }
 
-    companion object {
-        private const val verticalGridDataToShow = 5f
-        private const val verticalGridLoadingToShow = 2f
-        private const val verticalGridErrorToShow = 1f
+    private fun initSearchMovie() {
+//        EpoxyCommonTitle(title = "Search Movie", fontSize = 16, viewHelper = viewHelper)
+//            .id("1_search_movie")
+//            .addTo(this)
+    }
+
+    private fun loadingSearchMovie() {
+        for (i in 0..20) {
+            EpoxyShimmerSearchMovie()
+                .id(i)
+                .addTo(this)
+        }
+    }
+
+    private fun successSearchMovie(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            movies.map { data ->
+                EpoxySuccessSearchMovie(
+                    viewHelper = viewHelper,
+                    data = data,
+                    clickListener = movieClickListener::onMovieClick
+                ).id(data.id)
+                    .addTo(this)
+            }
+        } else {
+            errorSearchMovie()
+        }
+
+    }
+
+    private fun errorSearchMovie() {
+        EpoxyErrorSearchMovie()
+            .id("1_search_movie")
+            .addTo(this)
     }
 }

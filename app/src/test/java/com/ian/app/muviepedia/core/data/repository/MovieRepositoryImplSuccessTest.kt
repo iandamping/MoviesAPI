@@ -670,7 +670,21 @@ class MovieRepositoryImplSuccessTest {
     @Test
     fun `fetchSearchMovie return Success data from cache`() = runTest {
         // arrange
-        val domainMockResponse: List<Movie> = mockk()
+        val domainMockResponse: List<Movie> = listOf(
+            Movie(1,
+                1,
+                false,
+                1.1,
+                "a",
+                1.1,
+                "a",
+                "a",
+                "a",
+                "a",
+                false,
+                "a",
+                "a",
+                ))
         val domainListLocalMockEntity: List<LocalMovieEntity> = listOf(
             LocalMovieEntity(
                 1,

@@ -1,6 +1,7 @@
 package com.ian.app.muviepedia.core.data.repository.model
 
 import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.LocalMovieEntity
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
 
 data class Movie(
@@ -42,7 +43,7 @@ fun MovieDataResponse.mapToDomain(): Movie = Movie(
     voteAverage = voteAverage ?: 0.0,
     title = title ?: "",
     popularity = popularity ?: 0.0,
-    posterPath = posterPath ?: "",
+    posterPath = "${NetworkConstant.imageFormatter}$posterPath",
     originalLanguage = originalLanguage ?: "",
     originalTitle = originalTitle ?: "",
     backdropPath = backdropPath ?: "",

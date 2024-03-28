@@ -1,8 +1,8 @@
 package com.ian.app.muviepedia.base
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import com.ian.app.muviepedia.ui.activity.MainActivity
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -25,7 +26,10 @@ abstract class BaseFragmentViewBinding<out VB : ViewBinding> : Fragment() {
         get() = _binding as VB
 
     private fun getCoroutineErrorHandler() = CoroutineExceptionHandler { _, e ->
-        Log.e("TAG 2", "An error happened: ${e.message}")
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        requireActivity().startActivity(intent)
+        requireActivity().finish()
     }
 
     protected fun consumeSuspend(func: suspend CoroutineScope.() -> Unit) {

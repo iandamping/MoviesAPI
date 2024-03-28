@@ -6,6 +6,7 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.feature.search.controller.EpoxySearchData
+import com.ian.app.muviepedia.feature.state.PresentationInputState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,8 +21,6 @@ class SearchViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-//    private var job: Job? = null
-
     private val _epoxyMovieData: MutableStateFlow<EpoxySearchData> =
         MutableStateFlow(EpoxySearchData.init())
     val epoxyMovieData: StateFlow<EpoxySearchData>
@@ -30,6 +29,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchMovieData(movieData: List<Movie>) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
+                uiState = PresentationInputState.Success,
                 searchMovie = movieData,
             )
         }
@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchMovieLoading() {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                loading = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
+                uiState = PresentationInputState.Loading
             )
         }
     }
@@ -46,13 +46,13 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchMovieError(message: String) {
         _epoxyMovieData.update { uiState ->
             uiState.copy(
-                error = listOf(message),
+                uiState = PresentationInputState.Failed,
+                error = message,
             )
         }
     }
 
     fun searchMovie(query: String) {
-//        job?.cancel()
         viewModelScope.launch {
             repository.fetchSearchMovie(query).onStart { setEpoxySearchMovieLoading() }
                 .onEach { result ->
@@ -64,50 +64,4 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-//        job = null
-    }
-
-//    private fun setEpoxySearchMovieData(movieData: List<Movie>) {
-//        _epoxyMovieData.update { uiState ->
-//            uiState.copy(
-//                searchMovie = epoxyMapper.epoxySearchMovieListMapper(
-//                    epoxyMapper.extractMovieToEpoxy(
-//                        movieData
-//                    )
-//                )
-//            )
-//        }
-//    }
-//
-//
-//    private fun setEpoxySearchMovieLoading() {
-//        _epoxyMovieData.update { uiState ->
-//            uiState.copy(
-//                searchMovie = mutableListOf(
-//                    EpoxySearchMovieData.Shimmer(0),
-//                    EpoxySearchMovieData.Shimmer(1),
-//                    EpoxySearchMovieData.Shimmer(2),
-//                    EpoxySearchMovieData.Shimmer(3),
-//                    EpoxySearchMovieData.Shimmer(4),
-//                    EpoxySearchMovieData.Shimmer(5),
-//                    EpoxySearchMovieData.Shimmer(6),
-//                    EpoxySearchMovieData.Shimmer(7),
-//                    EpoxySearchMovieData.Shimmer(8),
-//                    EpoxySearchMovieData.Shimmer(9),
-//                )
-//            )
-//
-//        }
-//    }
-//
-//    private fun setEpoxySearchMovieError(message: String) {
-//        _epoxyMovieData.update { uiState ->
-//            uiState.copy(
-//                searchMovie = mutableListOf(EpoxySearchMovieData.Error),
-//            )
-//
-//        }
-//    }
 }

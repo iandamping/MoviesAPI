@@ -21,6 +21,7 @@ class EpoxySuccessSearchMovie(
             right = 8,
             bottom = 8
         )
+        tvMovieName.text = data.originalTitle
         ivMovie.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)

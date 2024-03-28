@@ -79,7 +79,7 @@ class EpoxyMapperImplTest {
                 "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
         mockkStatic(Set<EpoxyMovie>::toListEpoxyPopularData)
 
         every {
@@ -113,7 +113,7 @@ class EpoxyMapperImplTest {
                 "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
         mockkStatic(Set<EpoxyMovie>::toListEpoxyNowPlayingData)
 
         every {
@@ -147,7 +147,7 @@ class EpoxyMapperImplTest {
                 "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
         mockkStatic(Set<EpoxyMovie>::toListEpoxyTopRatedData)
 
         every {
@@ -181,7 +181,7 @@ class EpoxyMapperImplTest {
                 "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
         mockkStatic(Set<EpoxyMovie>::toListEpoxyUpComingData)
 
         every {
@@ -215,7 +215,7 @@ class EpoxyMapperImplTest {
                 "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
         mockkStatic(Set<EpoxyMovie>::toListEpoxySearchMovieData)
 
         every {
@@ -236,7 +236,7 @@ class EpoxyMapperImplTest {
                 1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDataMapperKt")
         mockkStatic(Set<EpoxyTelevision>::toListEpoxyPopularTvData)
 
         every {
@@ -257,7 +257,7 @@ class EpoxyMapperImplTest {
                 1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"
             )
         )
-        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyDataMapperKt")
+        mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDataMapperKt")
         mockkStatic(Set<EpoxyTelevision>::toListEpoxyTopRatedTvData)
 
         every {

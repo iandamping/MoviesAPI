@@ -1,31 +1,20 @@
 package com.ian.app.muviepedia.feature.search.controller
 
 import com.ian.app.muviepedia.core.data.repository.model.Movie
+import com.ian.app.muviepedia.feature.state.PresentationInputState
 
 data class EpoxySearchData(
-    val loading: List<Int>,
+    val uiState: PresentationInputState,
     val searchMovie: List<Movie>,
-    val error: List<String>
+    val error: String
 ) {
     companion object {
         fun init(): EpoxySearchData {
             return EpoxySearchData(
+                uiState = PresentationInputState.Init,
                 searchMovie = emptyList(),
-                loading = emptyList(),
-                error = emptyList(),
+                error = "",
             )
         }
     }
 }
-
-// data class EpoxySearchData(
-//    val searchMovie: List<EpoxySearchMovieData>
-// ) {
-//    companion object {
-//        fun init(): EpoxySearchData {
-//            return EpoxySearchData(
-//                searchMovie = emptyList(),
-//            )
-//        }
-//    }
-// }

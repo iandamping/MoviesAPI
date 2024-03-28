@@ -73,6 +73,6 @@ class SearchFragment :
     }
 
     override fun onMovieClick(id: Int) {
-        Log.e("TAG", "onMovieClick: $id",)
+        Log.e("TAG", "onMovieClick: $id", )
     }
 }

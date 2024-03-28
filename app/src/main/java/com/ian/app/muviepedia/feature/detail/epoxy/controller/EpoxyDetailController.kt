@@ -1,22 +1,15 @@
 package com.ian.app.muviepedia.feature.detail.epoxy.controller
 
-import android.util.Log
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.TypedEpoxyController
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
-import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
-import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
-import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailDescriptionContent
-import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailImageContent
-import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyShimmerDetailDescriptionContent
-import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyShimmerDetailImageContent
+import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyFailedSimilarContent
 import com.ian.app.muviepedia.feature.detail.epoxy.movie.EpoxyDetailSimilarMovieContent
 import com.ian.app.muviepedia.feature.detail.epoxy.movie.EpoxyShimmerDetailSimilarMovieContent
 import com.ian.app.muviepedia.feature.detail.epoxy.television.EpoxyDetailSimilarTelevisionContent
 import com.ian.app.muviepedia.feature.home.epoxy.common.EpoxyCommonTitle
-import com.ian.app.muviepedia.feature.state.DetailMovieUiState
+import com.ian.app.muviepedia.feature.state.DetailSimilarDataUIState
 import com.ian.app.muviepedia.feature.state.PresentationState
 import com.ian.app.muviepedia.util.epoxy.ViewBindingHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
@@ -26,7 +19,7 @@ class EpoxyDetailController(
     private val similarMovieListener: EpoxyDetailControllerSimilarItemListener,
     private val viewHelper: ViewHelper
 ) :
-    TypedEpoxyController<DetailMovieUiState>() {
+    TypedEpoxyController<DetailSimilarDataUIState>() {
 
     interface EpoxyDetailControllerBackPress {
         fun onBackIsPressed()
@@ -36,7 +29,7 @@ class EpoxyDetailController(
         fun onSimilarItemClick(id: Int)
     }
 
-    override fun buildModels(data: DetailMovieUiState?) {
+    override fun buildModels(data: DetailSimilarDataUIState?) {
         // epoxyModel id is the one that control the view
         // if the view is static use static string to epoxyModel id
         // if the view is dynamic use their data as epoxyModel id
@@ -46,28 +39,20 @@ class EpoxyDetailController(
 
                 PresentationState.Success -> epoxySuccess(data)
 
-                PresentationState.Failed -> Log.e("TAG", "buildModels: ${data.errorMessage}")
+                PresentationState.Failed -> epoxyFailed()
             }
         }
     }
 
-    private fun epoxySuccess(data: DetailMovieUiState) {
+    private fun epoxySuccess(data: DetailSimilarDataUIState) {
         when (data.flag) {
             DetailFlag.MOVIE -> {
-                if (data.movieData != null) {
-                    epoxyDetailMovie(data.movieData)
-                }
-
                 if (data.similarMovieData.isNotEmpty()) {
                     epoxySimilarMovie(data)
                 }
             }
 
             DetailFlag.TELEVISION -> {
-                if (data.televisionData != null) {
-                    epoxyDetailTelevision(data.televisionData)
-                }
-
                 if (data.similarTelevisionData.isNotEmpty()) {
                     epoxySimilarTelevision(data)
                 }
@@ -75,32 +60,11 @@ class EpoxyDetailController(
         }
     }
 
-    private fun epoxyDetailTelevision(televisionData: TelevisionDetail) {
-        EpoxyDetailImageContent(imageUrl = imageFormatter + televisionData.backdropPath) {
-            backPressListener.onBackIsPressed()
-        }.id(televisionData.backdropPath).addTo(this)
-
-        EpoxyDetailDescriptionContent(
-            description = televisionData.overview,
-            title = televisionData.title
-        ).id(televisionData.overview).addTo(this)
-    }
-
-    private fun epoxyDetailMovie(movieData: MovieDetail) {
-        EpoxyDetailImageContent(imageUrl = imageFormatter + movieData.backdropPath) {
-            backPressListener.onBackIsPressed()
-        }.id(movieData.backdropPath).addTo(this)
-
-        EpoxyDetailDescriptionContent(
-            description = movieData.overview,
-            title = movieData.title
-        ).id(movieData.overview).addTo(this)
-    }
-
-    private fun epoxySimilarTelevision(data: DetailMovieUiState) {
+    private fun epoxySimilarTelevision(data: DetailSimilarDataUIState) {
         EpoxyCommonTitle(
             title = "Similar Television",
-            fontSize = 24
+            fontSize = 24,
+            viewHelper = viewHelper
         ).id("detail_similar_television_title").addTo(this)
 
         val carouselSimilarTelevisionModel =
@@ -112,15 +76,16 @@ class EpoxyDetailController(
                 ).id(it.epoxyId)
             }
 
-        CarouselModel_().id(data.televisionData?.id)
+        CarouselModel_().id("3_similar_content")
             .models(carouselSimilarTelevisionModel)
             .numViewsToShowOnScreen(2f).addTo(this)
     }
 
-    private fun epoxySimilarMovie(data: DetailMovieUiState) {
+    private fun epoxySimilarMovie(data: DetailSimilarDataUIState) {
         EpoxyCommonTitle(
             title = "Similar Movie",
-            fontSize = 24
+            fontSize = 24,
+            viewHelper = viewHelper
         ).id("detail_similar_movie_title").addTo(this)
 
         val carouselSimilarMovieModel = data.similarMovieData.map {
@@ -131,7 +96,7 @@ class EpoxyDetailController(
             ).id(it.epoxyId)
         }
 
-        CarouselModel_().id(data.movieData?.id)
+        CarouselModel_().id("3_similar_content")
             .models(carouselSimilarMovieModel).numViewsToShowOnScreen(2f)
             .addTo(this)
     }
@@ -145,12 +110,12 @@ class EpoxyDetailController(
             )
         }
 
-        EpoxyShimmerDetailImageContent().id("0").addTo(this)
-
-        EpoxyShimmerDetailDescriptionContent().id("1").addTo(this)
-
-        CarouselModel_().id("3").models(shimmerModel).numViewsToShowOnScreen(2f)
+        CarouselModel_().id("3_similar_content").models(shimmerModel).numViewsToShowOnScreen(2f)
             .addTo(this)
+    }
+
+    private fun epoxyFailed() {
+        EpoxyFailedSimilarContent().id("3_similar_content").addTo(this)
     }
 
     companion object {

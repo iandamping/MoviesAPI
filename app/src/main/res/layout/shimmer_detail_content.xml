@@ -11,18 +11,27 @@
         android:orientation="vertical">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/tvShimmerDetailTitle"
             android:layout_width="match_parent"
-            android:paddingTop="@dimen/spacing_medium"
+            android:layout_height="350dp"
+            android:background="@color/placeholder_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tvShimmerDetailTitle"
+            android:layout_width="150dp"
+            android:layout_margin="@dimen/spacing_medium"
             android:layout_height="30dp"
             android:background="@color/placeholder_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CustomCorner" />
+             />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/tvShimmerDetailDesc"
+            android:layout_margin="@dimen/spacing_medium"
             app:shapeAppearanceOverlay="@style/CustomCorner"
             android:layout_width="match_parent"
             android:layout_height="150dp"
@@ -31,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvShimmerDetailTitle" />
+             />
     </LinearLayout>
 
 
