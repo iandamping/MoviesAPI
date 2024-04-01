@@ -1,14 +1,15 @@
 package com.ian.app.muviepedia.feature.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentSearchBinding
 import com.ian.app.muviepedia.di.fragmentComponent
+import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
 import com.ian.app.muviepedia.feature.search.controller.EpoxySearchController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import kotlinx.coroutines.flow.launchIn
@@ -73,6 +74,11 @@ class SearchFragment :
     }
 
     override fun onMovieClick(id: Int) {
-        Log.e("TAG", "onMovieClick: $id", )
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToDetailFragment(
+                id,
+                DetailFlag.MOVIE
+            )
+        )
     }
 }
