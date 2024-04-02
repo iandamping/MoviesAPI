@@ -92,7 +92,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns true
 
         // act
-        val result = sut.prefetchPopularTv()
+        val result = sut.fetchPopularTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -129,7 +129,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns false
 
         // act
-        val result = sut.prefetchPopularTv()
+        val result = sut.fetchPopularTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -158,7 +158,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns true
 
         // act
-        val result = sut.prefetchOnAirTv()
+        val result = sut.fetchOnAirTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -195,7 +195,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns false
 
         // act
-        val result = sut.prefetchOnAirTv()
+        val result = sut.fetchOnAirTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -225,7 +225,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns true
 
         // act
-        val result = sut.prefetchAiringTodayTv()
+        val result = sut.fetchAiringTodayTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -262,7 +262,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns false
 
         // act
-        val result = sut.prefetchAiringTodayTv()
+        val result = sut.fetchAiringTodayTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -292,7 +292,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns true
 
         // act
-        val result = sut.prefetchTopRatedTv()
+        val result = sut.fetchTopRatedTv()
         // assert
         result.test {
             val state = awaitItem()
@@ -329,7 +329,7 @@ class TvRepositoryImplFailureTest {
         every { isExpireds(any()) } returns false
 
         // act
-        val result = sut.prefetchTopRatedTv()
+        val result = sut.fetchTopRatedTv()
         // assert
         result.test {
             val state = awaitItem()

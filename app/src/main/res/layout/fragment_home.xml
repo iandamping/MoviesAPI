@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/spacing_medium">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -11,6 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circleImageView"
@@ -20,6 +20,7 @@
         android:id="@+id/btnSearch"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:background="@drawable/circle_gray_drawable"
         android:src="@drawable/ic_search_white_24dp"

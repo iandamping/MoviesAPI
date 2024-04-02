@@ -5,6 +5,7 @@ import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxySearchMovieData
+import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 
 fun EpoxyMovie.toEpoxyPopularData(): EpoxyPopularMovieData.MovieData {
     return EpoxyPopularMovieData.MovieData(
@@ -113,4 +114,26 @@ fun EpoxyMovie.toEpoxySearchMovieData(): EpoxySearchMovieData.MovieData {
 
 fun Set<EpoxyMovie>.toListEpoxySearchMovieData(): List<EpoxySearchMovieData.MovieData> = map {
     it.toEpoxySearchMovieData()
+}
+
+
+fun EpoxyTelevision.toEpoxySearchTelevisionData(): EpoxySearchTelevisionData.TelevisionData {
+    return EpoxySearchTelevisionData.TelevisionData(
+        epoxyId = epoxyId,
+        originalName = originalName,
+        name = name,
+        popularity = popularity,
+        voteCount = voteCount,
+        firstAirDate = firstAirDate,
+        backdropPath = backdropPath,
+        originalLanguage = originalLanguage,
+        id = id,
+        voteAverage = voteAverage,
+        overview = overview,
+        posterPath = posterPath
+    )
+}
+
+fun Set<EpoxyTelevision>.toListEpoxySearchTelevisionData(): List<EpoxySearchTelevisionData.TelevisionData> = map {
+    it.toEpoxySearchTelevisionData()
 }

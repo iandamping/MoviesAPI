@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:inputType="text"
-            app:queryHint=" Find Movie " />
+            app:queryHint="Find Movie" />
 
     </androidx.cardview.widget.CardView>
 

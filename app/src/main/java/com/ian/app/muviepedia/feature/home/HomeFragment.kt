@@ -18,7 +18,9 @@ import javax.inject.Inject
 class HomeFragment :
     BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyMovieControllerListener,
-    EpoxyHomeController.EpoxyTelevisionControllerListener {
+    EpoxyHomeController.EpoxyTelevisionControllerListener,
+    EpoxyHomeController.EpoxySearchHomeControllerListener,
+    EpoxyHomeController.EpoxySearchTelevisionControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -34,7 +36,9 @@ class HomeFragment :
         EpoxyHomeController(
             viewHelper = viewHelper,
             movieClickListener = this,
-            televisionClickListener = this
+            televisionClickListener = this,
+            epoxySearchHomeControllerListener = this,
+            epoxySearchTelevisionControllerListener = this
         )
     }
 
@@ -57,7 +61,7 @@ class HomeFragment :
         }
 
         binding.btnSearch.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+
         }
     }
 
@@ -77,5 +81,13 @@ class HomeFragment :
                 DetailFlag.TELEVISION
             )
         )
+    }
+
+    override fun onSearchTelevisionCLicked() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.TELEVISION))
+    }
+
+    override fun onSearchMovieCLicked() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.MOVIE))
     }
 }

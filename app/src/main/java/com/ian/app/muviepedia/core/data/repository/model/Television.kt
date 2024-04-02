@@ -1,6 +1,7 @@
 package com.ian.app.muviepedia.core.data.repository.model
 
 import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.LocalTvEntity
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
 
 data class Television(
@@ -42,7 +43,7 @@ fun TvDataResponse.mapToDomain(): Television = Television(
     id = this.id ?: 0,
     voteAverage = this.voteAverage ?: 0.0,
     overview = this.overview ?: "",
-    posterPath = this.posterPath ?: ""
+    posterPath = "${NetworkConstant.imageFormatter}$posterPath"
 )
 
 fun List<LocalTvEntity>.mapLocalTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }

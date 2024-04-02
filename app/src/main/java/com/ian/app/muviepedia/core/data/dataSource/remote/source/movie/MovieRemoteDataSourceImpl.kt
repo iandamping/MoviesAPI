@@ -139,7 +139,6 @@ class MovieRemoteDataSourceImpl @Inject constructor(
                 val data =
                     remoteWithBaseCall(
                         api.getSearchMovieResponse(
-//                            apiKey = MOVIE_API_KEY,
                             token = "Bearer $ACCESS_TOKEN_KEY",
                             searchMovie = userSearch
                         )
