@@ -15,7 +15,6 @@
         <ImageView
             android:id="@+id/ivError"
             android:layout_width="0dp"
-            android:padding="@dimen/spacing_medium"
             android:layout_height="300dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"

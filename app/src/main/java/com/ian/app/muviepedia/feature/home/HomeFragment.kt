@@ -11,11 +11,16 @@ import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
 import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeController
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
+class HomeFragment :
+    BaseFragmentViewBinding<FragmentHomeBinding>(),
     EpoxyHomeController.EpoxyMovieControllerListener,
-    EpoxyHomeController.EpoxyTelevisionControllerListener {
+    EpoxyHomeController.EpoxyTelevisionControllerListener,
+    EpoxyHomeController.EpoxySearchHomeControllerListener,
+    EpoxyHomeController.EpoxySearchTelevisionControllerListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -31,10 +36,11 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
         EpoxyHomeController(
             viewHelper = viewHelper,
             movieClickListener = this,
-            televisionClickListener = this
+            televisionClickListener = this,
+            epoxySearchHomeControllerListener = this,
+            epoxySearchTelevisionControllerListener = this
         )
     }
-
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
@@ -49,9 +55,13 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
 
     override fun viewCreated() {
         consumeSuspend {
-            viewModel.epoxyMovieData.collect { data ->
+            viewModel.epoxyMovieData.onEach { data ->
                 epoxyHomeController.setData(data)
-            }
+            }.launchIn(this)
+        }
+
+        binding.btnSearch.setOnClickListener {
+
         }
     }
 
@@ -62,7 +72,6 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
                 DetailFlag.MOVIE
             )
         )
-
     }
 
     override fun onTelevisionClick(id: Int) {
@@ -74,5 +83,11 @@ class HomeFragment : BaseFragmentViewBinding<FragmentHomeBinding>(),
         )
     }
 
+    override fun onSearchTelevisionCLicked() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.TELEVISION))
+    }
 
+    override fun onSearchMovieCLicked() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.MOVIE))
+    }
 }

@@ -20,7 +20,7 @@ interface TvDao {
     fun loadAllTvDataByType(type: String): Flow<List<LocalTvEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTvData(vararg inputTv: LocalTvEntity)
+    suspend fun insertTvData(inputTv: List<LocalTvEntity>)
 
     @Query("DELETE FROM tv_entity")
     suspend fun deleteAllData()

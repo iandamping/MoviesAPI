@@ -1,6 +1,7 @@
 package com.ian.app.muviepedia.core.data.repository.model
 
 import com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.LocalTvEntity
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
 
 data class Television(
@@ -17,7 +18,6 @@ data class Television(
     val posterPath: String
 )
 
-
 fun LocalTvEntity.mapToDomain(): Television = Television(
     originalName = this.originalName,
     name = this.name,
@@ -33,20 +33,19 @@ fun LocalTvEntity.mapToDomain(): Television = Television(
 )
 
 fun TvDataResponse.mapToDomain(): Television = Television(
-    originalName = this.original_name ?: "",
+    originalName = this.originalName ?: "",
     name = this.name ?: "",
     popularity = this.popularity ?: 0.0,
-    voteCount = this.vote_count ?: 0,
-    firstAirDate = this.first_air_date ?: "",
-    backdropPath = this.backdrop_path ?: "",
-    originalLanguage = this.original_language ?: "",
+    voteCount = this.voteCount ?: 0,
+    firstAirDate = this.firstAirDate ?: "",
+    backdropPath = this.backdropPath ?: "",
+    originalLanguage = this.originalLanguage ?: "",
     id = this.id ?: 0,
-    voteAverage = this.vote_average ?: 0.0,
+    voteAverage = this.voteAverage ?: 0.0,
     overview = this.overview ?: "",
-    posterPath = this.poster_path ?: ""
+    posterPath = "${NetworkConstant.imageFormatter}$posterPath"
 )
 
 fun List<LocalTvEntity>.mapLocalTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }
-
 
 fun List<TvDataResponse>.mapRemoteTelevisionListToDomain(): List<Television> = this.map { it.mapToDomain() }

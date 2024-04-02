@@ -12,7 +12,6 @@ class EpoxyErrorNowPlayingMovie :
         ivError.load(AppCompatResources.getDrawable(root.context, R.drawable.empty_image))
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.error_item_now_playing_movie
     }

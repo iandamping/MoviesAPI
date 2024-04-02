@@ -12,8 +12,14 @@ class EpoxySuccessPopularMovie(
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemPopularMovieBinding>() {
     override fun ItemPopularMovieBinding.bind() {
-        viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
-        ivMovie.load(data.poster_path) {
+        viewHelper.setMarginProgrammatically(
+            view = viewGroupItem,
+            left = 8,
+            top = 8,
+            right = 8,
+            bottom = 8
+        )
+        ivMovie.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)
             error(R.drawable.empty_image)

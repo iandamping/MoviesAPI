@@ -13,63 +13,62 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     private var result: Flow<DomainSource<ResultType>> = flow {
         val dbSource = loadFromDB().first()
         when {
-            shouldFetch(dbSource) -> {
-                when (val apiResponse = createCall()) {
+            shouldFetch(dbSource) -> when (val apiResponse = createCall()) {
 
-                    is DataSource.Success -> {
-                        saveCallResult(apiResponse.data)
+                is DataSource.Success -> {
+                    saveCallResult(apiResponse.data)
 
-                        emitAll(loadFromDB().map {
+                    emitAll(
+                        loadFromDB().map {
                             DomainSource.Success(
                                 it
                             )
-                        })
-                    }
+                        }
+                    )
+                }
 
-                    is DataSource.Error -> {
-                        onFetchFailed()
-                        emit(
-                            DomainSource.Error(
-                                apiResponse.message
-                            )
+                is DataSource.Error -> {
+                    onFetchFailed()
+                    emit(
+                        DomainSource.Error(
+                            apiResponse.message
                         )
-                    }
+                    )
                 }
             }
 
-            isExpired() -> {
-                when (val apiResponse = createCall()) {
+            isExpired() -> when (val apiResponse = createCall()) {
 
-                    is DataSource.Success -> {
-                        clearFirst()
-                        saveCallResult(apiResponse.data)
+                is DataSource.Success -> {
+                    clearFirst()
+                    saveCallResult(apiResponse.data)
 
-
-                        emitAll(loadFromDB().map {
+                    emitAll(
+                        loadFromDB().map {
                             DomainSource.Success(
                                 it
                             )
-                        })
-                    }
+                        }
+                    )
+                }
 
-                    is DataSource.Error -> {
-                        onFetchFailed()
-                        emit(
-                            DomainSource.Error(
-                                apiResponse.message
-                            )
+                is DataSource.Error -> {
+                    onFetchFailed()
+                    emit(
+                        DomainSource.Error(
+                            apiResponse.message
                         )
-                    }
+                    )
                 }
             }
 
-            else -> {
-                emitAll(loadFromDB().map {
+            else -> emitAll(
+                loadFromDB().map {
                     DomainSource.Success(
                         it
                     )
-                })
-            }
+                }
+            )
         }
     }
 

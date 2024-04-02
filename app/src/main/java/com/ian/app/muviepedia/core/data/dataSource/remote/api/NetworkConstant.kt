@@ -3,11 +3,13 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.api
 object NetworkConstant {
     const val delayMillis = 3000L
     const val imageFormatter = "https://image.tmdb.org/t/p/w500"
+
     /*Paging movie constant*/
     const val popularPagingState = "popular paging"
     const val topRatedPagingState = "top rated paging"
     const val upcomingPagingState = "upcoming paging"
     const val nowPlayingPagingState = "now playing paging"
+
     /*Paging tv constant*/
     const val popularTvPagingState = "popular tv paging"
     const val topRatedTvPagingState = "top rated tv paging"
@@ -31,7 +33,7 @@ object NetworkConstant {
     const val upComingMovie = "movie/upcoming"
     const val detailMovie = "movie/"
     const val similarMovie = "movie/"
-    const val searchMovie = "search/movie/"
+    const val searchMovie = "search/movie"
 
     const val detailTv = "tv/"
     const val similarTv = "tv/"
@@ -39,5 +41,5 @@ object NetworkConstant {
     const val topRatedTv = "tv/top_rated"
     const val airingTodayTv = "tv/airing_today"
     const val onAirTv = "tv/on_the_air"
-    const val searchTvShows = "search/tv/"
+    const val searchTvShows = "search/tv"
 }

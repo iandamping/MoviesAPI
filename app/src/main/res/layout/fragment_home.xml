@@ -5,15 +5,38 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/spacing_medium">
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivPhotoProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        android:src="@drawable/img_keanu" />
+
+    <ImageButton
+        android:id="@+id/btnSearch"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:background="@drawable/circle_gray_drawable"
+        android:src="@drawable/ic_search_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.airbnb.epoxy.EpoxyRecyclerView
         android:id="@+id/rvHome"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

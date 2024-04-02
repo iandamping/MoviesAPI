@@ -6,13 +6,6 @@ plugins {
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
-    id 'jacoco'
-}
-
-apply from: "$project.rootDir/jacoco.gradle"
-
-jacoco {
-    toolVersion = "0.8.8"
 }
 
 android {
@@ -60,6 +53,8 @@ android {
         it.buildConfigField 'String', 'MOVIE_API_KEY', MOVIE_API_KEY
         it.buildConfigField 'String', 'ACCESS_TOKEN_KEY', ACCESS_TOKEN_KEY
     }
+
+
 
 
 }
@@ -117,17 +112,9 @@ dependencies {
     testImplementation(unitTestLibs.coroutine.unit.test)
     //flow test
     testImplementation 'app.cash.turbine:turbine:1.0.0'
+    //konsist
+    testImplementation "com.lemonappdev:konsist:0.13.0"
 
 }
 
 
-
-configurations.all{
-    resolutionStrategy {
-        eachDependency { details ->
-            if ('org.jacoco' == details.requested.group) {
-                details.useVersion "0.8.8"
-            }
-        }
-    }
-}

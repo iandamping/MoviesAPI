@@ -4,29 +4,29 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailT
 
 data class TelevisionDetail(
     val adult: Boolean,
-    val backdrop_path: String,
-    val belongs_to_collection: BelongsToCollection,
+    val backdropPath: String,
+    val belongsToCollection: BelongsToCollection,
     val budget: Int,
     val genres: List<Genre>,
     val id: Int,
-    val imdb_id: String,
-    val original_language: String,
-    val original_title: String,
+    val imdbId: String,
+    val originalLanguage: String,
+    val originalTitle: String,
     val overview: String,
     val popularity: Double,
-    val poster_path: String,
-    val production_companies: List<ProductionCompany>,
-    val production_countries: List<ProductionCountry>,
-    val release_date: String,
+    val posterPath: String,
+    val productionCompanies: List<ProductionCompany>,
+    val productionCountries: List<ProductionCountry>,
+    val releaseDate: String,
     val revenue: String,
     val runtime: Int,
-    val spoken_languages: List<SpokenLanguage>,
+    val spokenLanguages: List<SpokenLanguage>,
     val status: String,
     val tagline: String,
     val title: String,
     val video: Boolean,
-    val vote_average: Double,
-    val vote_count: Int
+    val voteAverage: Double,
+    val voteCount: Int
 ) {
     data class BelongsToCollection(
         val id: Int,
@@ -54,7 +54,6 @@ data class TelevisionDetail(
         val name: String
     )
 }
-
 
 fun DetailTvResponse.BelongsToCollectionResponse?.mapToDomain(): TelevisionDetail.BelongsToCollection {
     return TelevisionDetail.BelongsToCollection(
@@ -94,29 +93,29 @@ fun DetailTvResponse.SpokenLanguageResponse?.mapToDomain(): TelevisionDetail.Spo
 
 fun DetailTvResponse.mapToDomain(): TelevisionDetail {
     return TelevisionDetail(
-        adult ?: false,
-        backdrop_path ?: "",
-        belongs_to_collection.mapToDomain(),
-        budget ?: 0,
-        genres.map { it.mapToDomain() },
-        id ?: 0,
-        imdb_id ?: "",
-        original_language ?: "",
-        original_title ?: "",
-        overview ?: "",
-        popularity ?: 0.0,
-        poster_path ?: "",
-        production_companies.map { it.mapToDomain() },
-        production_countries.map { it.mapToDomain() },
-        release_date ?: "",
-        revenue ?: "",
-        runtime ?: 0,
-        spoken_languages.map { it.mapToDomain() },
-        status ?: "",
-        tagline ?: "",
-        title ?: "",
-        video ?: false,
-        vote_average ?: 0.0,
-        vote_count ?: 0
+        adult = adult ?: false,
+        backdropPath = backdropPath ?: "",
+        belongsToCollection = belongsToCollection.mapToDomain(),
+        budget = budget ?: 0,
+        genres = genres.map { it.mapToDomain() },
+        id = id ?: 0,
+        imdbId = imdbId ?: "",
+        originalLanguage = originalLanguage ?: "",
+        originalTitle = originalTitle ?: "",
+        overview = overview ?: "",
+        popularity = popularity ?: 0.0,
+        posterPath = posterPath ?: "",
+        productionCompanies = productionCompanies.map { it.mapToDomain() },
+        productionCountries = productionCountries.map { it.mapToDomain() },
+        releaseDate = releaseDate ?: "",
+        revenue = revenue ?: "",
+        runtime = runtime ?: 0,
+        spokenLanguages = spokenLanguages.map { it.mapToDomain() },
+        status = status ?: "",
+        tagline = tagline ?: "",
+        title = title ?: "",
+        video = video ?: false,
+        voteAverage = voteAverage ?: 0.0,
+        voteCount = voteCount ?: 0
     )
 }

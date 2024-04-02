@@ -19,6 +19,5 @@ interface MovieRepository {
 
     fun fetchUpComingMovie(): Flow<DomainSource<List<Movie>>>
 
-    fun fetchSearchMovie(query:String): Flow<DomainSource<List<Movie>>>
-
+    fun fetchSearchMovie(query: String): Flow<DomainSource<List<Movie>>>
 }

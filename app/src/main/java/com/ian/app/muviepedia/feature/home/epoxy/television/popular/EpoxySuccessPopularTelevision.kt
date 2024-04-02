@@ -12,7 +12,13 @@ class EpoxySuccessPopularTelevision(
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemPopularTelevisionBinding>() {
     override fun ItemPopularTelevisionBinding.bind() {
-        viewHelper.setMarginProgrammatically(viewGroupItem, 8, 8, 8, 8)
+        viewHelper.setMarginProgrammatically(
+            view = viewGroupItem,
+            left = 8,
+            top = 8,
+            right = 8,
+            bottom = 8
+        )
         ivTelevision.load(data.posterPath) {
             crossfade(true)
             placeholder(R.drawable.empty_image)
@@ -22,7 +28,6 @@ class EpoxySuccessPopularTelevision(
             clickListener.invoke(data.id)
         }
     }
-
 
     override fun getDefaultLayout(): Int {
         return R.layout.item_popular_television

@@ -13,7 +13,9 @@
     <string name="top_rated_tv_series">Top Rated TV Series</string>
     <string name="tv_series_airing_today">TV Series Airing Today</string>
     <string name="on_air_tv_series">On Air Tv Series</string>
-
+    <string name="parsing_error_message">The application has encountered error related to parsing</string>
     <string name="check_internet_condition">Please check your internet connection</string>
     <string name="default_error_message">The application has encountered an unknown error.</string>
+    <string name="search_movie">Search movie</string>
+    <string name="search_television">Search television</string>
 </resources>

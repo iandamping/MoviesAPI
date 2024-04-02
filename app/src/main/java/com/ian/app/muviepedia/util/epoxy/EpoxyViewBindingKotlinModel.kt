@@ -1,6 +1,5 @@
 package com.ian.app.muviepedia.util.epoxy
 
-
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
@@ -22,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
  *    public static *** bind(android.view.View);
  * }
  */
-abstract class ViewBindingKotlinModel<T : ViewBinding>(
+abstract class EpoxyViewBindingKotlinModel<T : ViewBinding>(
     @LayoutRes private val layoutRes: Int
 ) : EpoxyModel<View>() {
     // Using reflection to get the static binding method.
@@ -46,8 +45,6 @@ abstract class ViewBindingKotlinModel<T : ViewBinding>(
     }
 
     override fun getDefaultLayout() = layoutRes
-
-
 }
 
 // Static cache of a method pointer for each type of item used.

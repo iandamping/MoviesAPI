@@ -10,6 +10,8 @@ import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMov
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
+import com.ian.app.muviepedia.feature.search.epoxy.EpoxySearchMovieData
+import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 
 interface EpoxyMapper {
 
@@ -23,11 +25,13 @@ interface EpoxyMapper {
 
     fun epoxyUpComingMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyUpComingMovieData.MovieData>
 
+    fun epoxySearchMovieListMapper(data: Set<EpoxyMovie>): List<EpoxySearchMovieData.MovieData>
+
+    fun epoxySearchTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxySearchTelevisionData.TelevisionData>
+
     fun extractTelevisionToEpoxy(televisionData: List<Television>): Set<EpoxyTelevision>
 
-    fun epoxyPopularTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
+    fun epoxyPopularTVListMapper(data: Set<EpoxyTelevision>): List<EpoxyPopularTelevisionData.TelevisionData>
 
-    fun epoxyTopRatedTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData>
-
-
+    fun epoxyTopRatedTvListMapper(data: Set<EpoxyTelevision>): List<EpoxyTopRatedTelevisionData.TelevisionData>
 }

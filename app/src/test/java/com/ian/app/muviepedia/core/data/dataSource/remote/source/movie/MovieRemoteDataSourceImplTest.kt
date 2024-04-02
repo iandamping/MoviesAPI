@@ -1,6 +1,6 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.source.movie
 
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.helper.RemoteHelper
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
@@ -21,9 +21,8 @@ import retrofit2.Response
 class MovieRemoteDataSourceImplTest {
 
     private lateinit var sut: MovieRemoteDataSource
-    private val api: ApiInterface = mockk()
+    private val api: MovieApiInterface = mockk()
     private val remoteHelper: RemoteHelper = mockk()
-
 
     @Before
     fun setUp() {
@@ -32,179 +31,177 @@ class MovieRemoteDataSourceImplTest {
 
     @Test
     fun `getDetailMovie return success`() = runTest {
-        //arrange
+        // arrange
         val mockData: DetailMovieResponse = mockk()
         successDetailMovieResponse(mockData)
-        //act
+        // act
         val result = sut.getDetailMovie(1)
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `getDetailMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedDetailMovieResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getDetailMovie(1)
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `getSimilarMovie return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successSimilarMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.getSimilarMovie(1)
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
-
     @Test
     fun `getSimilarMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedSimilarMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getSimilarMovie(1)
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `getPopularMovie return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successPopularMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.getPopularMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `getPopularMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedPopularMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getPopularMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `getUpComingMovie return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successUpComingMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.getUpComingMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `getUpComingMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedUpComingMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getUpComingMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `getNowPlaying return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successNowPlayingMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.getNowPlaying()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `getNowPlaying return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedNowPlayingMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getNowPlaying()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `getTopRatedMovie return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successTopRatedMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.getTopRatedMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `getTopRatedMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedTopRatedMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.getTopRatedMovie()
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
 
     @Test
     fun `searchMovie return success`() = runTest {
-        //arrange
+        // arrange
         val baseData: List<MovieDataResponse> = mockk()
         val mockData = BaseResponse(1, 1, 1, baseData)
         successSearchMovieDataResponse(mockData)
-        //act
+        // act
         val result = sut.searchMovie("a")
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Success(mockData), result)
         Assert.assertEquals(mockData, (result as DataSource.Success).data)
     }
 
     @Test
     fun `searchMovie return failed`() = runTest {
-        //arrange
+        // arrange
         val errorMessage = "error"
         failedSearchMovieDataResponse(RuntimeException(errorMessage))
-        //act
+        // act
         val result = sut.searchMovie("a")
-        //assert
+        // assert
         Assert.assertEquals(DataSource.Error(errorMessage), result)
         Assert.assertEquals(errorMessage, (result as DataSource.Error).message)
     }
-
 
     private suspend fun successDetailMovieResponse(mockData: DetailMovieResponse) = runTest {
         coEvery {
@@ -366,6 +363,7 @@ class MovieRemoteDataSourceImplTest {
                     api.getSearchMovieResponse(
                         any(),
                         any(),
+                        any(),
                     )
                 )
             } returns RemoteBaseResult.Success(
@@ -377,6 +375,7 @@ class MovieRemoteDataSourceImplTest {
         coEvery {
             remoteHelper.remoteWithBaseCall(
                 api.getSearchMovieResponse(
+                    any(),
                     any(),
                     any(),
                 )

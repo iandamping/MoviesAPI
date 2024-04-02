@@ -11,7 +11,6 @@ class EpoxyErrorTopRatedMovie : ViewBindingEpoxyModelWithHolder<ErrorItemTopRate
         ivError.load(AppCompatResources.getDrawable(root.context, R.drawable.empty_image))
     }
 
-
     override fun getDefaultLayout(): Int {
         return R.layout.error_item_top_rated_movie
     }

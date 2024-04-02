@@ -31,10 +31,6 @@ class TvRepositoryImpl @Inject constructor(
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : TvRepository {
 
-    companion object {
-        private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
-    }
-
     private fun Long.isExpired(): Boolean = (System.currentTimeMillis() - this) > CACHE_EXPIRY
 
     override fun fetchDetailTv(tvID: Int): Flow<DomainSource<TelevisionDetail>> {
@@ -65,7 +61,7 @@ class TvRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun prefetchPopularTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchPopularTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -83,7 +79,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getPopularTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -95,19 +90,18 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.Popular.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
-    override fun prefetchTopRatedTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchTopRatedTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -125,7 +119,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getTopRatedTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -137,19 +130,18 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.TopRated.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
-    override fun prefetchAiringTodayTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchAiringTodayTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -167,7 +159,6 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getAiringTodayTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
@@ -179,19 +170,18 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.AiringToday.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
     }
 
-    override fun prefetchOnAirTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchOnAirTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -209,11 +199,9 @@ class TvRepositoryImpl @Inject constructor(
                 return remoteDataSource.getOnAirTv()
             }
 
-
             override suspend fun clearFirst() {
                 localDataSource.deleteAllData()
             }
-
 
             override suspend fun saveCallResult(data: BaseResponse<TvDataResponse>) {
                 val inputData = withContext(defaultDispatcher) {
@@ -222,15 +210,27 @@ class TvRepositoryImpl @Inject constructor(
                             type = TvType.OnAir.name,
                             timeStamp = System.currentTimeMillis()
                         )
-                    }.toTypedArray()
+                    }
                 }
-                localDataSource.insertTvData(*inputData)
+                localDataSource.insertTvData(inputData)
             }
 
             override fun shouldFetch(data: List<Television>?): Boolean {
                 return data.isNullOrEmpty()
             }
-
         }.asFlow()
+    }
+
+    override fun fetchSearchTv(query: String): Flow<DomainSource<List<Television>>> {
+        return flow {
+            when (val remoteData = remoteDataSource.searchTv(query)) {
+                is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
+                is DataSource.Success -> emit(DomainSource.Success(remoteData.data.results.mapRemoteTelevisionListToDomain()))
+            }
+        }
+    }
+
+    companion object {
+        private val CACHE_EXPIRY = TimeUnit.HOURS.toMillis(1)
     }
 }

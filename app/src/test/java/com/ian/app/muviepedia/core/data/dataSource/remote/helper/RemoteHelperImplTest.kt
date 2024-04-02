@@ -1,7 +1,8 @@
 package com.ian.app.muviepedia.core.data.dataSource.remote.helper
 
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.core.data.dataSource.remote.api.ApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.MovieApiInterface
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.TelevisionApiInterface
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
@@ -23,7 +24,8 @@ class RemoteHelperImplTest {
 
     private lateinit var sut: RemoteHelper
     private val utilityHelper: UtilityHelper = mockk()
-    private val api: ApiInterface = mockk()
+    private val movieApi: MovieApiInterface = mockk()
+    private val tvApi: TelevisionApiInterface = mockk()
 
     @Before
     fun setUp() {
@@ -32,58 +34,55 @@ class RemoteHelperImplTest {
 
     @Test
     fun `any remoteCall should only call at least one api`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: DetailMovieResponse = mockk()
         val expected = Response.success(mockResponse)
-        coEvery { api.getDetailMovieAsync(any(), any()) } returns expected
-        //act
-        val result = sut.remoteCall(api.getDetailMovieAsync(1, "a"))
-        //assert
-        coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
+        coEvery { movieApi.getDetailMovieAsync(any(), any()) } returns expected
+        // act
+        val result = sut.remoteCall(movieApi.getDetailMovieAsync(1, "a"))
+        // assert
+        coVerify(atLeast = 1) { movieApi.getDetailMovieAsync(any(), any()) }
         assertEquals(RemoteResult.Success(expected), result)
         assertEquals(expected, (result as RemoteResult.Success).data)
     }
 
     @Test
     fun `any remoteWithBaseCall should only call at least one api`() = runTest {
-        //arrange
+        // arrange
         val mockResponse: List<TvDataResponse> = mockk()
         val baseMockResponse: BaseResponse<TvDataResponse> = BaseResponse(1, 1, 1, mockResponse)
         val expected = Response.success(baseMockResponse)
-        coEvery { api.getPopularTvAsync(any()) } returns expected
-        //act
-        val result = sut.remoteWithBaseCall(api.getPopularTvAsync("1"))
-        //assert
-        coVerify(atLeast = 1) { api.getPopularTvAsync(any()) }
+        coEvery { tvApi.getPopularTvAsync(any()) } returns expected
+        // act
+        val result = sut.remoteWithBaseCall(tvApi.getPopularTvAsync("1"))
+        // assert
+        coVerify(atLeast = 1) { tvApi.getPopularTvAsync(any()) }
         assertEquals(RemoteBaseResult.Success(expected), result)
         assertEquals(expected, (result as RemoteBaseResult.Success).data)
     }
 
-
     @Test
     fun `any remoteCall should only call at least one api and could catch exception`() = runTest {
-        //arrange
+        // arrange
         var exceptionThrown = false
 
         every { utilityHelper.getString(R.string.default_error_message) } returns "catch"
         coEvery {
-            api.getDetailMovieAsync(
+            movieApi.getDetailMovieAsync(
                 any(),
                 any()
             )
         } throws Exception(utilityHelper.getString(R.string.default_error_message))
 
         try {
-            //act
-            sut.remoteCall(api.getDetailMovieAsync(1, "a"))
-
+            // act
+            sut.remoteCall(movieApi.getDetailMovieAsync(1, "a"))
         } catch (e: Exception) {
             assertEquals(e.message, "catch")
             exceptionThrown = true
         }
-        //assert
-        coVerify(atLeast = 1) { api.getDetailMovieAsync(any(), any()) }
+        // assert
+        coVerify(atLeast = 1) { movieApi.getDetailMovieAsync(any(), any()) }
         Assert.assertTrue(exceptionThrown)
     }
-
 }

@@ -19,11 +19,5 @@ interface TvRemoteDataSource {
 
     suspend fun getOnAirTv(): DataSource<BaseResponse<TvDataResponse>>
 
-    suspend fun getAiringTodayPaging(pageTv: Int): DataSource<BaseResponse<TvDataResponse>>
-
-    suspend fun getOnAirPaging(pageTv: Int): DataSource<BaseResponse<TvDataResponse>>
-
-    suspend fun getPopularTvPaging(pageTv: Int): DataSource<BaseResponse<TvDataResponse>>
-
-    suspend fun getTopRatedPaging(pageTv: Int): DataSource<BaseResponse<TvDataResponse>>
+    suspend fun searchTv(userSearch: String): DataSource<BaseResponse<TvDataResponse>>
 }

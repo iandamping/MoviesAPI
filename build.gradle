@@ -1,3 +1,6 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id 'com.android.application' version '8.0.2' apply false
@@ -7,5 +10,90 @@ plugins {
     id "com.google.gms.google-services" version "4.3.15" apply false
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
     id 'androidx.navigation.safeargs' version '2.6.0' apply false
+    //detekt
+    id 'io.gitlab.arturbosch.detekt' version '1.23.1' apply false
+    //kover
+    id 'org.jetbrains.kotlinx.kover' version "0.7.3" apply false
 }
 
+def localProperties = new Properties()
+localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+subprojects{
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+    apply plugin: 'org.jetbrains.kotlinx.kover'
+
+    koverReport {
+        // filters for all report types of all build variants
+        filters {
+            excludes {
+                classes(
+                        "*Fragment",
+                        "*Fragment\$*",
+                        "*Activity",
+                        "*Activity\$*",
+                        "*.databinding.*",
+                        "*Factory*",
+                        "*Hilt*",
+                        "*_HiltModules_.*",
+                        "*HiltModules*",
+                        "*GeneratedInjector*",
+                        "*.BuildConfig",
+                        "dagger\\.hilt\\..*",
+                        "**.hilt_aggregated_deps",
+                        "*Provide*",
+                        "Provide*",
+                        "*_MembersInjector*",
+                        "com.ian.app.muviepedia.MoviesApp",
+                        "com.ian.app.muviepedia.base.*",
+                        "com.ian.app.muviepedia.feature.*",
+                        "com.ian.app.muviepedia.di.*",
+                        "com.ian.app.muviepedia.util.*",
+                        "com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant",
+                        "com.ian.app.muviepedia.core.data.dataSource.remote.model.response.*",
+                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.*",
+                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.dao.*",
+                        "com.ian.app.muviepedia.core.data.dataSource.cache.db.entity.*",
+                        "com.ian.app.muviepedia.core.data.repository.model.*",
+                        "com.ian.app.muviepedia.core.presentation.model.*",
+                )
+            }
+        }
+    }
+
+    //detekt
+    detekt {
+        toolVersion = "1.23.1"
+        config.setFrom(file("config/detekt/detekt.yml"))
+        parallel = true
+        allRules = true
+        autoCorrect = true
+        buildUponDefaultConfig = true
+    }
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+    }
+
+    tasks.withType(Detekt).configureEach {
+        include("**/*.kt")
+        exclude("**/build/**")
+
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+            txt.required.set(false)
+            sarif.required.set(false)
+            md.required.set(false)
+        }
+    }
+}
+
+
+
+// Groovy DSL
+tasks.withType(Detekt).configureEach {
+    jvmTarget = "1.8"
+}
+tasks.withType(DetektCreateBaselineTask).configureEach {
+    jvmTarget = "1.8"
+}
