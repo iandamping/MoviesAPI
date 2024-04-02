@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
 
     private fun CoroutineScope.fetchTopRatedTv() {
         launch {
-            tvRepository.prefetchTopRatedTv().onStart {
+            tvRepository.fetchTopRatedTv().onStart {
                 _epoxyMovieData.update { uiState ->
                     uiState.copy(
                         topRatedTelevision = epoxyTelevisionSetter.setEpoxyTopRatedTelevisionLoading()
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
 
     private fun CoroutineScope.fetchPopularTv() {
         launch {
-            tvRepository.prefetchPopularTv().onStart {
+            tvRepository.fetchPopularTv().onStart {
                 _epoxyMovieData.update { uiState ->
                     uiState.copy(
                         popularTelevision = epoxyTelevisionSetter.setEpoxyPopularTelevisionLoading()

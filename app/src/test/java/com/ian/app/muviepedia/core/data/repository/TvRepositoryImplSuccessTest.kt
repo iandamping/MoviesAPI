@@ -134,7 +134,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchPopularTv()
+        val result = sut.fetchPopularTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -199,7 +199,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchPopularTv()
+        val result = sut.fetchPopularTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -264,7 +264,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchOnAirTv()
+        val result = sut.fetchOnAirTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -329,7 +329,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchOnAirTv()
+        val result = sut.fetchOnAirTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -394,7 +394,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchAiringTodayTv()
+        val result = sut.fetchAiringTodayTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -459,7 +459,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchAiringTodayTv()
+        val result = sut.fetchAiringTodayTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -524,7 +524,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchTopRatedTv()
+        val result = sut.fetchTopRatedTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())
@@ -589,7 +589,7 @@ class TvRepositoryImplSuccessTest {
         } returns domainMockResponse
 
         // act
-        val result = sut.prefetchTopRatedTv()
+        val result = sut.fetchTopRatedTv()
 
         // assert
         Assert.assertEquals(domainMockResponse, mockResponse.mapRemoteTelevisionListToDomain())

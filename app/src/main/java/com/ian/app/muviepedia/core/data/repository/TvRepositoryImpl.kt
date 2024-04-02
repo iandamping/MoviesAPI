@@ -61,7 +61,7 @@ class TvRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun prefetchPopularTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchPopularTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -101,7 +101,7 @@ class TvRepositoryImpl @Inject constructor(
         }.asFlow()
     }
 
-    override fun prefetchTopRatedTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchTopRatedTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -141,7 +141,7 @@ class TvRepositoryImpl @Inject constructor(
         }.asFlow()
     }
 
-    override fun prefetchAiringTodayTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchAiringTodayTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -181,7 +181,7 @@ class TvRepositoryImpl @Inject constructor(
         }.asFlow()
     }
 
-    override fun prefetchOnAirTv(): Flow<DomainSource<List<Television>>> {
+    override fun fetchOnAirTv(): Flow<DomainSource<List<Television>>> {
         return object :
             NetworkBoundResource<List<Television>, BaseResponse<TvDataResponse>>() {
 
@@ -219,6 +219,15 @@ class TvRepositoryImpl @Inject constructor(
                 return data.isNullOrEmpty()
             }
         }.asFlow()
+    }
+
+    override fun fetchSearchTv(query: String): Flow<DomainSource<List<Television>>> {
+        return flow {
+            when (val remoteData = remoteDataSource.searchTv(query)) {
+                is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
+                is DataSource.Success -> emit(DomainSource.Success(remoteData.data.results.mapRemoteTelevisionListToDomain()))
+            }
+        }
     }
 
     companion object {

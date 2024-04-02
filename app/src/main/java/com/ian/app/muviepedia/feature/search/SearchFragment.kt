@@ -6,6 +6,7 @@ import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ian.app.muviepedia.base.BaseFragmentViewBinding
 import com.ian.app.muviepedia.databinding.FragmentSearchBinding
 import com.ian.app.muviepedia.di.fragmentComponent
@@ -19,11 +20,14 @@ import javax.inject.Inject
 class SearchFragment :
     BaseFragmentViewBinding<FragmentSearchBinding>(),
     EpoxySearchController.EpoxySearchMovieControllerListener {
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var viewHelper: ViewHelper
+
+    private val args: SearchFragmentArgs by navArgs()
 
     private val viewModel: SearchViewModel by viewModels {
         viewModelFactory
@@ -48,8 +52,12 @@ class SearchFragment :
     }
 
     override fun viewCreated() {
+        when(args.passedDetailFlag){
+            DetailFlag.MOVIE -> binding.searchViews.queryHint = "Find Movie"
+            DetailFlag.TELEVISION -> binding.searchViews.queryHint = "Find Television"
+        }
         consumeSuspend {
-            viewModel.epoxyMovieData.onEach { data ->
+            viewModel.epoxySearchData.onEach { data ->
                 epoxySearchController.setData(data)
             }.launchIn(this)
         }
@@ -62,7 +70,11 @@ class SearchFragment :
                     binding.searchViews.isIconified = true
                 }
                 if (!query.isNullOrEmpty()) {
-                    viewModel.searchMovie(query)
+                    when (args.passedDetailFlag) {
+                        DetailFlag.MOVIE -> viewModel.searchMovie(query)
+                        DetailFlag.TELEVISION -> viewModel.searchTelevision(query)
+                    }
+
                 }
                 return false
             }
@@ -77,7 +89,7 @@ class SearchFragment :
         findNavController().navigate(
             SearchFragmentDirections.actionSearchFragmentToDetailFragment(
                 id,
-                DetailFlag.MOVIE
+                args.passedDetailFlag
             )
         )
     }

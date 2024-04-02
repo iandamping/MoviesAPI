@@ -41,5 +41,5 @@ object NetworkConstant {
     const val topRatedTv = "tv/top_rated"
     const val airingTodayTv = "tv/airing_today"
     const val onAirTv = "tv/on_the_air"
-    const val searchTvShows = "search/tv/"
+    const val searchTvShows = "search/tv"
 }

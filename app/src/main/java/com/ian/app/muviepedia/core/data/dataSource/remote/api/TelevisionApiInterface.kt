@@ -47,11 +47,14 @@ interface TelevisionApiInterface {
         @Query("api_key") apiKey: String
     ): Response<BaseResponse<TvDataResponse>>
 
+
     @GET(searchTvShows)
     suspend fun getSearchTvResponse(
         @Header("Authorization") token: String,
         @Header("accept") accept: String = "application/json",
-//        @Query("api_key") apiKey: String,
         @Query("query") searchMovie: String,
+        @Query("include_adult") adult: Boolean = false,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1,
     ): Response<BaseResponse<TvDataResponse>>
 }
