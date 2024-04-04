@@ -34,7 +34,7 @@
             android:layout_margin="@dimen/spacing_medium"
             app:shapeAppearanceOverlay="@style/CustomCorner"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="80dp"
             android:layout_marginTop="@dimen/spacing_large"
             android:background="@color/placeholder_bg"
             app:layout_constraintBottom_toBottomOf="parent"

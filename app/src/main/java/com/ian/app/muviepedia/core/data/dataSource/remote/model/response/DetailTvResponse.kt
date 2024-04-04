@@ -17,16 +17,16 @@ data class DetailTvResponse(
     @Json(name = "poster_path") val posterPath: String?,
     @Json(name = "production_companies") val productionCompanies: List<ProductionCompanyResponse>,
     @Json(name = "production_countries") val productionCountries: List<ProductionCountryResponse>,
-    @Json(name = "release_date") val releaseDate: String?,
-    @Json(name = "revenue") val revenue: String?,
-    @Json(name = "runtime") val runtime: Int?,
+    @Json(name = "first_air_date") val firstAiringDate: String?,
+    @Json(name = "last_air_date") val lastAiringDate: String?,
+    @Json(name = "number_of_seasons") val numberOfSeasons: Int?,
     @Json(name = "spoken_languages") val spokenLanguages: List<SpokenLanguageResponse>,
     @Json(name = "status") val status: String?,
     @Json(name = "tagline") val tagline: String?,
     @Json(name = "name") val title: String?,
     @Json(name = "video") val video: Boolean?,
     @Json(name = "vote_average") val voteAverage: Double?,
-    @Json(name = "vote_count") val voteCount: Int?
+    @Json(name = "number_of_episodes") val numberOfEpisodes: Int?
 ) {
     data class BelongsToCollectionResponse(
         @Json(name = "id") val id: Int?,

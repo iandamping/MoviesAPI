@@ -129,7 +129,7 @@ class EpoxyHomeController(
             HorizontalGridCarouselModel_()
                 .id("6_television_toprated")
                 .models(carouselTopRatedModel)
-                .numViewsToShowOnScreen(2f)
+                .numViewsToShowOnScreen(2.5f)
                 .addTo(this)
         }
     }
@@ -158,7 +158,7 @@ class EpoxyHomeController(
             CarouselModel_()
                 .id("5_television_popular")
                 .models(carouselPopularModel)
-                .numViewsToShowOnScreen(1f)
+                .numViewsToShowOnScreen(1.5f)
                 .addTo(this)
         }
     }
@@ -188,7 +188,7 @@ class EpoxyHomeController(
             CarouselModel_()
                 .id("4_movie_up_coming")
                 .models(carouselUpComingModel)
-                .numViewsToShowOnScreen(1f)
+                .numViewsToShowOnScreen(1.5f)
                 .addTo(this)
         }
     }
@@ -216,9 +216,9 @@ class EpoxyHomeController(
             }
 
             HorizontalGridCarouselModel_()
-                .id("3_movie_top_rated")
+                .id("your_id")
                 .models(carouselTopRatedModel)
-                .numViewsToShowOnScreen(2f)
+                .numViewsToShowOnScreen(2.5f)
                 .addTo(this)
         }
     }

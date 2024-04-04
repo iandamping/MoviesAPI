@@ -14,12 +14,16 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.databinding.FragmentDetailBinding
 import com.ian.app.muviepedia.di.fragmentComponent
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
+import com.ian.app.muviepedia.feature.detail.epoxy.controller.EpoxyDetailCompaniesController
 import com.ian.app.muviepedia.feature.detail.epoxy.controller.EpoxyDetailController
 import com.ian.app.muviepedia.feature.state.PresentationState
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 import javax.inject.Inject
 
 class DetailFragment :
@@ -38,12 +42,19 @@ class DetailFragment :
     private val viewModel: DetailViewModel by viewModels {
         viewModelFactory
     }
+
+    private val moneyFormat: NumberFormat = NumberFormat.getCurrencyInstance()
+
     private val epoxyDetailController: EpoxyDetailController by lazy {
         EpoxyDetailController(
             similarMovieListener = this,
             backPressListener = this,
             viewHelper = viewHelper
         )
+    }
+
+    private val epoxyDetailCompaniesController: EpoxyDetailCompaniesController by lazy {
+        EpoxyDetailCompaniesController()
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
@@ -57,14 +68,24 @@ class DetailFragment :
         viewModel.getDetailMovie(args.passedMovieId, args.passedDetailFlag)
         with(binding) {
             rvDetail.setController(epoxyDetailController)
+            rvDetailCompanies.setController(epoxyDetailCompaniesController)
         }
     }
 
     override fun viewCreated() {
+        moneyFormat.maximumFractionDigits = 0
+        moneyFormat.currency = Currency.getInstance(Locale.US)
+
         consumeSuspend {
             launch {
                 viewModel.detailSimilarDataUiState.onEach { data ->
                     epoxyDetailController.setData(data)
+                }.launchIn(this)
+            }
+
+            launch {
+                viewModel.detailCompanyDataUiState.onEach { data ->
+                    epoxyDetailCompaniesController.setData(data)
                 }.launchIn(this)
             }
 
@@ -86,8 +107,18 @@ class DetailFragment :
                                         }
                                         shimmerImage.shimmerProduct.stopShimmer()
                                         shimmerImage.shimmerProduct.visibility = View.GONE
+                                        tvDetailTaglines.visibility =
+                                            if (data.movieData.tagline.isEmpty()) View.GONE else View.VISIBLE
+                                        tvDetailRating.text =
+                                            "Rating: ${data.movieData.voteAverage}/10"
+                                        tvDetailTaglines.text = data.movieData.tagline
                                         tvDetailTitle.text = data.movieData.title
                                         tvDetailDesc.text = data.movieData.overview
+                                        tvDetailHint1.text = "Release Date:"
+                                        tvDetailContent1.text = data.movieData.releaseDate
+                                        tvDetailHint2.text = "Total Revenue:"
+                                        tvDetailContent2.text =
+                                            moneyFormat.format(data.movieData.revenue.toLong())
                                         ivBack.setOnClickListener { findNavController().popBackStack() }
                                     }
                                 } else return@onEach
@@ -103,8 +134,23 @@ class DetailFragment :
                                         }
                                         shimmerImage.shimmerProduct.stopShimmer()
                                         shimmerImage.shimmerProduct.visibility = View.GONE
+                                        tvDetailTaglines.visibility =
+                                            if (data.televisionData.tagline.isEmpty()) View.GONE else View.VISIBLE
+                                        tvDetailRating.text =
+                                            "Rating: ${data.televisionData.voteAverage}/10"
                                         tvDetailTitle.text = data.televisionData.title
+                                        tvDetailTaglines.text = data.televisionData.tagline
                                         tvDetailDesc.text = data.televisionData.overview
+                                        tvDetailHint1.text = "First Release Date:"
+                                        tvDetailContent1.text = data.televisionData.firstAiringDate
+                                        tvDetailHint2.text = "Last Release Date:"
+                                        tvDetailContent2.text = data.televisionData.lastAiringDate
+                                        tvDetailHint3.text = "Number of episodes:"
+                                        tvDetailContent3.text =
+                                            data.televisionData.numberOfEpisodes.toString()
+                                        tvDetailHint4.text = "Number of seasons:"
+                                        tvDetailContent4.text =
+                                            data.televisionData.numberOfSeasons.toString()
                                         ivBack.setOnClickListener { findNavController().popBackStack() }
                                     }
                                 } else return@onEach
@@ -131,4 +177,5 @@ class DetailFragment :
     override fun onSimilarItemClick(id: Int) {
         viewModel.getDetailMovie(id, args.passedDetailFlag)
     }
+
 }
