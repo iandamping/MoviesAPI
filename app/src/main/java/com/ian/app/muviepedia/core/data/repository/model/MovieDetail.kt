@@ -1,6 +1,8 @@
 package com.ian.app.muviepedia.core.data.repository.model
 
+import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
+import com.ian.app.muviepedia.util.reducingFraction
 
 data class MovieDetail(
     val adult: Boolean,
@@ -71,10 +73,10 @@ fun DetailMovieResponse.GenreResponse?.mapToDomain(): MovieDetail.Genre {
 
 fun DetailMovieResponse.ProductionCompanyResponse?.mapToDomain(): MovieDetail.ProductionCompany {
     return MovieDetail.ProductionCompany(
-        this?.id ?: 0,
-        this?.logoPath ?: "",
-        this?.name ?: "",
-        this?.originCountry ?: ""
+        id = this?.id ?: 0,
+        logoPath = "${NetworkConstant.smallImageFormatter}${this?.logoPath}",
+        name = this?.name ?: "",
+        originCountry = this?.originCountry ?: ""
     )
 }
 
@@ -116,7 +118,7 @@ fun DetailMovieResponse.mapToDomain(): MovieDetail {
         tagline = tagline ?: "",
         title = title ?: "",
         video = video ?: false,
-        voteAverage = voteAverage ?: 0.0,
+        voteAverage = reducingFraction(voteAverage),
         voteCount = voteCount ?: 0
     )
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmerDetailCompany"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/black">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="@color/black">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivDetailCompany"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/placeholder_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/CustomCorner" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tvDetailCompanyName"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:background="@color/placeholder_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivDetailCompany"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="NBCUniversal" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/tvDetailCompanyCountry"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/placeholder_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivDetailCompany"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailCompanyName"
+            tools:text="US" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>

@@ -3,6 +3,7 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.api
 object NetworkConstant {
     const val delayMillis = 3000L
     const val imageFormatter = "https://image.tmdb.org/t/p/w500"
+    const val smallImageFormatter = "https://image.tmdb.org/t/p/w200"
 
     /*Paging movie constant*/
     const val popularPagingState = "popular paging"

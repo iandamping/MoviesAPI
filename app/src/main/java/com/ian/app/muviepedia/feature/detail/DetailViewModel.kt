@@ -7,6 +7,7 @@ import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import com.ian.app.muviepedia.core.presentation.EpoxyMapper
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
+import com.ian.app.muviepedia.feature.state.DetailCompanyDataUiState
 import com.ian.app.muviepedia.feature.state.DetailDataUiState
 import com.ian.app.muviepedia.feature.state.DetailSimilarDataUIState
 import com.ian.app.muviepedia.feature.state.PresentationState
@@ -38,28 +39,56 @@ class DetailViewModel @Inject constructor(
         )
     val detailSimilarDataUiState: StateFlow<DetailSimilarDataUIState> get() = _detailSimilarDataUiState.asStateFlow()
 
+    private val _detailCompanyDataUiState: MutableStateFlow<DetailCompanyDataUiState> =
+        MutableStateFlow(
+            DetailCompanyDataUiState.initialize()
+        )
+    val detailCompanyDataUiState: StateFlow<DetailCompanyDataUiState> get() = _detailCompanyDataUiState.asStateFlow()
+
     private fun CoroutineScope.fetchMovie(id: Int, flag: DetailFlag) {
         launch {
             movieRepository.fetchDetailMovie(movieId = id).onStart {
                 _detailDataUiState.update { detailDataUiState ->
                     detailDataUiState.copy(uiState = PresentationState.Loading)
                 }
+                _detailCompanyDataUiState.update { uiState ->
+                    uiState.copy(uiState = PresentationState.Loading)
+                }
             }
                 .onEach { data ->
                     when (data) {
-                        is DomainSource.Error -> _detailDataUiState.update { uiState ->
-                            uiState.copy(
-                                uiState = PresentationState.Failed,
-                                errorMessage = data.message
-                            )
+                        is DomainSource.Error -> {
+                            _detailDataUiState.update { uiState ->
+                                uiState.copy(
+                                    uiState = PresentationState.Failed,
+                                    errorMessage = data.message
+                                )
+                            }
+
+                            _detailCompanyDataUiState.update { uiState ->
+                                uiState.copy(
+                                    uiState = PresentationState.Failed,
+                                    errorMessage = data.message
+                                )
+                            }
                         }
 
-                        is DomainSource.Success -> _detailDataUiState.update { uiState ->
-                            uiState.copy(
-                                flag = flag,
-                                uiState = PresentationState.Success,
-                                movieData = data.data,
-                            )
+                        is DomainSource.Success -> {
+                            _detailDataUiState.update { uiState ->
+                                uiState.copy(
+                                    flag = flag,
+                                    uiState = PresentationState.Success,
+                                    movieData = data.data,
+                                )
+                            }
+
+                            _detailCompanyDataUiState.update { uiState ->
+                                uiState.copy(
+                                    flag = flag,
+                                    uiState = PresentationState.Success,
+                                    movieCompany = data.data.productionCompanies
+                                )
+                            }
                         }
                     }
                 }.launchIn(this)
@@ -104,22 +133,46 @@ class DetailViewModel @Inject constructor(
                         uiState = PresentationState.Loading
                     )
                 }
+                _detailCompanyDataUiState.update { uiState ->
+                    uiState.copy(
+                        uiState = PresentationState.Loading
+                    )
+                }
             }
                 .onEach { data ->
                     when (data) {
-                        is DomainSource.Error -> _detailDataUiState.update { uiState ->
-                            uiState.copy(
-                                uiState = PresentationState.Failed,
-                                errorMessage = data.message
-                            )
+                        is DomainSource.Error -> {
+                            _detailDataUiState.update { uiState ->
+                                uiState.copy(
+                                    uiState = PresentationState.Failed,
+                                    errorMessage = data.message
+                                )
+                            }
+
+                            _detailCompanyDataUiState.update { uiState ->
+                                uiState.copy(
+                                    uiState = PresentationState.Failed,
+                                    errorMessage = data.message
+                                )
+                            }
                         }
 
-                        is DomainSource.Success -> _detailDataUiState.update { uiState ->
-                            uiState.copy(
-                                flag = flag,
-                                uiState = PresentationState.Success,
-                                televisionData = data.data,
-                            )
+                        is DomainSource.Success -> {
+                            _detailDataUiState.update { uiState ->
+                                uiState.copy(
+                                    flag = flag,
+                                    uiState = PresentationState.Success,
+                                    televisionData = data.data,
+                                )
+                            }
+
+                            _detailCompanyDataUiState.update { uiState ->
+                                uiState.copy(
+                                    flag = flag,
+                                    uiState = PresentationState.Success,
+                                    televisionCompany = data.data.productionCompanies,
+                                )
+                            }
                         }
                     }
                 }
