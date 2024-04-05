@@ -62,7 +62,6 @@ class EpoxyHomeController(
                 .id("0_movie_search")
                 .addTo(this)
 
-
             EpoxyCommonTitle(title = "Popular Movie", fontSize = 18, viewHelper = viewHelper)
                 .id("1_movie_popular_title")
                 .addTo(this)
@@ -119,7 +118,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = televisionClickListener::onTelevisionClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyTopRatedTelevisionData.Error ->
                         EpoxyErrorTopRatedTelevision()
@@ -130,6 +129,10 @@ class EpoxyHomeController(
                 .id("6_television_toprated")
                 .models(carouselTopRatedModel)
                 .numViewsToShowOnScreen(2.5f)
+                .addTo(this)
+        } else {
+            EpoxyErrorTopRatedTelevision()
+                .id("error")
                 .addTo(this)
         }
     }
@@ -148,7 +151,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = televisionClickListener::onTelevisionClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyPopularTelevisionData.Error ->
                         EpoxyErrorPopularTelevision()
@@ -159,6 +162,10 @@ class EpoxyHomeController(
                 .id("5_television_popular")
                 .models(carouselPopularModel)
                 .numViewsToShowOnScreen(1.5f)
+                .addTo(this)
+        } else {
+            EpoxyErrorPopularTelevision()
+                .id("error")
                 .addTo(this)
         }
     }
@@ -177,7 +184,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = movieClickListener::onMovieClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyUpComingMovieData.Error ->
                         EpoxyErrorUpComingMovie()
@@ -189,6 +196,10 @@ class EpoxyHomeController(
                 .id("4_movie_up_coming")
                 .models(carouselUpComingModel)
                 .numViewsToShowOnScreen(1.5f)
+                .addTo(this)
+        } else {
+            EpoxyErrorUpComingMovie()
+                .id("error")
                 .addTo(this)
         }
     }
@@ -207,7 +218,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = movieClickListener::onMovieClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyTopRatedMovieData.Error ->
                         EpoxyErrorTopRatedMovie()
@@ -216,9 +227,13 @@ class EpoxyHomeController(
             }
 
             HorizontalGridCarouselModel_()
-                .id("your_id")
+                .id("3_movie_top_rated")
                 .models(carouselTopRatedModel)
                 .numViewsToShowOnScreen(2.5f)
+                .addTo(this)
+        } else {
+            EpoxyErrorTopRatedMovie()
+                .id("error")
                 .addTo(this)
         }
     }
@@ -237,7 +252,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = movieClickListener::onMovieClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyNowPlayingMovieData.Error ->
                         EpoxyErrorNowPlayingMovie()
@@ -249,6 +264,10 @@ class EpoxyHomeController(
                 .id("2_movie_now_playing")
                 .models(carouselNowPlayingModel)
                 .numViewsToShowOnScreen(2f)
+                .addTo(this)
+        } else {
+            EpoxyErrorNowPlayingMovie()
+                .id("error")
                 .addTo(this)
         }
     }
@@ -267,7 +286,7 @@ class EpoxyHomeController(
                             data = multiData,
                             clickListener = movieClickListener::onMovieClick
                         )
-                            .id(multiData.epoxyId)
+                            .id(multiData.id)
 
                     EpoxyPopularMovieData.Error ->
                         EpoxyErrorPopularMovie()
@@ -278,6 +297,10 @@ class EpoxyHomeController(
                 .id("1_movie_popular")
                 .models(carouselPopularModel)
                 .numViewsToShowOnScreen(2f)
+                .addTo(this)
+        } else {
+            EpoxyErrorPopularMovie()
+                .id("error")
                 .addTo(this)
         }
     }

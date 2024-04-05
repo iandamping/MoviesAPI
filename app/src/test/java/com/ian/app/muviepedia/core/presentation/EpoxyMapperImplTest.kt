@@ -17,7 +17,6 @@ import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMov
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
-import com.ian.app.muviepedia.feature.search.epoxy.EpoxySearchMovieData
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Assert
