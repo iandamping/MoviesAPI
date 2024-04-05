@@ -39,7 +39,6 @@ interface MovieApiInterface {
     suspend fun getSearchMovieResponse(
         @Header("Authorization") token: String,
         @Header("accept") accept: String = "application/json",
-//        @Query("api_key") apiKey: String,
         @Query("query") searchMovie: String,
         @Query("include_adult") adult: Boolean = false,
         @Query("language") language: String = "en-US",

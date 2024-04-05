@@ -4,6 +4,8 @@ import com.airbnb.epoxy.TypedEpoxyController
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
+import com.ian.app.muviepedia.feature.search.common.EpoxyInitSearchScreen
+import com.ian.app.muviepedia.feature.search.common.EpoxyNoAvailableSearchScreen
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxyErrorSearchMovie
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxyShimmerSearchMovie
 import com.ian.app.muviepedia.feature.search.epoxy.EpoxySuccessSearchMovie
@@ -60,16 +62,16 @@ class EpoxySearchController(
     }
 
     private fun initSearchMovie() {
-//        EpoxyCommonTitle(title = "Search Movie", fontSize = 16, viewHelper = viewHelper)
-//            .id("1_search_movie")
-//            .addTo(this)
+        EpoxyInitSearchScreen()
+            .id("1_search_movie")
+            .addTo(this)
     }
 
 
     private fun initSearchTelevision() {
-//        EpoxyCommonTitle(title = "Search Television", fontSize = 16, viewHelper = viewHelper)
-//            .id("1_search_movie")
-//            .addTo(this)
+        EpoxyInitSearchScreen()
+            .id("1_search_movie")
+            .addTo(this)
     }
 
     private fun loadingSearchMovie() {
@@ -98,7 +100,7 @@ class EpoxySearchController(
                     .addTo(this)
             }
         } else {
-            errorSearchMovie()
+            noAvailableSearchData()
         }
     }
 
@@ -113,8 +115,14 @@ class EpoxySearchController(
                     .addTo(this)
             }
         } else {
-            errorSearchMovie()
+            noAvailableSearchData()
         }
+    }
+
+    private fun noAvailableSearchData() {
+        EpoxyNoAvailableSearchScreen()
+            .id("1_search")
+            .addTo(this)
     }
 
     private fun errorSearchMovie() {

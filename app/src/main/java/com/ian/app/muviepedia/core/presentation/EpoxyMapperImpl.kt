@@ -7,7 +7,6 @@ import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyNowPlayingData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularTvData
-import com.ian.app.muviepedia.core.presentation.model.toListEpoxySearchMovieData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxySearchTelevisionData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyTopRatedData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyTopRatedTvData
@@ -18,7 +17,6 @@ import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMov
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
-import com.ian.app.muviepedia.feature.search.epoxy.EpoxySearchMovieData
 import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 import javax.inject.Inject
 
@@ -63,10 +61,6 @@ class EpoxyMapperImpl @Inject constructor() :
 
     override fun epoxyUpComingMovieListMapper(data: Set<EpoxyMovie>): List<EpoxyUpComingMovieData.MovieData> {
         return data.toListEpoxyUpComingData()
-    }
-
-    override fun epoxySearchMovieListMapper(data: Set<EpoxyMovie>): List<EpoxySearchMovieData.MovieData> {
-        return data.toListEpoxySearchMovieData()
     }
 
     override fun epoxySearchTelevisionListMapper(data: Set<EpoxyTelevision>): List<EpoxySearchTelevisionData.TelevisionData> {

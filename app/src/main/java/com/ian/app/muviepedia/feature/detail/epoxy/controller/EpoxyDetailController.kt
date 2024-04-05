@@ -15,7 +15,6 @@ import com.ian.app.muviepedia.util.epoxy.ViewBindingHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyDetailController(
-    private val backPressListener: EpoxyDetailControllerBackPress,
     private val similarMovieListener: EpoxyDetailControllerSimilarItemListener,
     private val viewHelper: ViewHelper
 ) :

@@ -5,7 +5,6 @@ sealed class EpoxyPopularTelevisionData {
     data class Shimmer(val epoxyId: Int) : EpoxyPopularTelevisionData()
 
     data class TelevisionData(
-        val epoxyId: Int,
         val originalName: String,
         val name: String,
         val popularity: Double,

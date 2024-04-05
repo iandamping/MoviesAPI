@@ -5,7 +5,6 @@ import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRat
 
 fun EpoxyTelevision.toEpoxyPopularData(): EpoxyPopularTelevisionData.TelevisionData {
     return EpoxyPopularTelevisionData.TelevisionData(
-        epoxyId = epoxyId,
         originalName = originalName,
         name = name,
         popularity = popularity,
@@ -27,7 +26,6 @@ fun Set<EpoxyTelevision>.toListEpoxyPopularTvData(): List<EpoxyPopularTelevision
 
 fun EpoxyTelevision.toEpoxyTopRatedData(): EpoxyTopRatedTelevisionData.TelevisionData {
     return EpoxyTopRatedTelevisionData.TelevisionData(
-        epoxyId = epoxyId,
         originalName = originalName,
         name = name,
         popularity = popularity,

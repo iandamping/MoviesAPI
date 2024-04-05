@@ -2,6 +2,8 @@ package com.ian.app.muviepedia.feature.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
+import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
@@ -48,47 +50,19 @@ class DetailViewModel @Inject constructor(
     private fun CoroutineScope.fetchMovie(id: Int, flag: DetailFlag) {
         launch {
             movieRepository.fetchDetailMovie(movieId = id).onStart {
-                _detailDataUiState.update { detailDataUiState ->
-                    detailDataUiState.copy(uiState = PresentationState.Loading)
-                }
-                _detailCompanyDataUiState.update { uiState ->
-                    uiState.copy(uiState = PresentationState.Loading)
-                }
+                setLoadingFetchMovieDetail()
+                setLoadingFetchCompany()
             }
                 .onEach { data ->
                     when (data) {
                         is DomainSource.Error -> {
-                            _detailDataUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.message
-                                )
-                            }
-
-                            _detailCompanyDataUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.message
-                                )
-                            }
+                            setErrorFetchMovieDetail(data.message)
+                            setErrorFetchCompany(data.message)
                         }
 
                         is DomainSource.Success -> {
-                            _detailDataUiState.update { uiState ->
-                                uiState.copy(
-                                    flag = flag,
-                                    uiState = PresentationState.Success,
-                                    movieData = data.data,
-                                )
-                            }
-
-                            _detailCompanyDataUiState.update { uiState ->
-                                uiState.copy(
-                                    flag = flag,
-                                    uiState = PresentationState.Success,
-                                    movieCompany = data.data.productionCompanies
-                                )
-                            }
+                            setSuccessFetchMovieDetail(flag, data.data)
+                            setSuccessFetchMovieCompany(flag, data.data.productionCompanies)
                         }
                     }
                 }.launchIn(this)
@@ -128,55 +102,122 @@ class DetailViewModel @Inject constructor(
     private fun CoroutineScope.fetchTelevision(id: Int, flag: DetailFlag) {
         launch {
             televisionRepository.fetchDetailTv(tvID = id).onStart {
-                _detailDataUiState.update { uiState ->
-                    uiState.copy(
-                        uiState = PresentationState.Loading
-                    )
-                }
-                _detailCompanyDataUiState.update { uiState ->
-                    uiState.copy(
-                        uiState = PresentationState.Loading
-                    )
-                }
+                setLoadingFetchTelevisionDetail()
+                setLoadingFetchCompany()
             }
                 .onEach { data ->
                     when (data) {
                         is DomainSource.Error -> {
-                            _detailDataUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.message
-                                )
-                            }
-
-                            _detailCompanyDataUiState.update { uiState ->
-                                uiState.copy(
-                                    uiState = PresentationState.Failed,
-                                    errorMessage = data.message
-                                )
-                            }
+                            setErrorFetchTelevisionDetail(data.message)
+                            setErrorFetchCompany(data.message)
                         }
 
                         is DomainSource.Success -> {
-                            _detailDataUiState.update { uiState ->
-                                uiState.copy(
-                                    flag = flag,
-                                    uiState = PresentationState.Success,
-                                    televisionData = data.data,
-                                )
-                            }
-
-                            _detailCompanyDataUiState.update { uiState ->
-                                uiState.copy(
-                                    flag = flag,
-                                    uiState = PresentationState.Success,
-                                    televisionCompany = data.data.productionCompanies,
-                                )
-                            }
+                            setSuccessFetchTelevisionDetail(flag, data.data)
+                            setSuccessFetchTelevisionCompany(flag, data.data.productionCompanies)
                         }
                     }
                 }
                 .launchIn(this)
+        }
+    }
+
+    private fun setSuccessFetchMovieDetail(
+        flag: DetailFlag,
+        data: MovieDetail
+    ) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                flag = flag,
+                uiState = PresentationState.Success,
+                movieData = data,
+            )
+        }
+    }
+
+    private fun setSuccessFetchTelevisionDetail(
+        flag: DetailFlag,
+        data: TelevisionDetail
+    ) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                flag = flag,
+                uiState = PresentationState.Success,
+                televisionData = data,
+            )
+        }
+    }
+
+    private fun setSuccessFetchTelevisionCompany(
+        flag: DetailFlag,
+        data: List<TelevisionDetail.ProductionCompany>
+    ) {
+        _detailCompanyDataUiState.update { uiState ->
+            uiState.copy(
+                flag = flag,
+                uiState = PresentationState.Success,
+                televisionCompany = data,
+            )
+        }
+    }
+
+    private fun setSuccessFetchMovieCompany(
+        flag: DetailFlag,
+        data: List<MovieDetail.ProductionCompany>
+    ) {
+        _detailCompanyDataUiState.update { uiState ->
+            uiState.copy(
+                flag = flag,
+                uiState = PresentationState.Success,
+                movieCompany = data
+            )
+        }
+    }
+
+    private fun setErrorFetchMovieDetail(message: String) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                uiState = PresentationState.Failed,
+                errorMessage = message
+            )
+        }
+    }
+
+    private fun setErrorFetchTelevisionDetail(message: String) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                uiState = PresentationState.Failed,
+                errorMessage = message
+            )
+        }
+    }
+
+    private fun setErrorFetchCompany(message: String) {
+        _detailCompanyDataUiState.update { uiState ->
+            uiState.copy(
+                uiState = PresentationState.Failed,
+                errorMessage = message
+            )
+        }
+    }
+
+    private fun setLoadingFetchMovieDetail() {
+        _detailDataUiState.update { detailDataUiState ->
+            detailDataUiState.copy(uiState = PresentationState.Loading)
+        }
+    }
+
+    private fun setLoadingFetchTelevisionDetail() {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                uiState = PresentationState.Loading
+            )
+        }
+    }
+
+    private fun setLoadingFetchCompany() {
+        _detailCompanyDataUiState.update { uiState ->
+            uiState.copy(uiState = PresentationState.Loading)
         }
     }
 

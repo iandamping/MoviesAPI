@@ -48,13 +48,12 @@ class DetailFragment :
     private val epoxyDetailController: EpoxyDetailController by lazy {
         EpoxyDetailController(
             similarMovieListener = this,
-            backPressListener = this,
             viewHelper = viewHelper
         )
     }
 
     private val epoxyDetailCompaniesController: EpoxyDetailCompaniesController by lazy {
-        EpoxyDetailCompaniesController()
+        EpoxyDetailCompaniesController(viewHelper = viewHelper)
     }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding

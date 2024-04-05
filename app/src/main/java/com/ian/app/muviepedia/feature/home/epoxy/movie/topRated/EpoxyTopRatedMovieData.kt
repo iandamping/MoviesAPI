@@ -5,7 +5,6 @@ sealed class EpoxyTopRatedMovieData {
     data class Shimmer(val epoxyId: Int) : EpoxyTopRatedMovieData()
 
     data class MovieData(
-        val epoxyId: Int,
         val voteCount: Int,
         val id: Int,
         val video: Boolean,
