@@ -3,11 +3,12 @@ package com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ItemNowPlayingMovieBinding
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySuccessNowPlayingMovie(
-    private val data: EpoxyNowPlayingMovieData.MovieData,
+    private val data: EpoxyMovieData.MovieData,
     private val clickListener: (Int) -> Unit,
     private val viewHelper: ViewHelper
 ) : ViewBindingEpoxyModelWithHolder<ItemNowPlayingMovieBinding>() {

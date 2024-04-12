@@ -3,12 +3,13 @@ package com.ian.app.muviepedia.feature.home.epoxy.movie.upComing
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ItemUpComingMovieBinding
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySuccessUpComingMovie(
     private val viewHelper: ViewHelper,
-    private val data: EpoxyUpComingMovieData.MovieData,
+    private val data: EpoxyMovieData.MovieData,
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemUpComingMovieBinding>() {
     override fun ItemUpComingMovieBinding.bind() {

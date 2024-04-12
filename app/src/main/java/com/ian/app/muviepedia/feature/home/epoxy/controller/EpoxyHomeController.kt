@@ -3,32 +3,28 @@ package com.ian.app.muviepedia.feature.home.epoxy.controller
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.ian.app.muviepedia.feature.home.epoxy.common.EpoxyCommonTitle
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyErrorNowPlayingMovie
-import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyShimmerNowPlayingMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxySuccessNowPlayingMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyErrorPopularMovie
-import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyShimmerPopularMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxySuccessPopularMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.search.EpoxySearchMovieHome
 import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyErrorTopRatedMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyShimmerTopRatedMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxySuccessTopRatedMovie
-import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyErrorUpComingMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyShimmerUpComingMovie
 import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxySuccessUpComingMovie
-import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyErrorPopularTelevision
-import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyShimmerPopularTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxySuccessPopularTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.search.EpoxySearchTelevisionHome
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyErrorTopRatedTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyShimmerTopRatedTelevision
 import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxySuccessTopRatedTelevision
-import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
 import com.ian.app.muviepedia.util.epoxy.HorizontalGridCarouselModel_
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
@@ -108,11 +104,11 @@ class EpoxyHomeController(
         if (data.topRatedTelevision.isNotEmpty()) {
             val carouselTopRatedModel = data.topRatedTelevision.map { multiData ->
                 when (multiData) {
-                    is EpoxyTopRatedTelevisionData.Shimmer ->
+                    is EpoxyTelevisionData.Shimmer ->
                         EpoxyShimmerTopRatedTelevision()
                             .id(multiData.epoxyId)
 
-                    is EpoxyTopRatedTelevisionData.TelevisionData ->
+                    is EpoxyTelevisionData.TelevisionData ->
                         EpoxySuccessTopRatedTelevision(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -120,7 +116,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyTopRatedTelevisionData.Error ->
+                    EpoxyTelevisionData.Error ->
                         EpoxyErrorTopRatedTelevision()
                             .id("error")
                 }
@@ -141,11 +137,11 @@ class EpoxyHomeController(
         if (data.popularTelevision.isNotEmpty()) {
             val carouselPopularModel = data.popularTelevision.map { multiData ->
                 when (multiData) {
-                    is EpoxyPopularTelevisionData.Shimmer ->
+                    is EpoxyTelevisionData.Shimmer ->
                         EpoxyShimmerPopularTelevision()
                             .id(multiData.epoxyId)
 
-                    is EpoxyPopularTelevisionData.TelevisionData ->
+                    is EpoxyTelevisionData.TelevisionData ->
                         EpoxySuccessPopularTelevision(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -153,7 +149,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyPopularTelevisionData.Error ->
+                    EpoxyTelevisionData.Error ->
                         EpoxyErrorPopularTelevision()
                             .id("error")
                 }
@@ -174,11 +170,11 @@ class EpoxyHomeController(
         if (data.upComingMovie.isNotEmpty()) {
             val carouselUpComingModel = data.upComingMovie.map { multiData ->
                 when (multiData) {
-                    is EpoxyUpComingMovieData.Shimmer ->
+                    is EpoxyMovieData.Shimmer ->
                         EpoxyShimmerUpComingMovie()
                             .id(multiData.epoxyId)
 
-                    is EpoxyUpComingMovieData.MovieData ->
+                    is EpoxyMovieData.MovieData ->
                         EpoxySuccessUpComingMovie(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -186,7 +182,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyUpComingMovieData.Error ->
+                    EpoxyMovieData.Error ->
                         EpoxyErrorUpComingMovie()
                             .id("error")
                 }
@@ -208,11 +204,11 @@ class EpoxyHomeController(
         if (data.topRatedMovie.isNotEmpty()) {
             val carouselTopRatedModel = data.topRatedMovie.map { multiData ->
                 when (multiData) {
-                    is EpoxyTopRatedMovieData.Shimmer ->
+                    is EpoxyMovieData.Shimmer ->
                         EpoxyShimmerTopRatedMovie()
                             .id(multiData.epoxyId)
 
-                    is EpoxyTopRatedMovieData.MovieData ->
+                    is EpoxyMovieData.MovieData ->
                         EpoxySuccessTopRatedMovie(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -220,7 +216,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyTopRatedMovieData.Error ->
+                    EpoxyMovieData.Error ->
                         EpoxyErrorTopRatedMovie()
                             .id("error")
                 }
@@ -242,11 +238,11 @@ class EpoxyHomeController(
         if (data.nowPlayingMovie.isNotEmpty()) {
             val carouselNowPlayingModel = data.nowPlayingMovie.map { multiData ->
                 when (multiData) {
-                    is EpoxyNowPlayingMovieData.Shimmer ->
+                    is EpoxyMovieData.Shimmer ->
                         EpoxyShimmerNowPlayingMovie()
                             .id(multiData.epoxyId)
 
-                    is EpoxyNowPlayingMovieData.MovieData ->
+                    is EpoxyMovieData.MovieData ->
                         EpoxySuccessNowPlayingMovie(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -254,7 +250,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyNowPlayingMovieData.Error ->
+                    EpoxyMovieData.Error ->
                         EpoxyErrorNowPlayingMovie()
                             .id("error")
                 }
@@ -276,11 +272,11 @@ class EpoxyHomeController(
         if (data.popularMovie.isNotEmpty()) {
             val carouselPopularModel = data.popularMovie.map { multiData ->
                 when (multiData) {
-                    is EpoxyPopularMovieData.Shimmer ->
+                    is EpoxyMovieData.Shimmer ->
                         EpoxyShimmerPopularMovie()
                             .id(multiData.epoxyId)
 
-                    is EpoxyPopularMovieData.MovieData ->
+                    is EpoxyMovieData.MovieData ->
                         EpoxySuccessPopularMovie(
                             viewHelper = viewHelper,
                             data = multiData,
@@ -288,7 +284,7 @@ class EpoxyHomeController(
                         )
                             .id(multiData.id)
 
-                    EpoxyPopularMovieData.Error ->
+                    EpoxyMovieData.Error ->
                         EpoxyErrorPopularMovie()
                             .id("error")
                 }

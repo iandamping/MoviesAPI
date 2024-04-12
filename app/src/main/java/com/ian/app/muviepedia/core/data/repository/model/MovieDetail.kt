@@ -97,7 +97,7 @@ fun DetailMovieResponse.SpokenLanguageResponse?.mapToDomain(): MovieDetail.Spoke
 fun DetailMovieResponse.mapToDomain(): MovieDetail {
     return MovieDetail(
         adult = adult ?: false,
-        backdropPath = backdropPath ?: "",
+        backdropPath = "${NetworkConstant.imageFormatter}$backdropPath",
         belongsToCollection = belongsToCollection.mapToDomain(),
         budget = budget ?: 0,
         genres = genres.map { it.mapToDomain() },

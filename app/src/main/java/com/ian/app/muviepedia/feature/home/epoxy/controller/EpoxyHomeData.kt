@@ -1,21 +1,17 @@
 package com.ian.app.muviepedia.feature.home.epoxy.controller
 
-import com.ian.app.muviepedia.feature.home.epoxy.movie.nowPlaying.EpoxyNowPlayingMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.movie.popular.EpoxyPopularMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.movie.topRated.EpoxyTopRatedMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.movie.upComing.EpoxyUpComingMovieData
-import com.ian.app.muviepedia.feature.home.epoxy.television.popular.EpoxyPopularTelevisionData
-import com.ian.app.muviepedia.feature.home.epoxy.television.topRated.EpoxyTopRatedTelevisionData
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
+import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 
 data class EpoxyHomeData(
-    val popularMovie: List<EpoxyPopularMovieData>,
-    val nowPlayingMovie: List<EpoxyNowPlayingMovieData>,
-    val topRatedMovie: List<EpoxyTopRatedMovieData>,
-    val upComingMovie: List<EpoxyUpComingMovieData>,
-    val popularTelevision: List<EpoxyPopularTelevisionData>,
-    val topRatedTelevision: List<EpoxyTopRatedTelevisionData>,
+    val popularMovie: List<EpoxyMovieData>,
+    val nowPlayingMovie: List<EpoxyMovieData>,
+    val topRatedMovie: List<EpoxyMovieData>,
+    val upComingMovie: List<EpoxyMovieData>,
+    val popularTelevision: List<EpoxyTelevisionData>,
+    val topRatedTelevision: List<EpoxyTelevisionData>,
 
-) {
+    ) {
     companion object {
         fun init(): EpoxyHomeData {
             return EpoxyHomeData(

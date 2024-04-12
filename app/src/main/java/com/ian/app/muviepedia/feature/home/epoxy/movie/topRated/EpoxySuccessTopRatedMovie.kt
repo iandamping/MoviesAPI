@@ -3,12 +3,13 @@ package com.ian.app.muviepedia.feature.home.epoxy.movie.topRated
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ItemTopRatedMovieBinding
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySuccessTopRatedMovie(
     private val viewHelper: ViewHelper,
-    private val data: EpoxyTopRatedMovieData.MovieData,
+    private val data: EpoxyMovieData.MovieData,
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemTopRatedMovieBinding>() {
     override fun ItemTopRatedMovieBinding.bind() {

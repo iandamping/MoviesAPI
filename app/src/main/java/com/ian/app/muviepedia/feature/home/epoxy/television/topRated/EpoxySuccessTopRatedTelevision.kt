@@ -3,12 +3,13 @@ package com.ian.app.muviepedia.feature.home.epoxy.television.topRated
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ItemTopRatedTelevisionBinding
+import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySuccessTopRatedTelevision(
     private val viewHelper: ViewHelper,
-    private val data: EpoxyTopRatedTelevisionData.TelevisionData,
+    private val data: EpoxyTelevisionData.TelevisionData,
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemTopRatedTelevisionBinding>() {
 

@@ -1,8 +1,8 @@
-package com.ian.app.muviepedia.feature.home.epoxy.television.popular
+package com.ian.app.muviepedia.feature.home.epoxy.television.data
 
-sealed class EpoxyPopularTelevisionData {
+sealed class EpoxyTelevisionData {
 
-    data class Shimmer(val epoxyId: Int) : EpoxyPopularTelevisionData()
+    data class Shimmer(val epoxyId: Int) : EpoxyTelevisionData()
 
     data class TelevisionData(
         val originalName: String,
@@ -16,7 +16,7 @@ sealed class EpoxyPopularTelevisionData {
         val voteAverage: Double,
         val overview: String,
         val posterPath: String
-    ) : EpoxyPopularTelevisionData()
+    ) : EpoxyTelevisionData()
 
-    object Error : EpoxyPopularTelevisionData()
+    object Error : EpoxyTelevisionData()
 }

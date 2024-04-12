@@ -2,10 +2,12 @@ package com.ian.app.muviepedia.core.presentation
 
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.Television
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.movie.EpoxyMovieMapper
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.movie.EpoxyMovieMapperImpl
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
-import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
+import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailContent
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyNowPlayingData
-import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularData
+import com.ian.app.muviepedia.core.presentation.model.toListEpoxyData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyPopularTvData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxySearchMovieData
 import com.ian.app.muviepedia.core.presentation.model.toListEpoxyTopRatedData
@@ -23,13 +25,13 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class EpoxyMapperImplTest {
+class EpoxyMovieMapperImplTest {
 
-    private lateinit var sut: EpoxyMapper
+    private lateinit var sut: EpoxyMovieMapper
 
     @Before
     fun setUp() {
-        sut = EpoxyMapperImpl()
+        sut = EpoxyMovieMapperImpl()
     }
 
     @Test
@@ -48,8 +50,8 @@ class EpoxyMapperImplTest {
     fun extractTelevisionToEpoxy() {
         val tvs: List<Television> =
             listOf(Television("a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
-        val expected: Set<EpoxyTelevision> =
-            setOf(EpoxyTelevision(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
+        val expected: Set<EpoxyTelevisionDetailContent> =
+            setOf(EpoxyTelevisionDetailContent(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
 
         val result = sut.extractTelevisionToEpoxy(tvs)
 
@@ -79,10 +81,10 @@ class EpoxyMapperImplTest {
             )
         )
         mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDataMapperKt")
-        mockkStatic(Set<EpoxyMovie>::toListEpoxyPopularData)
+        mockkStatic(Set<EpoxyMovie>::toListEpoxyData)
 
         every {
-            data.toListEpoxyPopularData()
+            data.toListEpoxyData()
         } returns expected
 
         val result = sut.epoxyPopularMovieListMapper(data)
@@ -228,15 +230,15 @@ class EpoxyMapperImplTest {
 
     @Test
     fun epoxyPopularTelevisionListMapper() {
-        val data: Set<EpoxyTelevision> =
-            setOf(EpoxyTelevision(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
+        val data: Set<EpoxyTelevisionDetailContent> =
+            setOf(EpoxyTelevisionDetailContent(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val expected: List<EpoxyPopularTelevisionData.TelevisionData> = listOf(
             EpoxyPopularTelevisionData.TelevisionData(
                 1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"
             )
         )
         mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDataMapperKt")
-        mockkStatic(Set<EpoxyTelevision>::toListEpoxyPopularTvData)
+        mockkStatic(Set<EpoxyTelevisionDetailContent>::toListEpoxyPopularTvData)
 
         every {
             data.toListEpoxyPopularTvData()
@@ -249,15 +251,15 @@ class EpoxyMapperImplTest {
 
     @Test
     fun epoxyTopRatedTelevisionListMapper() {
-        val data: Set<EpoxyTelevision> =
-            setOf(EpoxyTelevision(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
+        val data: Set<EpoxyTelevisionDetailContent> =
+            setOf(EpoxyTelevisionDetailContent(1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"))
         val expected: List<EpoxyTopRatedTelevisionData.TelevisionData> = listOf(
             EpoxyTopRatedTelevisionData.TelevisionData(
                 1, "a", "a", 1.1, 1, "a", "a", "a", 1, 1.1, "a", "a"
             )
         )
         mockkStatic("com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDataMapperKt")
-        mockkStatic(Set<EpoxyTelevision>::toListEpoxyTopRatedTvData)
+        mockkStatic(Set<EpoxyTelevisionDetailContent>::toListEpoxyTopRatedTvData)
 
         every {
             data.toListEpoxyTopRatedTvData()
