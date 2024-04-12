@@ -1,7 +1,6 @@
 package com.ian.app.muviepedia.core.presentation.model
 
 data class EpoxyMovie(
-    val epoxyId: Int,
     val voteCount: Int,
     val id: Int,
     val video: Boolean,
