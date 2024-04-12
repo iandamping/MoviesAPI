@@ -1,7 +1,6 @@
 package com.ian.app.muviepedia.core.presentation.model
 
 data class EpoxyTelevision(
-    val epoxyId: Int,
     val originalName: String,
     val name: String,
     val popularity: Double,
