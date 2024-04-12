@@ -11,9 +11,11 @@ import com.ian.app.muviepedia.di.module.data.remote.TvRemoteDataSourceModule
 import com.ian.app.muviepedia.di.module.data.repository.MovieRepositoryModule
 import com.ian.app.muviepedia.di.module.data.repository.TvRepositoryModule
 import com.ian.app.muviepedia.di.module.database.DatabaseModule
+import com.ian.app.muviepedia.di.module.epoxy.EpoxyDetailScreenSetterModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeMovieSetterModule
 import com.ian.app.muviepedia.di.module.epoxy.EpoxyHomeTelevisionSetterModule
-import com.ian.app.muviepedia.di.module.epoxy.EpoxyMapperModule
+import com.ian.app.muviepedia.di.module.epoxy.EpoxyMovieMapperModule
+import com.ian.app.muviepedia.di.module.epoxy.EpoxyTelevisionMapperModule
 import com.ian.app.muviepedia.di.module.helper.MoshiParserModule
 import com.ian.app.muviepedia.di.module.helper.RemoteHelperModule
 import com.ian.app.muviepedia.di.module.helper.UtilityHelperModule
@@ -44,8 +46,10 @@ import dagger.Component
         TvRemoteDataSourceModule::class,
         MovieRepositoryModule::class,
         TvRepositoryModule::class,
-        EpoxyMapperModule::class,
+        EpoxyMovieMapperModule::class,
+        EpoxyTelevisionMapperModule::class,
         EpoxyHomeMovieSetterModule::class,
+        EpoxyDetailScreenSetterModule::class,
         EpoxyHomeTelevisionSetterModule::class,
         ViewModelFactoryModule::class,
         ViewModelModule::class,

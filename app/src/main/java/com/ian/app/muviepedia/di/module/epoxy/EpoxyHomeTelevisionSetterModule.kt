@@ -1,7 +1,7 @@
 package com.ian.app.muviepedia.di.module.epoxy
 
-import com.ian.app.muviepedia.core.presentation.EpoxyHomeTelevisionSetter
-import com.ian.app.muviepedia.core.presentation.EpoxyHomeTelevisionSetterImpl
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.home.television.EpoxyHomeTelevisionScreenSetter
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.home.television.EpoxyHomeTelevisionScreenSetterImpl
 import dagger.Binds
 import dagger.Module
 
@@ -9,5 +9,5 @@ import dagger.Module
 interface EpoxyHomeTelevisionSetterModule {
 
     @Binds
-    fun bindsEpoxyHomeTelevisionSetterModule(impl: EpoxyHomeTelevisionSetterImpl): EpoxyHomeTelevisionSetter
+    fun bindsEpoxyHomeTelevisionSetterModule(impl: EpoxyHomeTelevisionScreenSetterImpl): EpoxyHomeTelevisionScreenSetter
 }
