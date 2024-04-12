@@ -1,8 +1,8 @@
-package com.ian.app.muviepedia.feature.home.epoxy.movie.upComing
+package com.ian.app.muviepedia.feature.home.epoxy.data
 
-sealed class EpoxyUpComingMovieData {
+sealed class EpoxyMovieData {
 
-    data class Shimmer(val epoxyId: Int) : EpoxyUpComingMovieData()
+    data class Shimmer(val epoxyId: Int) : EpoxyMovieData()
 
     data class MovieData(
         val voteCount: Int,
@@ -18,7 +18,7 @@ sealed class EpoxyUpComingMovieData {
         val adult: Boolean,
         val overview: String,
         val releaseDate: String
-    ) : EpoxyUpComingMovieData()
+    ) : EpoxyMovieData()
 
-    object Error : EpoxyUpComingMovieData()
+    object Error : EpoxyMovieData()
 }

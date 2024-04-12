@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
-import com.ian.app.muviepedia.core.presentation.EpoxyHomeMovieSetter
-import com.ian.app.muviepedia.core.presentation.EpoxyHomeTelevisionSetter
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.home.movie.EpoxyHomeMovieScreenSetter
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.home.television.EpoxyHomeTelevisionScreenSetter
 import com.ian.app.muviepedia.feature.home.epoxy.controller.EpoxyHomeData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +22,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val tvRepository: TvRepository,
-    private val epoxyMovieSetter: EpoxyHomeMovieSetter,
-    private val epoxyTelevisionSetter: EpoxyHomeTelevisionSetter
+    private val epoxyMovieSetter: EpoxyHomeMovieScreenSetter,
+    private val epoxyTelevisionSetter: EpoxyHomeTelevisionScreenSetter
 ) :
     ViewModel() {
 

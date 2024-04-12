@@ -18,4 +18,12 @@
     <string name="default_error_message">The application has encountered an unknown error.</string>
     <string name="search_movie">Search movie</string>
     <string name="search_television">Search television</string>
+    <string name="release_date">Release Date:</string>
+    <string name="total_revenue">Total Revenue:</string>
+    <string name="rating_movie">Rating: %1$s/10</string>
+    <string name="first_release_date">First Release Date:</string>
+    <string name="last_release_date">Last Release Date:</string>
+    <string name="number_of_episodes">Number of episodes:</string>
+    <string name="number_of_seasons">Number of seasons:</string>
+    <string name="rating_television">Rating: %1$s/10</string>
 </resources>

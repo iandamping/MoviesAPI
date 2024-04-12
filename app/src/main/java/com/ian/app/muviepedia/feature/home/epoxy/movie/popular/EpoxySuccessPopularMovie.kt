@@ -3,12 +3,13 @@ package com.ian.app.muviepedia.feature.home.epoxy.movie.popular
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.databinding.ItemPopularMovieBinding
+import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxySuccessPopularMovie(
     private val viewHelper: ViewHelper,
-    private val data: EpoxyPopularMovieData.MovieData,
+    private val data: EpoxyMovieData.MovieData,
     private val clickListener: (Int) -> Unit
 ) : ViewBindingEpoxyModelWithHolder<ItemPopularMovieBinding>() {
     override fun ItemPopularMovieBinding.bind() {

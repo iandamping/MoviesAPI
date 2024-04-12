@@ -96,7 +96,7 @@ fun DetailTvResponse.SpokenLanguageResponse?.mapToDomain(): TelevisionDetail.Spo
 fun DetailTvResponse.mapToDomain(): TelevisionDetail {
     return TelevisionDetail(
         adult = adult ?: false,
-        backdropPath = backdropPath ?: "",
+        backdropPath = "${NetworkConstant.imageFormatter}$backdropPath",
         belongsToCollection = belongsToCollection.mapToDomain(),
         budget = budget ?: 0,
         genres = genres.map { it.mapToDomain() },
