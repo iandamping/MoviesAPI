@@ -7,12 +7,9 @@ import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
-import com.ian.app.muviepedia.core.presentation.EpoxyMapper
+import com.ian.app.muviepedia.core.presentation.epoxyMapper.detail.EpoxyDetailScreenSetter
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
-import com.ian.app.muviepedia.feature.state.DetailCompanyDataUiState
 import com.ian.app.muviepedia.feature.state.DetailDataUiState
-import com.ian.app.muviepedia.feature.state.DetailSimilarDataUIState
-import com.ian.app.muviepedia.feature.state.PresentationState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,7 +24,7 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
     private val televisionRepository: TvRepository,
-    private val epoxyMapper: EpoxyMapper
+    private val epoxyDetailScreenSetter: EpoxyDetailScreenSetter
 ) :
     ViewModel() {
     private val _detailDataUiState: MutableStateFlow<DetailDataUiState> = MutableStateFlow(
@@ -35,19 +32,7 @@ class DetailViewModel @Inject constructor(
     )
     val detailDataUiState: StateFlow<DetailDataUiState> get() = _detailDataUiState.asStateFlow()
 
-    private val _detailSimilarDataUiState: MutableStateFlow<DetailSimilarDataUIState> =
-        MutableStateFlow(
-            DetailSimilarDataUIState.initialize()
-        )
-    val detailSimilarDataUiState: StateFlow<DetailSimilarDataUIState> get() = _detailSimilarDataUiState.asStateFlow()
-
-    private val _detailCompanyDataUiState: MutableStateFlow<DetailCompanyDataUiState> =
-        MutableStateFlow(
-            DetailCompanyDataUiState.initialize()
-        )
-    val detailCompanyDataUiState: StateFlow<DetailCompanyDataUiState> get() = _detailCompanyDataUiState.asStateFlow()
-
-    private fun CoroutineScope.fetchMovie(id: Int, flag: DetailFlag) {
+    private fun CoroutineScope.fetchMovie(id: Int) {
         launch {
             movieRepository.fetchDetailMovie(movieId = id).onStart {
                 setLoadingFetchMovieDetail()
@@ -57,41 +42,38 @@ class DetailViewModel @Inject constructor(
                     when (data) {
                         is DomainSource.Error -> {
                             setErrorFetchMovieDetail(data.message)
-                            setErrorFetchCompany(data.message)
+                            setErrorMovieFetchCompany(data.message)
                         }
 
                         is DomainSource.Success -> {
-                            setSuccessFetchMovieDetail(flag, data.data)
-                            setSuccessFetchMovieCompany(flag, data.data.productionCompanies)
+                            setSuccessFetchMovieDetail(data.data)
+                            setSuccessFetchMovieCompany(data.data.productionCompanies)
                         }
                     }
                 }.launchIn(this)
         }
     }
 
-    private fun CoroutineScope.fetchSimilarMovie(id: Int, flag: DetailFlag) {
+    private fun CoroutineScope.fetchSimilarMovie(id: Int) {
         launch {
             movieRepository.fetchSimilarMovie(movieId = id).onStart {
-                _detailSimilarDataUiState.update { detailSimilarDataUiState ->
-                    detailSimilarDataUiState.copy(uiState = PresentationState.Loading)
+                _detailDataUiState.update { detailSimilarDataUiState ->
+                    detailSimilarDataUiState.copy(similarData = epoxyDetailScreenSetter.setEpoxyDetailSimilarLoading())
                 }
             }
                 .onEach { data ->
                     when (data) {
-                        is DomainSource.Error -> _detailSimilarDataUiState.update { uiState ->
+                        is DomainSource.Error -> _detailDataUiState.update { uiState ->
                             uiState.copy(
-                                uiState = PresentationState.Failed,
-                                errorMessage = data.message
+                                similarData = epoxyDetailScreenSetter.setEpoxyDetailSimilarError()
                             )
                         }
 
-                        is DomainSource.Success -> _detailSimilarDataUiState.update { uiState ->
+                        is DomainSource.Success -> _detailDataUiState.update { uiState ->
                             uiState.copy(
-                                flag = flag,
-                                uiState = PresentationState.Success,
-                                similarMovieData = epoxyMapper.extractMovieToEpoxy(
+                                similarData = epoxyDetailScreenSetter.setEpoxyDetailMovieSimilarData(
                                     data.data
-                                ),
+                                )
                             )
                         }
                     }
@@ -99,7 +81,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun CoroutineScope.fetchTelevision(id: Int, flag: DetailFlag) {
+    private fun CoroutineScope.fetchTelevision(id: Int) {
         launch {
             televisionRepository.fetchDetailTv(tvID = id).onStart {
                 setLoadingFetchTelevisionDetail()
@@ -109,12 +91,12 @@ class DetailViewModel @Inject constructor(
                     when (data) {
                         is DomainSource.Error -> {
                             setErrorFetchTelevisionDetail(data.message)
-                            setErrorFetchCompany(data.message)
+                            setErrorTelevisionFetchCompany(data.message)
                         }
 
                         is DomainSource.Success -> {
-                            setSuccessFetchTelevisionDetail(flag, data.data)
-                            setSuccessFetchTelevisionCompany(flag, data.data.productionCompanies)
+                            setSuccessFetchTelevisionDetail(data.data)
+                            setSuccessFetchTelevisionCompany(data.data.productionCompanies)
                         }
                     }
                 }
@@ -123,53 +105,44 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun setSuccessFetchMovieDetail(
-        flag: DetailFlag,
         data: MovieDetail
     ) {
         _detailDataUiState.update { uiState ->
             uiState.copy(
-                flag = flag,
-                uiState = PresentationState.Success,
-                movieData = data,
-            )
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailMovieContentData(data),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageContentData(data.backdropPath),
+
+                )
         }
     }
 
     private fun setSuccessFetchTelevisionDetail(
-        flag: DetailFlag,
         data: TelevisionDetail
     ) {
         _detailDataUiState.update { uiState ->
             uiState.copy(
-                flag = flag,
-                uiState = PresentationState.Success,
-                televisionData = data,
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailTelevisionContentData(data),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageContentData(data.backdropPath),
             )
         }
     }
 
     private fun setSuccessFetchTelevisionCompany(
-        flag: DetailFlag,
         data: List<TelevisionDetail.ProductionCompany>
     ) {
-        _detailCompanyDataUiState.update { uiState ->
+        _detailDataUiState.update { uiState ->
             uiState.copy(
-                flag = flag,
-                uiState = PresentationState.Success,
-                televisionCompany = data,
+                companyData = epoxyDetailScreenSetter.setEpoxyDetailTelevisionCompanyData(data),
             )
         }
     }
 
     private fun setSuccessFetchMovieCompany(
-        flag: DetailFlag,
         data: List<MovieDetail.ProductionCompany>
     ) {
-        _detailCompanyDataUiState.update { uiState ->
+        _detailDataUiState.update { uiState ->
             uiState.copy(
-                flag = flag,
-                uiState = PresentationState.Success,
-                movieCompany = data
+                companyData = epoxyDetailScreenSetter.setEpoxyDetailMovieCompanyData(data)
             )
         }
     }
@@ -177,75 +150,86 @@ class DetailViewModel @Inject constructor(
     private fun setErrorFetchMovieDetail(message: String) {
         _detailDataUiState.update { uiState ->
             uiState.copy(
-                uiState = PresentationState.Failed,
-                errorMessage = message
-            )
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailContentError(message),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageError(),
+
+                )
         }
     }
 
     private fun setErrorFetchTelevisionDetail(message: String) {
         _detailDataUiState.update { uiState ->
             uiState.copy(
-                uiState = PresentationState.Failed,
-                errorMessage = message
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailContentError(message),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageError()
+
             )
         }
     }
 
-    private fun setErrorFetchCompany(message: String) {
-        _detailCompanyDataUiState.update { uiState ->
+    private fun setErrorMovieFetchCompany(message: String) {
+        _detailDataUiState.update { uiState ->
             uiState.copy(
-                uiState = PresentationState.Failed,
-                errorMessage = message
+                companyData = epoxyDetailScreenSetter.setEpoxyDetailCompanyError(message)
+            )
+        }
+    }
+
+    private fun setErrorTelevisionFetchCompany(message: String) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                companyData = epoxyDetailScreenSetter.setEpoxyDetailCompanyError(message)
             )
         }
     }
 
     private fun setLoadingFetchMovieDetail() {
         _detailDataUiState.update { detailDataUiState ->
-            detailDataUiState.copy(uiState = PresentationState.Loading)
+            detailDataUiState.copy(
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailContentLoading(),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageLoading(),
+            )
         }
     }
 
     private fun setLoadingFetchTelevisionDetail() {
         _detailDataUiState.update { uiState ->
             uiState.copy(
-                uiState = PresentationState.Loading
-            )
+                contentData = epoxyDetailScreenSetter.setEpoxyDetailContentLoading(),
+                imageData = epoxyDetailScreenSetter.setEpoxyDetailImageLoading(),
+
+                )
         }
     }
 
     private fun setLoadingFetchCompany() {
-        _detailCompanyDataUiState.update { uiState ->
-            uiState.copy(uiState = PresentationState.Loading)
+        _detailDataUiState.update { uiState ->
+            uiState.copy(companyData = epoxyDetailScreenSetter.setEpoxyDetailCompanyLoading())
         }
     }
 
-    private fun CoroutineScope.fetchSimilarTelevision(id: Int, flag: DetailFlag) {
+    private fun CoroutineScope.fetchSimilarTelevision(id: Int) {
         launch {
             televisionRepository.fetchSimilarTv(tvID = id).onStart {
-                _detailSimilarDataUiState.update { uiState ->
+                _detailDataUiState.update { uiState ->
                     uiState.copy(
-                        uiState = PresentationState.Loading
+                        similarData = epoxyDetailScreenSetter.setEpoxyDetailSimilarLoading()
                     )
                 }
             }
                 .onEach { data ->
                     when (data) {
-                        is DomainSource.Error -> _detailSimilarDataUiState.update { uiState ->
+                        is DomainSource.Error -> _detailDataUiState.update { uiState ->
                             uiState.copy(
-                                uiState = PresentationState.Failed,
-                                errorMessage = data.message
+                                similarData = epoxyDetailScreenSetter.setEpoxyDetailSimilarError()
                             )
                         }
 
-                        is DomainSource.Success -> _detailSimilarDataUiState.update { uiState ->
+                        is DomainSource.Success -> _detailDataUiState.update { uiState ->
                             uiState.copy(
-                                flag = flag,
-                                uiState = PresentationState.Success,
-                                similarTelevisionData = epoxyMapper.extractTelevisionToEpoxy(
+                                similarData = epoxyDetailScreenSetter.setEpoxyDetailTelevisionSimilarData(
                                     data.data
-                                ),
+                                )
                             )
                         }
                     }
@@ -258,11 +242,11 @@ class DetailViewModel @Inject constructor(
     fun getDetailMovie(id: Int, flag: DetailFlag) {
         viewModelScope.launch {
             if (flag == DetailFlag.MOVIE) {
-                fetchMovie(id = id, flag = flag)
-                fetchSimilarMovie(id = id, flag = flag)
+                fetchMovie(id = id)
+                fetchSimilarMovie(id = id)
             } else {
-                fetchTelevision(id = id, flag = flag)
-                fetchSimilarTelevision(id = id, flag = flag)
+                fetchTelevision(id = id)
+                fetchSimilarTelevision(id = id)
             }
         }
     }

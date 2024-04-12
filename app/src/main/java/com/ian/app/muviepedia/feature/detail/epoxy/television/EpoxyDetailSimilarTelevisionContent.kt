@@ -3,13 +3,13 @@ package com.ian.app.muviepedia.feature.detail.epoxy.television
 import coil.load
 import com.ian.app.muviepedia.R
 import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.imageFormatter
-import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
+import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.databinding.ItemDetailSimilarTelevisionContentBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyDetailSimilarTelevisionContent(
-    private val data: EpoxyTelevision,
+    private val data: Television,
     private val clickListener: (Int) -> Unit,
     private val viewHelper: ViewHelper
 ) :

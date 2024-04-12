@@ -1,30 +1,26 @@
 package com.ian.app.muviepedia.feature.state
 
-import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
-import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
-import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
-import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.feature.detail.enums.DetailFlag
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailImageData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
 
 data class DetailDataUiState(
-    val uiState: PresentationState,
-    val movieData: MovieDetail?,
-    val televisionData: TelevisionDetail?,
-    val similarMovieData: Set<EpoxyMovie>,
-    val similarTelevisionData: Set<EpoxyTelevision>,
+    val contentData: EpoxyDetailContentData?,
+    val imageData: EpoxyDetailImageData?,
+    val similarData: List<EpoxyDetailSimilarData>,
+    val companyData: List<EpoxyDetailCompanyData>,
     val flag: DetailFlag,
-    val errorMessage: String
 ) {
     companion object {
         fun initialize(): DetailDataUiState {
             return DetailDataUiState(
-                uiState = PresentationState.Loading,
-                movieData = null,
-                similarMovieData = emptySet(),
-                televisionData = null,
-                similarTelevisionData = emptySet(),
+                similarData = emptyList(),
+                companyData = emptyList(),
                 flag = DetailFlag.MOVIE,
-                errorMessage = ""
+                contentData = null,
+                imageData = null,
             )
         }
     }

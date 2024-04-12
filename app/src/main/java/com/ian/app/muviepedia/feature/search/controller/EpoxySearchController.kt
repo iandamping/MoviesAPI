@@ -24,6 +24,7 @@ class EpoxySearchController(
         fun onMovieClick(id: Int)
     }
 
+    //todo : this is next
     override fun buildModels(data: EpoxySearchData?) {
         // carousel search movie
         if (data != null) {
