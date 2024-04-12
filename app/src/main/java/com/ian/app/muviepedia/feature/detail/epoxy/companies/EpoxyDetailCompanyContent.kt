@@ -2,12 +2,12 @@ package com.ian.app.muviepedia.feature.detail.epoxy.companies
 
 import coil.load
 import com.ian.app.muviepedia.R
-import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
 import com.ian.app.muviepedia.databinding.ItemDetailCompaniesBinding
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 
-class EpoxyTvDetailCompanyContent(
-    private val data: TelevisionDetail.ProductionCompany,
+class EpoxyDetailCompanyContent(
+    private val data: EpoxyDetailCompanyData.CompanyData,
 ) :
     ViewBindingEpoxyModelWithHolder<ItemDetailCompaniesBinding>() {
     override fun ItemDetailCompaniesBinding.bind() {

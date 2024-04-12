@@ -2,13 +2,14 @@ package com.ian.app.muviepedia.feature.detail.epoxy.movie
 
 import coil.load
 import com.ian.app.muviepedia.R
+import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.databinding.ItemDetailSimilarMovieContentBinding
 import com.ian.app.muviepedia.util.epoxy.ViewBindingEpoxyModelWithHolder
 import com.ian.app.muviepedia.util.viewHelper.ViewHelper
 
 class EpoxyDetailSimilarMovieContent(
-    private val data: EpoxyMovie,
+    private val data: Movie,
     private val clickListener: (Int) -> Unit,
     private val viewHelper: ViewHelper
 ) :
