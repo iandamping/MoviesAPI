@@ -17,7 +17,7 @@ data class DetailCompanyDataUiState(
                 uiState = PresentationState.Loading,
                 movieCompany = emptyList(),
                 televisionCompany = emptyList(),
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 errorMessage = ""
             )
         }

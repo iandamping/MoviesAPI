@@ -15,7 +15,7 @@ data class EpoxySearchData(
     companion object {
         fun init(): EpoxySearchData {
             return EpoxySearchData(
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 uiState = PresentationInputState.Init,
                 movieData = emptyList(),
                 tvData = emptyList(),

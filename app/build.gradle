@@ -108,12 +108,14 @@ dependencies {
     //slider indicator
     implementation 'me.relex:circleindicator:1.2.2@aar'
     //coroutine
-    implementation (libs.bundles.coroutine.bundle)
+    implementation(libs.bundles.coroutine.bundle)
     testImplementation(unitTestLibs.coroutine.unit.test)
     //flow test
     testImplementation 'app.cash.turbine:turbine:1.0.0'
     //konsist
     testImplementation "com.lemonappdev:konsist:0.13.0"
+    //youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
 
 }
 

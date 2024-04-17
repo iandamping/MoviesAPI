@@ -30,50 +30,36 @@ class EpoxySearchController(
         if (data != null) {
             when (data.uiState) {
                 PresentationInputState.Loading -> {
-                    when(data.flag){
-                        DetailFlag.MOVIE -> loadingSearchMovie()
-                        DetailFlag.TELEVISION -> loadingSearchTelevision()
+                    when (data.flag) {
+                        DetailFlag.Movie -> loadingSearchMovie()
+                        DetailFlag.Television -> loadingSearchTelevision()
                     }
                 }
                 PresentationInputState.Success -> {
-                    when(data.flag){
-                        DetailFlag.MOVIE -> successSearchMovie(data.movieData)
-                        DetailFlag.TELEVISION -> successSearchTv(data.tvData)
+                    when (data.flag) {
+                        DetailFlag.Movie -> successSearchMovie(data.movieData)
+                        DetailFlag.Television -> successSearchTv(data.tvData)
                     }
                 }
 
                 PresentationInputState.Failed -> {
-                    when(data.flag){
-                        DetailFlag.MOVIE -> errorSearchMovie()
-                        DetailFlag.TELEVISION -> errorSearchTelevision()
+                    when (data.flag) {
+                        DetailFlag.Movie -> errorSearchMovie()
+                        DetailFlag.Television -> errorSearchTelevision()
                     }
-
-
                 }
-                PresentationInputState.Init -> {
-                    when(data.flag){
-                        DetailFlag.MOVIE -> initSearchMovie()
-                        DetailFlag.TELEVISION -> initSearchTelevision()
-                    }
 
-
-                }
+                PresentationInputState.Init -> initSearchContent(data.flag)
             }
         }
     }
 
-    private fun initSearchMovie() {
-        EpoxyInitSearchScreen()
+    private fun initSearchContent(flag: DetailFlag) {
+        EpoxyInitSearchScreen(flag.name)
             .id("1_search_movie")
             .addTo(this)
     }
 
-
-    private fun initSearchTelevision() {
-        EpoxyInitSearchScreen()
-            .id("1_search_movie")
-            .addTo(this)
-    }
 
     private fun loadingSearchMovie() {
         for (i in 0..20) {

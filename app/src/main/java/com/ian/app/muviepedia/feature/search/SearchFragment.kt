@@ -48,13 +48,14 @@ class SearchFragment :
     }
 
     override fun initView() {
+        viewModel.initEpoxySearchFlag(args.passedDetailFlag)
         binding.rvSearchMovie.setController(epoxySearchController)
     }
 
     override fun viewCreated() {
-        when(args.passedDetailFlag){
-            DetailFlag.MOVIE -> binding.searchViews.queryHint = "Find Movie"
-            DetailFlag.TELEVISION -> binding.searchViews.queryHint = "Find Television"
+        when (args.passedDetailFlag) {
+            DetailFlag.Movie -> binding.searchViews.queryHint = "Find Movie"
+            DetailFlag.Television -> binding.searchViews.queryHint = "Find Television"
         }
         consumeSuspend {
             viewModel.epoxySearchData.onEach { data ->
@@ -71,8 +72,8 @@ class SearchFragment :
                 }
                 if (!query.isNullOrEmpty()) {
                     when (args.passedDetailFlag) {
-                        DetailFlag.MOVIE -> viewModel.searchMovie(query)
-                        DetailFlag.TELEVISION -> viewModel.searchTelevision(query)
+                        DetailFlag.Movie -> viewModel.searchMovie(query)
+                        DetailFlag.Television -> viewModel.searchTelevision(query)
                     }
 
                 }

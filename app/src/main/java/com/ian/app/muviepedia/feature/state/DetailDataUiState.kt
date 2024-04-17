@@ -18,7 +18,7 @@ data class DetailDataUiState(
             return DetailDataUiState(
                 similarData = emptyList(),
                 companyData = emptyList(),
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 contentData = null,
                 imageData = null,
             )
