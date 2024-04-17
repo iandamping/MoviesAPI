@@ -69,7 +69,7 @@ class HomeFragment :
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToDetailFragment(
                 id,
-                DetailFlag.MOVIE
+                DetailFlag.Movie
             )
         )
     }
@@ -78,16 +78,24 @@ class HomeFragment :
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToDetailFragment(
                 id,
-                DetailFlag.TELEVISION
+                DetailFlag.Television
             )
         )
     }
 
     override fun onSearchTelevisionCLicked() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.TELEVISION))
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                DetailFlag.Television
+            )
+        )
     }
 
     override fun onSearchMovieCLicked() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(DetailFlag.MOVIE))
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+                DetailFlag.Movie
+            )
+        )
     }
 }

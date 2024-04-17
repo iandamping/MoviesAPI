@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/spacing_medium"
     app:cardCornerRadius="8dp"
+    android:background="@color/black"
+    android:backgroundTint="@color/black"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,8 +15,10 @@
 
         <ImageView
             android:id="@+id/ivInit"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="@dimen/spacing_medium"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -23,7 +26,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/img_search" />
+            tools:src="@drawable/ic_search_white_24dp" />
+
+        <TextView
+            android:id="@+id/tvInit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/letter_large"
+            app:layout_constraintEnd_toEndOf="@+id/ivInit"
+            app:layout_constraintStart_toStartOf="@+id/ivInit"
+            app:layout_constraintTop_toBottomOf="@+id/ivInit"
+            tools:text="Search movie" />
 
 
 

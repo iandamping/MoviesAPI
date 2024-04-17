@@ -31,10 +31,18 @@ class SearchViewModel @Inject constructor(
         get() = _epoxySearchData.asStateFlow()
 
 
+    fun initEpoxySearchFlag(flag: DetailFlag) {
+        _epoxySearchData.update { uiState ->
+            uiState.copy(
+                flag = flag,
+            )
+        }
+    }
+
     private fun setEpoxySearchMovieData(movieData: List<Movie>) {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 uiState = PresentationInputState.Success,
                 movieData = movieData,
             )
@@ -44,7 +52,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchMovieLoading() {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 uiState = PresentationInputState.Loading
             )
         }
@@ -53,7 +61,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchMovieError(message: String) {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 uiState = PresentationInputState.Failed,
                 error = message,
             )
@@ -64,7 +72,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchTvData(tvData: List<Television>) {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.TELEVISION,
+                flag = DetailFlag.Television,
                 uiState = PresentationInputState.Success,
                 tvData = tvData,
             )
@@ -74,7 +82,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchTvLoading() {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.TELEVISION,
+                flag = DetailFlag.Television,
                 uiState = PresentationInputState.Loading
             )
         }
@@ -83,7 +91,7 @@ class SearchViewModel @Inject constructor(
     private fun setEpoxySearchTvError(message: String) {
         _epoxySearchData.update { uiState ->
             uiState.copy(
-                flag = DetailFlag.TELEVISION,
+                flag = DetailFlag.Television,
                 uiState = PresentationInputState.Failed,
                 error = message,
             )

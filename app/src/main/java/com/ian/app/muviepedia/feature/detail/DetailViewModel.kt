@@ -241,7 +241,7 @@ class DetailViewModel @Inject constructor(
 
     fun getDetailMovie(id: Int, flag: DetailFlag) {
         viewModelScope.launch {
-            if (flag == DetailFlag.MOVIE) {
+            if (flag == DetailFlag.Movie) {
                 fetchMovie(id = id)
                 fetchSimilarMovie(id = id)
             } else {

@@ -17,7 +17,7 @@ data class DetailSimilarDataUIState(
                 uiState = PresentationState.Loading,
                 similarMovieData = emptySet(),
                 similarTelevisionData = emptySet(),
-                flag = DetailFlag.MOVIE,
+                flag = DetailFlag.Movie,
                 errorMessage = ""
             )
         }
