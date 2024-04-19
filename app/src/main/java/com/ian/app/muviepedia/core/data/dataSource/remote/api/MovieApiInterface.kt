@@ -3,6 +3,7 @@ package com.ian.app.muviepedia.core.data.dataSource.remote.api
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
+import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.VideoDataResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -44,4 +45,10 @@ interface MovieApiInterface {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1,
     ): Response<BaseResponse<MovieDataResponse>>
+
+    @GET("${NetworkConstant.videoMovie}{movie_id}/videos")
+    suspend fun getVideoMovieAsync(
+        @Header("Authorization") token: String,
+        @Path("movie_id") movieId: Int,
+    ): Response<VideoDataResponse>
 }

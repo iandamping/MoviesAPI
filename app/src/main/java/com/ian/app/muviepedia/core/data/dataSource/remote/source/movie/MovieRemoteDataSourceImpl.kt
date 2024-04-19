@@ -8,6 +8,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailMovieResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.ErrorResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.MovieDataResponse
+import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.VideoDataResponse
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.model.RemoteBaseResult
 import com.ian.app.muviepedia.core.data.model.RemoteResult
@@ -133,8 +134,32 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun getDetailVideoMovie(movieId: Int): DataSource<VideoDataResponse> {
+        return withContext(customIODispatcher) {
+            when (
+                val data =
+                    remoteCall(
+                        api.getVideoMovieAsync(
+                            movieId = movieId,
+                            token = "Bearer $ACCESS_TOKEN_KEY",
+                        )
+                    )
+            ) {
+                is RemoteResult.Error -> DataSource.Error(data.message)
+                is RemoteResult.Success -> {
+                    val result = data.data
+                    if (result != null) {
+                        DataSource.Success(result)
+                    } else {
+                        DataSource.Error("null body")
+                    }
+                }
+            }
+        }
+    }
+
     override suspend fun searchMovie(userSearch: String): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (
                 val data =
                     remoteWithBaseCall(
