@@ -34,10 +34,13 @@ object NetworkConstant {
     const val upComingMovie = "movie/upcoming"
     const val detailMovie = "movie/"
     const val similarMovie = "movie/"
+    const val videoMovie = "movie/"
     const val searchMovie = "search/movie"
+
 
     const val detailTv = "tv/"
     const val similarTv = "tv/"
+    const val videoTv = "tv/"
     const val popularTv = "tv/popular"
     const val topRatedTv = "tv/top_rated"
     const val airingTodayTv = "tv/airing_today"

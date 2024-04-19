@@ -10,6 +10,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.api.NetworkConstant.to
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
+import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.VideoDataResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -57,4 +58,11 @@ interface TelevisionApiInterface {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1,
     ): Response<BaseResponse<TvDataResponse>>
+
+    @GET("$similarTv{series_id}/videos")
+    suspend fun getVideosTvAsync(
+        @Path("tv_id") tvId: Int,
+        @Header("Authorization") token: String,
+    ): Response<VideoDataResponse>
+
 }

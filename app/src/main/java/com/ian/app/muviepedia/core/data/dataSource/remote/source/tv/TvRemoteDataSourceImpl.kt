@@ -8,6 +8,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.model.BaseResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.DetailTvResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.ErrorResponse
 import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.TvDataResponse
+import com.ian.app.muviepedia.core.data.dataSource.remote.model.response.VideoDataResponse
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.model.RemoteBaseResult
 import com.ian.app.muviepedia.core.data.model.RemoteResult
@@ -129,6 +130,30 @@ class TvRemoteDataSourceImpl @Inject constructor(
             ) {
                 is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
+                    val result = data.data
+                    if (result != null) {
+                        DataSource.Success(result)
+                    } else {
+                        DataSource.Error("null body")
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun getDetailTvVideo(tvID: Int): DataSource<VideoDataResponse> {
+        return withContext(customIODispatcher) {
+            when (
+                val data =
+                    remoteCall(
+                        api.getVideosTvAsync(
+                            tvId = tvID,
+                            token = "Bearer ${BuildConfig.ACCESS_TOKEN_KEY}",
+                        )
+                    )
+            ) {
+                is RemoteResult.Error -> DataSource.Error(data.message)
+                is RemoteResult.Success -> {
                     val result = data.data
                     if (result != null) {
                         DataSource.Success(result)
