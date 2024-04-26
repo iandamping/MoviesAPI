@@ -4,10 +4,12 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailImageData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 
 interface EpoxyDetailScreenSetter {
 
@@ -40,5 +42,13 @@ interface EpoxyDetailScreenSetter {
     fun setEpoxyDetailSimilarLoading(): List<EpoxyDetailSimilarData.Shimmer>
 
     fun setEpoxyDetailSimilarError(): List<EpoxyDetailSimilarData.Error>
+
+    fun setEpoxyDetailMovieVideoData(movieData: List<Video.ItemVideoData>): List<EpoxyDetailVideoData.VideoData>
+
+    fun setEpoxyDetailTelevisionVideoData(televisionData: List<Video.ItemVideoData>): List<EpoxyDetailVideoData.VideoData>
+
+    fun setEpoxyDetailVideoLoading(): List<EpoxyDetailVideoData.Shimmer>
+
+    fun setEpoxyDetailVideoError(): List<EpoxyDetailVideoData.Error>
 
 }

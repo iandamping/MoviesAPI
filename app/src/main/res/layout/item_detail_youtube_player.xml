@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/youtubeView"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewGroupItem"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:layout_margin="@dimen/spacing_medium">
+    android:layout_margin="@dimen/spacing_medium"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-</com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/youtubeView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+    </com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView>
+
+</androidx.cardview.widget.CardView>

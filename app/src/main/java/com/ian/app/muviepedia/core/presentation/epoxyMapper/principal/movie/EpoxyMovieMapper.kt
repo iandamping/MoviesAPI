@@ -2,13 +2,16 @@ package com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.movie
 
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailVideoData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 
 interface EpoxyMovieMapper {
@@ -16,6 +19,8 @@ interface EpoxyMovieMapper {
     fun extractMovieToEpoxy(movieData: List<Movie>): List<EpoxyMovie>
 
     fun extractDetailCompanyMovieToEpoxy(movieData: List<MovieDetail.ProductionCompany>): List<EpoxyMovieDetailCompany>
+
+    fun extractDetailVideoMovieToEpoxy(movieData: List<Video.ItemVideoData>): List<EpoxyMovieDetailVideoData>
 
     fun extractDetailContentMovieToEpoxy(movieData: MovieDetail): EpoxyMovieDetailContent
 
@@ -34,4 +39,6 @@ interface EpoxyMovieMapper {
     fun epoxyDetailContentMovieMapper(data: EpoxyMovieDetailContent): EpoxyDetailContentData.MovieData
 
     fun epoxyDetailSimilarMovieListMapper(data: List<EpoxyMovieDetailSimilarContent>): List<EpoxyDetailSimilarData.SimilarData>
+
+    fun epoxyDetailVideoMovieListMapper(data: List<EpoxyMovieDetailVideoData>): List<EpoxyDetailVideoData.VideoData>
 }

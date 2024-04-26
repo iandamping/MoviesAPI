@@ -4,9 +4,11 @@ import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailVideoData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 
 fun EpoxyMovie.toEpoxyMovieData(): EpoxyMovieData.MovieData {
@@ -66,3 +68,18 @@ fun EpoxyMovieDetailSimilarContent.toEpoxyDetailSimilarMovieData(): EpoxyDetailS
 
 fun List<EpoxyMovieDetailSimilarContent>.toListEpoxyDetailSimilarData(): List<EpoxyDetailSimilarData.SimilarData> =
     map { it.toEpoxyDetailSimilarMovieData() }
+
+
+fun EpoxyMovieDetailVideoData.toMovieVideoEpoxyData(): EpoxyDetailVideoData.VideoData {
+    return EpoxyDetailVideoData.VideoData(
+        id = this.id,
+        key = this.key,
+    )
+}
+
+fun List<EpoxyMovieDetailVideoData>.toListMovieVideoEpoxyData(): List<EpoxyDetailVideoData.VideoData> =
+    map {
+        it.toMovieVideoEpoxyData()
+    }
+
+

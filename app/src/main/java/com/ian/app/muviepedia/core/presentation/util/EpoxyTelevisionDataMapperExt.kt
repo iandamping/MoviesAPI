@@ -4,9 +4,11 @@ import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailVideoData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 
@@ -92,3 +94,18 @@ fun EpoxyTelevisionDetailSimilarContent.toEpoxyDetailSimilarTelevisionData(): Ep
 
 fun List<EpoxyTelevisionDetailSimilarContent>.toListEpoxyDetailSimilarData(): List<EpoxyDetailSimilarData.SimilarData> =
     map { it.toEpoxyDetailSimilarTelevisionData() }
+
+
+fun EpoxyTelevisionDetailVideoData.toTelevisionVideoEpoxyData(): EpoxyDetailVideoData.VideoData {
+    return EpoxyDetailVideoData.VideoData(
+        id = this.id,
+        key = this.key,
+    )
+}
+
+fun List<EpoxyTelevisionDetailVideoData>.toListTelevisionVideoEpoxyData(): List<EpoxyDetailVideoData.VideoData> =
+    map {
+        it.toTelevisionVideoEpoxyData()
+    }
+
+
