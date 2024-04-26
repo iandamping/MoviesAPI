@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.domain.MovieRepository
 import com.ian.app.muviepedia.core.domain.TvRepository
 import com.ian.app.muviepedia.core.domain.model.DomainSource
@@ -31,6 +32,45 @@ class DetailViewModel @Inject constructor(
         DetailDataUiState.initialize()
     )
     val detailDataUiState: StateFlow<DetailDataUiState> get() = _detailDataUiState.asStateFlow()
+
+    private fun CoroutineScope.fetchDetailMovieVideo(id: Int) {
+        launch {
+            movieRepository.fetchDetailVideoMovie(movieId = id).onStart {
+                setLoadingFetchVideo()
+            }
+                .onEach { data ->
+                    when (data) {
+                        is DomainSource.Error -> {
+                            setErrorFetchMovieVideo()
+                        }
+
+                        is DomainSource.Success -> {
+                            setSuccessFetchVideoMovie(data.data)
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
+    private fun CoroutineScope.fetchDetailTelevisionVideo(id: Int) {
+        launch {
+            televisionRepository.fetchDetailVideoTv(tvID = id).onStart {
+                setLoadingFetchVideo()
+            }
+                .onEach { data ->
+                    when (data) {
+                        is DomainSource.Error -> {
+                            setErrorFetchTelevisionVideo()
+                        }
+
+                        is DomainSource.Success -> {
+                            setSuccessFetchVideoTelevision(data.data)
+                        }
+                    }
+                }.launchIn(this)
+        }
+    }
+
 
     private fun CoroutineScope.fetchMovie(id: Int) {
         launch {
@@ -127,6 +167,26 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    private fun setSuccessFetchVideoMovie(
+        data: Video
+    ) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                videoData = epoxyDetailScreenSetter.setEpoxyDetailMovieVideoData(data.results),
+            )
+        }
+    }
+
+    private fun setSuccessFetchVideoTelevision(
+        data: Video
+    ) {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                videoData = epoxyDetailScreenSetter.setEpoxyDetailTelevisionVideoData(data.results),
+            )
+        }
+    }
+
     private fun setSuccessFetchTelevisionCompany(
         data: List<TelevisionDetail.ProductionCompany>
     ) {
@@ -166,6 +226,23 @@ class DetailViewModel @Inject constructor(
             )
         }
     }
+
+    private fun setErrorFetchMovieVideo() {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                videoData = epoxyDetailScreenSetter.setEpoxyDetailVideoError(),
+            )
+        }
+    }
+
+    private fun setErrorFetchTelevisionVideo() {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(
+                videoData = epoxyDetailScreenSetter.setEpoxyDetailVideoError(),
+            )
+        }
+    }
+
 
     private fun setErrorMovieFetchCompany(message: String) {
         _detailDataUiState.update { uiState ->
@@ -208,6 +285,12 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    private fun setLoadingFetchVideo() {
+        _detailDataUiState.update { uiState ->
+            uiState.copy(videoData = epoxyDetailScreenSetter.setEpoxyDetailVideoLoading())
+        }
+    }
+
     private fun CoroutineScope.fetchSimilarTelevision(id: Int) {
         launch {
             televisionRepository.fetchSimilarTv(tvID = id).onStart {
@@ -244,9 +327,11 @@ class DetailViewModel @Inject constructor(
             if (flag == DetailFlag.Movie) {
                 fetchMovie(id = id)
                 fetchSimilarMovie(id = id)
+                fetchDetailMovieVideo(id = id)
             } else {
                 fetchTelevision(id = id)
                 fetchSimilarTelevision(id = id)
+                fetchDetailTelevisionVideo(id = id)
             }
         }
     }

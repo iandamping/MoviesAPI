@@ -1,8 +1,10 @@
 package com.ian.app.muviepedia.feature.detail.epoxy.controller
 
+import androidx.lifecycle.LifecycleObserver
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.TypedEpoxyController
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailImageContent
+import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyDetailYoutubeContent
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyFailedDataContent
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyFailedSimilarContent
 import com.ian.app.muviepedia.feature.detail.epoxy.common.EpoxyShimmerDetailDescriptionContent
@@ -15,6 +17,7 @@ import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailImageData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.detail.epoxy.movie.EpoxyDetailDescriptionMovieContent
 import com.ian.app.muviepedia.feature.detail.epoxy.television.EpoxyDetailDescriptionTelevisionContent
 import com.ian.app.muviepedia.feature.home.epoxy.common.EpoxyCommonTitle
@@ -25,6 +28,7 @@ import java.util.UUID
 class EpoxyDetailController(
     private val backPressListener: EpoxyDetailControllerBackPress,
     private val similarMovieListener: EpoxyDetailControllerSimilarItemListener,
+    private val videoMovieListener: EpoxyDetailControllerVideoItemListener,
     private val viewHelper: ViewHelper
 ) :
     TypedEpoxyController<DetailDataUiState>() {
@@ -37,6 +41,11 @@ class EpoxyDetailController(
         fun onSimilarItemClick(id: Int)
     }
 
+    interface EpoxyDetailControllerVideoItemListener {
+
+        fun onVideoItemObserver(observer: LifecycleObserver)
+    }
+
     override fun buildModels(data: DetailDataUiState?) {
         // epoxyModel id is the one that control the view
         // if the view is static use static string to epoxyModel id
@@ -46,6 +55,8 @@ class EpoxyDetailController(
             implementEpoxyDetailImageContent(data)
 
             implementEpoxyDetailContent(data)
+
+            implementEpoxyDetailVideo(data)
 
             implementEpoxyDetailCompany(data)
 
@@ -183,11 +194,39 @@ class EpoxyDetailController(
             CarouselModel_().id("4_similar_data")
                 .models(carouselCompanyModel)
                 .numViewsToShowOnScreen(2.5f).addTo(this)
-        } else {
-            //todo: create this
-            EpoxyFailedSimilarContent().id(
-                UUID.randomUUID().toString()
-            ).addTo(this)
+        }
+    }
+
+    private fun implementEpoxyDetailVideo(data: DetailDataUiState) {
+        if (data.videoData.isNotEmpty()) {
+            EpoxyCommonTitle(
+                title = "Preview Item",
+                fontSize = 24,
+                viewHelper = viewHelper
+            ).id("5_title_video_item").addTo(this)
+
+            val carouselCompanyModel = data.videoData.map { multiData ->
+                when (multiData) {
+                    is EpoxyDetailVideoData.VideoData -> {
+                        EpoxyDetailYoutubeContent(
+                            youtubeId = multiData.key,
+                            observer = videoMovieListener::onVideoItemObserver
+                        ).id(multiData.id)
+                    }
+
+                    is EpoxyDetailVideoData.Error -> EpoxyFailedSimilarContent().id(
+                        UUID.randomUUID().toString()
+                    )
+
+                    is EpoxyDetailVideoData.Shimmer -> EpoxyShimmerDetailSimilarContent().id(
+                        multiData.epoxyId
+                    )
+                }
+            }
+
+            CarouselModel_().id("5_video_data")
+                .models(carouselCompanyModel)
+                .numViewsToShowOnScreen(1.5f).addTo(this)
         }
     }
 

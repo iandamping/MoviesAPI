@@ -3,6 +3,7 @@ package com.ian.app.muviepedia.feature.detail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,10 +16,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class DetailFragment :
-    BaseFragmentViewBinding<FragmentDetailBinding>(),
+class DetailFragment : BaseFragmentViewBinding<FragmentDetailBinding>(),
     EpoxyDetailController.EpoxyDetailControllerBackPress,
-    EpoxyDetailController.EpoxyDetailControllerSimilarItemListener {
+    EpoxyDetailController.EpoxyDetailControllerSimilarItemListener,
+    EpoxyDetailController.EpoxyDetailControllerVideoItemListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -36,6 +37,7 @@ class DetailFragment :
         EpoxyDetailController(
             similarMovieListener = this,
             backPressListener = this,
+            videoMovieListener = this,
             viewHelper = viewHelper
         )
     }
@@ -69,6 +71,10 @@ class DetailFragment :
 
     override fun onSimilarItemClick(id: Int) {
         viewModel.getDetailMovie(id, args.passedDetailFlag)
+    }
+
+    override fun onVideoItemObserver(observer: LifecycleObserver) {
+        viewLifecycleOwner.lifecycle.addObserver(observer)
     }
 
 }
