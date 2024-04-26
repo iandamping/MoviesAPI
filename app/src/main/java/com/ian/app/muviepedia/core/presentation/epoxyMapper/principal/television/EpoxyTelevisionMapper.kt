@@ -2,13 +2,16 @@ package com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.televisio
 
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailVideoData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 
@@ -17,6 +20,8 @@ interface EpoxyTelevisionMapper {
     fun extractTelevisionToEpoxy(televisionData: List<Television>): List<EpoxyTelevision>
 
     fun extractDetailCompanyTelevisionToEpoxy(televisionData: List<TelevisionDetail.ProductionCompany>): List<EpoxyTelevisionDetailCompany>
+
+    fun extractDetailVideoTelevisionToEpoxy(televisionData: List<Video.ItemVideoData>): List<EpoxyTelevisionDetailVideoData>
 
     fun extractDetailContentTelevisionToEpoxy(televisionData: TelevisionDetail): EpoxyTelevisionDetailContent
 
@@ -33,4 +38,6 @@ interface EpoxyTelevisionMapper {
     fun epoxyDetailContentTelevisionMapper(data: EpoxyTelevisionDetailContent): EpoxyDetailContentData.TelevisionData
 
     fun epoxyDetailSimilarTelevisionListMapper(data: List<EpoxyTelevisionDetailSimilarContent>): List<EpoxyDetailSimilarData.SimilarData>
+
+    fun epoxyDetailVideoTelevisionListMapper(data: List<EpoxyTelevisionDetailVideoData>): List<EpoxyDetailVideoData.VideoData>
 }

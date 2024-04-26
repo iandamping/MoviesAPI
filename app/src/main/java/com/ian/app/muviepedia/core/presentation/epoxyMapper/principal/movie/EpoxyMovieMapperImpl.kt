@@ -2,17 +2,21 @@ package com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.movie
 
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovie
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyMovieDetailVideoData
 import com.ian.app.muviepedia.core.presentation.util.toEpoxyDetailContentMovieData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyDetailCompanyData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyDetailSimilarData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyMovieData
+import com.ian.app.muviepedia.core.presentation.util.toListMovieVideoEpoxyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.data.EpoxyMovieData
 import javax.inject.Inject
 import kotlin.random.Random
@@ -49,6 +53,19 @@ class EpoxyMovieMapperImpl @Inject constructor() :
                 logoPath = it.logoPath,
                 name = it.name,
                 originCountry = it.originCountry,
+            )
+        }
+
+        return result
+    }
+
+    override fun extractDetailVideoMovieToEpoxy(movieData: List<Video.ItemVideoData>): List<EpoxyMovieDetailVideoData> {
+        val result = movieData.map {
+            EpoxyMovieDetailVideoData(
+                id = it.id,
+                site = it.site,
+                key = it.key,
+                type = it.type
             )
         }
 
@@ -107,5 +124,9 @@ class EpoxyMovieMapperImpl @Inject constructor() :
 
     override fun epoxyDetailSimilarMovieListMapper(data: List<EpoxyMovieDetailSimilarContent>): List<EpoxyDetailSimilarData.SimilarData> {
         return data.toListEpoxyDetailSimilarData()
+    }
+
+    override fun epoxyDetailVideoMovieListMapper(data: List<EpoxyMovieDetailVideoData>): List<EpoxyDetailVideoData.VideoData> {
+        return data.toListMovieVideoEpoxyData()
     }
 }

@@ -4,12 +4,14 @@ import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.movie.EpoxyMovieMapper
 import com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.television.EpoxyTelevisionMapper
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailImageData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import java.util.UUID
 import javax.inject.Inject
 import kotlin.random.Random
@@ -115,5 +117,30 @@ class EpoxyDetailScreenSetterImpl @Inject constructor(
 
     override fun setEpoxyDetailSimilarError(): List<EpoxyDetailSimilarData.Error> {
         return mutableListOf(EpoxyDetailSimilarData.Error)
+    }
+
+    override fun setEpoxyDetailMovieVideoData(movieData: List<Video.ItemVideoData>): List<EpoxyDetailVideoData.VideoData> {
+        return epoxyMovieMapper.epoxyDetailVideoMovieListMapper(
+            epoxyMovieMapper.extractDetailVideoMovieToEpoxy(movieData)
+        )
+    }
+
+    override fun setEpoxyDetailTelevisionVideoData(televisionData: List<Video.ItemVideoData>): List<EpoxyDetailVideoData.VideoData> {
+        return epoxyTelevisionMapper.epoxyDetailVideoTelevisionListMapper(
+            epoxyTelevisionMapper.extractDetailVideoTelevisionToEpoxy(televisionData)
+        )
+    }
+
+    override fun setEpoxyDetailVideoLoading(): List<EpoxyDetailVideoData.Shimmer> {
+        return mutableListOf(
+            EpoxyDetailVideoData.Shimmer(epoxyId = 0),
+            EpoxyDetailVideoData.Shimmer(epoxyId = 1),
+            EpoxyDetailVideoData.Shimmer(epoxyId = 2),
+            EpoxyDetailVideoData.Shimmer(epoxyId = 3),
+        )
+    }
+
+    override fun setEpoxyDetailVideoError(): List<EpoxyDetailVideoData.Error> {
+        return mutableListOf(EpoxyDetailVideoData.Error)
     }
 }

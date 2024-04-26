@@ -2,18 +2,22 @@ package com.ian.app.muviepedia.core.presentation.epoxyMapper.principal.televisio
 
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevision
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailCompany
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailContent
 import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailSimilarContent
+import com.ian.app.muviepedia.core.presentation.model.EpoxyTelevisionDetailVideoData
 import com.ian.app.muviepedia.core.presentation.util.toEpoxyDetailContentTelevisionData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyDetailCompanyData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyDetailSimilarData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxySearchTelevisionData
 import com.ian.app.muviepedia.core.presentation.util.toListEpoxyTvData
+import com.ian.app.muviepedia.core.presentation.util.toListTelevisionVideoEpoxyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailCompanyData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailContentData
 import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailSimilarData
+import com.ian.app.muviepedia.feature.detail.epoxy.data.EpoxyDetailVideoData
 import com.ian.app.muviepedia.feature.home.epoxy.television.data.EpoxyTelevisionData
 import com.ian.app.muviepedia.feature.search.television.EpoxySearchTelevisionData
 import javax.inject.Inject
@@ -48,6 +52,19 @@ class EpoxyTelevisionMapperImpl @Inject constructor() : EpoxyTelevisionMapper {
                 logoPath = it.logoPath,
                 name = it.name,
                 originCountry = it.originCountry,
+            )
+        }
+
+        return result
+    }
+
+    override fun extractDetailVideoTelevisionToEpoxy(televisionData: List<Video.ItemVideoData>): List<EpoxyTelevisionDetailVideoData> {
+        val result = televisionData.map {
+            EpoxyTelevisionDetailVideoData(
+                id = it.id,
+                site = it.site,
+                key = it.key,
+                type = it.type
             )
         }
 
@@ -103,5 +120,9 @@ class EpoxyTelevisionMapperImpl @Inject constructor() : EpoxyTelevisionMapper {
 
     override fun epoxyDetailSimilarTelevisionListMapper(data: List<EpoxyTelevisionDetailSimilarContent>): List<EpoxyDetailSimilarData.SimilarData> {
         return data.toListEpoxyDetailSimilarData()
+    }
+
+    override fun epoxyDetailVideoTelevisionListMapper(data: List<EpoxyTelevisionDetailVideoData>): List<EpoxyDetailVideoData.VideoData> {
+        return data.toListTelevisionVideoEpoxyData()
     }
 }
