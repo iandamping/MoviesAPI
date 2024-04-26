@@ -9,6 +9,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.source.movie.MovieRemo
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.repository.model.Movie
 import com.ian.app.muviepedia.core.data.repository.model.MovieDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.data.repository.model.mapLocalMovieListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapRemoteMovieListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapToDomain
@@ -37,6 +38,20 @@ class MovieRepositoryImpl @Inject constructor(
                 is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
                 is DataSource.Success -> {
                     val data = withContext(defaultDispatcher) {
+                        remoteData.data.mapToDomain()
+                    }
+                    emit(DomainSource.Success(data))
+                }
+            }
+        }
+    }
+
+    override fun fetchDetailVideoMovie(movieId: Int): Flow<DomainSource<Video>> {
+        return flow {
+            when(val remoteData = remoteDataSource.getDetailVideoMovie(movieId)){
+                is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
+                is DataSource.Success -> {
+                    val data = withContext(defaultDispatcher){
                         remoteData.data.mapToDomain()
                     }
                     emit(DomainSource.Success(data))

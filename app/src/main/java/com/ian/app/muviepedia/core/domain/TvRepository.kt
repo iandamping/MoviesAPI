@@ -2,12 +2,15 @@ package com.ian.app.muviepedia.core.domain
 
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.domain.model.DomainSource
 import kotlinx.coroutines.flow.Flow
 
 interface TvRepository {
 
     fun fetchDetailTv(tvID: Int): Flow<DomainSource<TelevisionDetail>>
+
+    fun fetchDetailVideoTv(tvID: Int): Flow<DomainSource<Video>>
 
     fun fetchSimilarTv(tvID: Int): Flow<DomainSource<List<Television>>>
 

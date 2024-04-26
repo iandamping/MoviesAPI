@@ -29,7 +29,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
 ) : RemoteHelper by injectedRemoteHelper, MovieRemoteDataSource {
 
     override suspend fun getDetailMovie(movieId: Int): DataSource<DetailMovieResponse> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (
                 val data =
                     remoteCall(api.getDetailMovieAsync(movieId = movieId, apiKey = MOVIE_API_KEY))
@@ -48,7 +48,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getSimilarMovie(movieId: Int): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (
                 val data = remoteWithBaseCall(
                     api.getSimilarMovieAsync(
@@ -71,7 +71,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getPopularMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (val data = remoteWithBaseCall(api.getPopularMovieAsync(MOVIE_API_KEY))) {
                 is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
@@ -87,7 +87,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getNowPlaying(): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (val data = remoteWithBaseCall(api.getNowPlayingMovieAsync(MOVIE_API_KEY))) {
                 is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
@@ -103,7 +103,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getTopRatedMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (val data = remoteWithBaseCall(api.getTopRatedMovieAsync(MOVIE_API_KEY))) {
                 is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {
@@ -119,7 +119,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getUpComingMovie(): DataSource<BaseResponse<MovieDataResponse>> {
-        return withContext(customIODispatcher){
+        return withContext(customIODispatcher) {
             when (val data = remoteWithBaseCall(api.getUpComingMovieAsync(MOVIE_API_KEY))) {
                 is RemoteBaseResult.Error -> DataSource.Error(data.message)
                 is RemoteBaseResult.Success -> {

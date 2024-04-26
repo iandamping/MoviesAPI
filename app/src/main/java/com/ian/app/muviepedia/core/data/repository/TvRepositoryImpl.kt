@@ -9,6 +9,7 @@ import com.ian.app.muviepedia.core.data.dataSource.remote.source.tv.TvRemoteData
 import com.ian.app.muviepedia.core.data.model.DataSource
 import com.ian.app.muviepedia.core.data.repository.model.Television
 import com.ian.app.muviepedia.core.data.repository.model.TelevisionDetail
+import com.ian.app.muviepedia.core.data.repository.model.Video
 import com.ian.app.muviepedia.core.data.repository.model.mapLocalTelevisionListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapRemoteTelevisionListToDomain
 import com.ian.app.muviepedia.core.data.repository.model.mapToDomain
@@ -39,6 +40,20 @@ class TvRepositoryImpl @Inject constructor(
                 is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
                 is DataSource.Success -> {
                     val data = withContext(defaultDispatcher) {
+                        remoteData.data.mapToDomain()
+                    }
+                    emit(DomainSource.Success(data))
+                }
+            }
+        }
+    }
+
+    override fun fetchDetailVideoTv(tvID: Int): Flow<DomainSource<Video>> {
+        return flow {
+            when(val remoteData = remoteDataSource.getDetailTvVideo(tvID)){
+                is DataSource.Error -> emit(DomainSource.Error(remoteData.message))
+                is DataSource.Success -> {
+                    val data = withContext(defaultDispatcher){
                         remoteData.data.mapToDomain()
                     }
                     emit(DomainSource.Success(data))
