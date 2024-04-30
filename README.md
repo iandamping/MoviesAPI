@@ -83,7 +83,8 @@ class EpoxyErrorSearchMovie :
 }
 ```
 
-Example of VerticalGridCarousel, this class created to support GridLayout just build your project and Epoxy will generated this EpoxyModel for you
+Example of VerticalGridCarousel, this class created to support GridLayout. just build your project and Epoxy will generated this EpoxyModel for you.
+Things to consider to use this class are: spanCount of GridLayoutManager & Epoxy autoLayout configuration
 ```
 @ModelView(autoLayout = ModelView.Size.WRAP_WIDTH_WRAP_HEIGHT, fullSpan = true)
 class VerticalGridCarousel(context: Context) : Carousel(context) {
@@ -93,28 +94,10 @@ class VerticalGridCarousel(context: Context) : Carousel(context) {
 }
 ```
 
+
 Example of how use VerticalGridCarousel
 ```
 VerticalGridCarouselModel_()
-                .id("your_id")
-                .models(carouselTopRatedModel)
-                .numViewsToShowOnScreen(2f)
-                .addTo(this)
-```
-
-Example of HorizontalGridCarousel, this class created to support GridLayout just build your project and Epoxy will generated this EpoxyModel for you
-```
-@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
-class HorizontalGridCarousel(context: Context) : Carousel(context) {
-    override fun createLayoutManager(): LayoutManager {
-        return GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false)
-    }
-}
-```
-
-Example of how use VerticalGridCarousel
-```
-HorizontalGridCarouselModel_()
                 .id("your_id")
                 .models(carouselTopRatedModel)
                 .numViewsToShowOnScreen(2f)
