@@ -10,9 +10,9 @@ Several supporting libraries in making Movipedia :
 6. Kover
 
 # About
-This app demonstrates how to implement Epoxy for building complex screens in a RecyclerView, you can see its implementation on HomeScreen, DetailScreen, and SearchScreen, and i add some new code for Epoxy like ViewBindingEpoxyModelWithHolder, VerticalGridCarousel & HorizontalGridCarousel.
+This app demonstrates how to implement Epoxy for building complex screens in a RecyclerView.
 # Epoxy
-Example of ViewBindingEpoxyModelWithHolder this is used to support ViewBinding
+Example of ViewBindingEpoxyModelWithHolder to support ViewBinding
 
 ```
 abstract class ViewBindingEpoxyModelWithHolder<in T : ViewBinding> :
