@@ -105,5 +105,5 @@ VerticalGridCarouselModel_()
 ```
 
 # Dependecy Injection : Dagger 2
-This app still uses Dagger 2 because I want to learn the basics of Dagger, like how to create DaggerModule, DaggerComponent, and DaggerScope even though when Hilt as DI is more easier to use than Dagger 2
+Even though Hilt as a DI is easier to use than Dagger 2, this application still uses Dagger 2 because of my desire to learn the basics of Dagger, such as how to create a DaggerModule, DaggerComponent, and DaggerScope
 
